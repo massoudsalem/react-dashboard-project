@@ -1,10 +1,11 @@
 import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+
 import React from 'react';
+import { Search } from '..';
 
 const Navbar = () => {
   console.log('Navbar');
-
   return (
     <Box>
       <AppBar>
@@ -12,12 +13,13 @@ const Navbar = () => {
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
+            color="black"
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
+          <Search />
         </Toolbar>
       </AppBar>
     </Box>
