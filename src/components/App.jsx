@@ -5,6 +5,7 @@ import { Dashboard, Navbar } from '.';
 const App = () => (
   <Box>
     <Navbar />
+    <Box className="h-[70px]" />
     <CssBaseline />
     <Routes>
       <Route path="/" element={<Dashboard />} />

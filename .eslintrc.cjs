@@ -65,6 +65,7 @@ module.exports = {
     'no-sparse-arrays': 0,
     'no-array-index-key': 0,
     'react/function-component-definition': 0,
+    'react/jsx-no-duplicate-props': [0, { ignoreCase: 1 }],
     camelcase: 0,
   },
 };

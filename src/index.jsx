@@ -5,7 +5,13 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 import './index.css';
 
-const theme = createTheme({});
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#fff',
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

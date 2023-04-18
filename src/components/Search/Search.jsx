@@ -1,25 +1,41 @@
 import { SearchRounded } from '@mui/icons-material';
-import { InputAdornment, TextField } from '@mui/material';
+import { alpha, InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 
 const Search = () => {
   console.log('sadasd');
   return (
     <TextField
-      id="input-with-icon-textfield"
-      slotProps={{
-        input: { className: 'p-18' },
+      sx={{
+        '& .MuiInput-underline:after': {
+          borderBottomColor: 'green',
+        },
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': {
+            borderColor: (theme) => alpha(theme.palette.primary.contrastText, 0.5),
+          },
+          '&:hover fieldset': {
+            borderColor: 'primary.contrastText',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: 'primary.contrastText',
+          },
+        },
       }}
+      inputProps={{ className: 'py-2' }}
       InputProps={{
-        className: '& input p-10',
         startAdornment: (
-          <InputAdornment position="start">
+          <InputAdornment
+            sx={{ color: 'primary.contrastText' }}
+            position="start"
+          >
             <SearchRounded />
           </InputAdornment>
         ),
       }}
       variant="outlined"
-      className="text-white"
+      //
+      size="small"
     />
   );
 };

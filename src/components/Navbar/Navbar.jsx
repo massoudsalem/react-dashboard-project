@@ -1,25 +1,70 @@
-import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-
+import { AppBar, Badge, Box, IconButton, Toolbar, useTheme } from '@mui/material';
+import { Menu as MenuIcon, ShoppingCart as ShoppingCartIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Brightness4, Brightness7 } from '@mui/icons-material';
 import React from 'react';
-import { Search } from '..';
+import { Search, MoreMenu } from '..';
+
+const NavbarIcons = ({ theme }) => (
+  <Box
+    className="ml-auto gap-4 hidden md:flex items-center"
+  >
+    <IconButton
+      size="large"
+      edge="start"
+      color="inherit"
+      aria-label="open drawer"
+    >
+      <Badge badgeContent={4} color="info">
+        <ShoppingCartIcon />
+      </Badge>
+    </IconButton>
+    <IconButton
+      size="large"
+      edge="start"
+      color="inherit"
+      aria-label="open drawer"
+    >
+      <Badge badgeContent={4} color="error">
+        <NotificationsIcon />
+      </Badge>
+    </IconButton>
+    <IconButton
+      size="large"
+      edge="start"
+      color="inherit"
+    >
+      <AccountCircleIcon />
+    </IconButton>
+  </Box>
+);
 
 const Navbar = () => {
   console.log('Navbar');
+  const theme = useTheme();
   return (
     <Box>
-      <AppBar>
+      <AppBar className="py-2">
         <Toolbar>
+          <Box className="mr-auto flex items-center">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              className="mr-4"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Search />
+          </Box>
           <IconButton
             size="large"
             edge="start"
-            color="black"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
+            color="inherit"
           >
-            <MenuIcon />
+            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          <Search />
+          <NavbarIcons />
+          <MoreMenu />
         </Toolbar>
       </AppBar>
     </Box>
