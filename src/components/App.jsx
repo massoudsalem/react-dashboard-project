@@ -3,13 +3,15 @@ import { Route, Routes } from 'react-router-dom';
 import { Dashboard, Navbar } from '.';
 
 const App = () => (
-  <Box>
+  <Box display="flex">
     <Navbar />
-    <Box className="h-[70px]" />
     <CssBaseline />
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-    </Routes>
+    <Box component="main" className="p-3 w-full transition-all duration-500">
+      <Box className="h-[70px]" />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+      </Routes>
+    </Box>
   </Box>
 );
 

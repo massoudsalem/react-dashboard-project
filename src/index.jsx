@@ -1,26 +1,16 @@
-import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
+import ColorModeProvider from './utils/ToggleColorMode';
 import './index.css';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#fff',
-    },
-  },
-});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <ColorModeProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ColorModeProvider>
   </React.StrictMode>,
 );

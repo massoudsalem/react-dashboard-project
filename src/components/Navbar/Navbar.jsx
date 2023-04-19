@@ -1,17 +1,18 @@
 import { AppBar, Badge, Box, IconButton, Toolbar, useTheme } from '@mui/material';
-import { Menu as MenuIcon, ShoppingCart as ShoppingCartIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Brightness4, Brightness7 } from '@mui/icons-material';
-import React from 'react';
+import { Menu as MenuIcon, ShoppingCart as ShoppingCartIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Brightness4, Brightness7, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import React, { useContext, useState } from 'react';
 import { Search, MoreMenu } from '..';
+import { ColorModeContext } from '../../utils/ToggleColorMode';
+import Sidebar from '../Sidebar/Sidebar';
 
-const NavbarIcons = ({ theme }) => (
+const NavbarIcons = () => (
   <Box
-    className="ml-auto gap-4 hidden md:flex items-center"
+    className="gap-4 hidden md:flex items-center"
   >
     <IconButton
       size="large"
       edge="start"
       color="inherit"
-      aria-label="open drawer"
     >
       <Badge badgeContent={4} color="info">
         <ShoppingCartIcon />
@@ -21,7 +22,6 @@ const NavbarIcons = ({ theme }) => (
       size="large"
       edge="start"
       color="inherit"
-      aria-label="open drawer"
     >
       <Badge badgeContent={4} color="error">
         <NotificationsIcon />
@@ -38,12 +38,22 @@ const NavbarIcons = ({ theme }) => (
 );
 
 const Navbar = () => {
-  console.log('Navbar');
+  //TODO: add Transition for menu icon
+
+  const { toggleColorMode } = useContext(ColorModeContext);
   const theme = useTheme();
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const openWidth = 200;
+  const closedWidth = 56;
   return (
-    <Box>
+    <>
       <AppBar className="py-2">
-        <Toolbar>
+        <Toolbar
+          sx={{
+            marginLeft: `${drawerOpen ? openWidth : closedWidth}px`,
+          }}
+          className="transition-all duration-500"
+        >
           <Box className="mr-auto flex items-center">
             <IconButton
               size="large"
@@ -51,8 +61,9 @@ const Navbar = () => {
               color="inherit"
               aria-label="open drawer"
               className="mr-4"
+              onClick={() => setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen)}
             >
-              <MenuIcon />
+              {drawerOpen ? <MenuIcon /> : <ArrowForwardIcon />}
             </IconButton>
             <Search />
           </Box>
@@ -60,6 +71,8 @@ const Navbar = () => {
             size="large"
             edge="start"
             color="inherit"
+            className="mx-4"
+            onClick={toggleColorMode}
           >
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
@@ -67,7 +80,8 @@ const Navbar = () => {
           <MoreMenu />
         </Toolbar>
       </AppBar>
-    </Box>
+      <Sidebar open={drawerOpen} changeWidth={{ closedWidth, openWidth }} />
+    </>
   );
 };
 
