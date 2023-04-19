@@ -1,6 +1,6 @@
 import { AppBar, Badge, Box, IconButton, Toolbar, useTheme } from '@mui/material';
 import { Menu as MenuIcon, ShoppingCart as ShoppingCartIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Brightness4, Brightness7, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Search, MoreMenu } from '..';
 import { ColorModeContext } from '../../utils/ToggleColorMode';
 import Sidebar from '../Sidebar/Sidebar';
@@ -37,14 +37,12 @@ const NavbarIcons = () => (
   </Box>
 );
 
-const Navbar = () => {
+const Navbar = ({ changeWidth, openState }) => {
   //TODO: add Transition for menu icon
-
+  const { drawerOpen, setDrawerOpen } = openState;
+  const { openWidth, closedWidth } = changeWidth;
   const { toggleColorMode } = useContext(ColorModeContext);
   const theme = useTheme();
-  const [drawerOpen, setDrawerOpen] = useState(true);
-  const openWidth = 200;
-  const closedWidth = 56;
   return (
     <>
       <AppBar className="py-2">

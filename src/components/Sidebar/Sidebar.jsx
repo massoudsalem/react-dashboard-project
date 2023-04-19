@@ -1,4 +1,4 @@
-import { Box, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme } from '@mui/material';
+import { Box, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText, useTheme } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { logoIcon, logoIconFull } from '../../assets';
@@ -39,7 +39,7 @@ const buttons = [
 const Sidebar = ({ open, changeWidth }) => {
   const theme = useTheme();
   return (
-    <Box component="nav" className="shadow-xl">
+    <Box component="nav" className="transition-all duration-500">
       <Drawer
         variant="permanent"
         open={open}
@@ -56,8 +56,8 @@ const Sidebar = ({ open, changeWidth }) => {
           <img
             src={open ? logoIconFull : logoIcon}
             alt="logo"
-            className={`${theme.palette.mode === 'dark' && 'invert'} my-2 transition-none`}
-            width={open ? '128px' : '24px'}
+            className={`${theme.palette.mode === 'dark' && 'invert'} my-2`}
+            width={open ? '70%' : '24px'}
           />
 
         </Box>
