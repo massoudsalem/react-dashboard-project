@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "price": 120.4,
+      "No. of Orders": 2234,
+      "Available Stocks": 1230,
+      "Total Revenue": 60645,
+      "productImages": [
+        "https://i.ibb.co/68V9JpQ/img-2.png",
+        "https://i.ibb.co/C247KTB/img-3.png",
+        "https://i.ibb.co/y5J3Bkt/img-4.png",
+        "https://i.ibb.co/68V9JpQ/img-2.png"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "price": 120.4,
+      "No. of Orders": 2234,
+      "Available Stocks": 1230,
+      "Total Revenue:": 60645,
+      "productImages": [
+        "https://i.ibb.co/68V9JpQ/img-2.png",
+        "https://i.ibb.co/C247KTB/img-3.png",
+        "https://i.ibb.co/y5J3Bkt/img-4.png",
+        "https://i.ibb.co/68V9JpQ/img-2.png"
+      ]
+    }
+  ]
+}
