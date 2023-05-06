@@ -27,7 +27,7 @@ const buttons = [
   {
     name: 'Orders',
     icon: 'receipt',
-    link: '/',
+    link: '/orders',
   },
   {
     name: 'Customers',
