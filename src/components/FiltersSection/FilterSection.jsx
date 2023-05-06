@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Divider, FormControlLabel, Input, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, Slider, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useGetCategoriesQuery } from '../../services/FakeStore';
+import { useGetCategoriesQuery } from '../../services/FakeApi';
 
 const RadioElement = ({ value, label }) => (
   <FormControlLabel slotProps={{ typography: { variant: 'body2' } }} value={value} control={<Radio color="secondary" />} label={label} />
@@ -47,7 +47,7 @@ const FilterSection = ({ setProducts, data }) => {
       <h1> Sorry, Something went wrong.. </h1>
     );
   }
-  //console.log(categories);
+  // console.log(categories);
   return (
     <Paper variant="outlined" className="p-4 mr-4 flex flex-col gap-2 min-w-[220px]">
       <Typography variant="h5" className="mb-4"> Filters </Typography>

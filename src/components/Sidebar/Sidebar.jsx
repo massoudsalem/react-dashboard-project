@@ -32,7 +32,7 @@ const buttons = [
   {
     name: 'Customers',
     icon: 'people',
-    link: '/',
+    link: '/customers',
   },
   {
     name: 'Reports',
