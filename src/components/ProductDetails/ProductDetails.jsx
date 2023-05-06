@@ -5,39 +5,51 @@ import {
   Paper,
   Rating,
   Stack,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography,
   Icon,
+  Tab,
+  Tabs,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableContainer,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
-import { useGetProductsQuery } from '../../services/FakeApi';
+import { useParams } from 'react-router-dom';
+import { useGetProductByIdQuery } from '../../services/FakeApi';
+import ImageSlider from './ImageSlider';
 
 class BoxInfo {
-  cosntructor(icon, title) {
+  constructor(icon, title, dataName) {
     this.icon = icon;
     this.title = title;
+    this.dataName = dataName;
   }
 }
+const createData = (name, value) => ({ name, value });
 
-const boxesInfo = [
-  new BoxInfo('monetization_on_sharp', 'price'),
-  new BoxInfo('library_books_icon', 'No. of Orders'),
-  new BoxInfo('layers_icon', 'Available Stocks'),
-  new BoxInfo('archive_icon', 'Total Revenue'),
+const rows = [
+  createData('Category', 'T-Shirt'),
+  createData('Brand', 'Tommy Hilfiger'),
+  createData('Color', 'Blue'),
 ];
 
-//const icons = [
-//'monetization_on_sharp',
-//'library_books_icon',
-//'layers_icon',
-//'archive_icon',
-//];
-//const label = ['price', 'No. of Orders', 'Available Stocks', 'Total Revenue'];
+const TabPanel = ({ children, index, tabValue }) =>
+  //eslint-disable-next-line implicit-arrow-linebreak
+  tabValue === index && (
+    <Box className="border border-gray-700">{children}</Box>
+  );
+
+const boxesInfo = [
+  new BoxInfo('monetization_on_sharp', 'price', 'price'),
+  new BoxInfo('library_books_icon', 'No. of Orders', 'discountPercentage'),
+  new BoxInfo('layers_icon', 'Available Stocks', 'stock'),
+];
 
 const ProductInfoBox = ({ icon, title, subtitle }) => (
-  <Box className="px-4 py-2 border border-dashed border-gray-300 flex gap-10 items-center justify-between">
+  <Box className="px-4 py-2 border border-dashed border-gray-300 flex gap-6 items-center justify-between">
     <Icon className="flex-grow text-teal-500 text-3xl">{icon}</Icon>
     <Box className="flex-grow">
       <Typography variant="body1">{title}</Typography>
@@ -47,51 +59,18 @@ const ProductInfoBox = ({ icon, title, subtitle }) => (
 );
 
 const ProductDetails = () => {
-  const [imageIndex, setImageIndex] = useState(0);
-  const [images, setImages] = useState([]);
-  const { data, isLoading } = useGetProductsQuery('');
+  const [tabValue, setTabValue] = useState(0);
+  const { id } = useParams();
+  const { data, isLoading } = useGetProductByIdQuery(id);
   const theme = useTheme();
 
-  const handleSelect = (event, selectedNew) => {
-    if (selectedNew !== null) {
-      setImageIndex(selectedNew);
-    }
-  };
-
-  useEffect(() => {
-    if (data) {
-      setImages(data[0].productImages);
-    }
-  }, [data]);
+  const handleTabsChange = (event, newValue) => setTabValue(newValue);
 
   return (
-    data && (
-      <Grid container spacing={2} className="py-10 px-6">
-        <Grid xs={4} className="flex items-center flex-col">
-          {!isLoading && (
-            <Box className="w-full">
-              <img
-                src={images[imageIndex]}
-                alt="product1"
-                className="max-w-full"
-              />
-            </Box>
-          )}
-          <ToggleButtonGroup
-            size="large"
-            exclusive
-            value={imageIndex}
-            onChange={handleSelect}
-          >
-            {data &&
-              images.map((url, index) => (
-                <ToggleButton value={index} key={index}>
-                  <img src={url} alt={`product${index}`} className="w-10" />
-                </ToggleButton>
-              ))}
-          </ToggleButtonGroup>
-        </Grid>
-        <Grid xs={8}>
+    !isLoading && (
+      <Box className="flex gap-20 p-20">
+        <ImageSlider dataImages={data.images} />
+        <Grid>
           <h1>details</h1>
           <Stack
             direction="row"
@@ -123,12 +102,52 @@ const ProductDetails = () => {
                 key={idx}
                 title={box.title}
                 icon={box.icon}
-                subtitle={data[0][box.title]}
+                subtitle={data[box.dataName]}
               />
             ))}
           </Stack>
+          <Box className="my-10">
+            <Typography className="my-2" variant="h6">
+              Description
+            </Typography>
+            <Typography variant="body1">{data.description}</Typography>
+          </Box>
+          <Box className="my-6">
+            <Typography varint="h6">Product Description :</Typography>
+            <Box sx={{ borderBottom: 1, borderColor: 'divder' }}>
+              <Tabs value={tabValue} onChange={handleTabsChange}>
+                <Tab label="Specification" />
+                <Tab label="Details" />
+              </Tabs>
+            </Box>
+            <Box className="border-2 p-5 border-spacing-4 border-red-700">
+              <TabPanel tabValue={tabValue} index={0}>
+                <TableContainer>
+                  <Table>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <TableRow
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <TableCell className="font-bold">
+                            {row.name}:
+                          </TableCell>
+                          <TableCell>{row.value}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+              <TabPanel tabValue={tabValue} index={1}>
+                {data.description}
+              </TabPanel>
+            </Box>
+          </Box>
         </Grid>
-      </Grid>
+      </Box>
     )
   );
 };

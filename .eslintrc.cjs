@@ -31,6 +31,7 @@ module.exports = {
       },
     ],
     'import/no-cycle': 0,
+    'no-unused-vars': 1,
     'no-console': 0,
     'react/prop-types': 0,
     'linebreak-style': 0,
