@@ -12,7 +12,7 @@ const buttons = [
   {
     name: 'Products',
     icon: 'shopping_cart',
-    link: '/',
+    link: '/products',
   },
   {
     name: 'Orders',

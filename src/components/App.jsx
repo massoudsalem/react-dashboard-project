@@ -1,7 +1,7 @@
 import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Dashboard, Navbar } from '.';
+import { Dashboard, Navbar, Products } from '.';
 
 const App = () => {
   const openWidth = 200;
@@ -16,11 +16,12 @@ const App = () => {
         sx={{
           marginLeft: `${drawerOpen ? openWidth : closedWidth}px`,
         }}
-        className="p-3 transition-all duration-500"
+        className="p-4 transition-all duration-500"
       >
-        <Box className="h-[70px]" />
+        <Box className="h-[80px]" />
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/products" element={<Products />} />
         </Routes>
       </Box>
     </>
