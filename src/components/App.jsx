@@ -24,7 +24,7 @@ const App = () => {
         <Box className="h-[70px]" />
         <Routes>
           <Route path="/" element={<Dashboard />}>
-            <Route path="product-details/:id" element={<ProductDetails />} />
+            <Route path="product/:id" element={<ProductDetails />} />
           </Route>
         </Routes>
       </Box>

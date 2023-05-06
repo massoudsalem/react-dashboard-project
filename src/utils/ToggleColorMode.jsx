@@ -33,12 +33,17 @@ const ToggleColorMode = ({ children }) => {
         mode: sessionStorage.getItem('color_mode'),
         ...(sessionStorage.getItem('color_mode') === 'light'
           ? {
-            primary: { main: '#999  ' },
+            primary: {
+              main: '#fff',
+            },
+            secondary: {
+              main: '#202020',
+            },
           }
           : {
             primary: {
-              main: '#f29999',
-              contrastText: '#ddd',
+              main: '#000',
+              contrastText: '#fff',
             },
           }),
       },

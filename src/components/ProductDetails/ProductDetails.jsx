@@ -113,9 +113,14 @@ const ProductDetails = () => {
             <Typography variant="body1">{data.description}</Typography>
           </Box>
           <Box className="my-6">
-            <Typography varint="h6">Product Description :</Typography>
-            <Box sx={{ borderBottom: 1, borderColor: 'divder' }}>
-              <Tabs value={tabValue} onChange={handleTabsChange}>
+            <Typography variant="h6">Product Description :</Typography>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabsChange}
+                textColor="secondary"
+                indicatorColor="secondary"
+              >
                 <Tab label="Specification" />
                 <Tab label="Details" />
               </Tabs>
