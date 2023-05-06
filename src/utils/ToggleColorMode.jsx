@@ -1,10 +1,16 @@
 import React, { createContext, useMemo, useState } from 'react';
-import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import {
+  createTheme,
+  StyledEngineProvider,
+  ThemeProvider,
+} from '@mui/material/styles';
 
 export const ColorModeContext = createContext(null);
 
 const ToggleColorMode = ({ children }) => {
-  const [mode, setMode] = useState(sessionStorage.getItem('color_mode') || 'light');
+  const [mode, setMode] = useState(
+    sessionStorage.getItem('color_mode') || 'light',
+  );
 
   if (sessionStorage.getItem('color_mode') === null) {
     sessionStorage.setItem('color_mode', mode);
@@ -13,7 +19,7 @@ const ToggleColorMode = ({ children }) => {
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        const newMode = (mode === 'light' ? 'dark' : 'light');
+        const newMode = mode === 'light' ? 'dark' : 'light';
         setMode(newMode);
         sessionStorage.setItem('color_mode', newMode);
       },
@@ -27,12 +33,13 @@ const ToggleColorMode = ({ children }) => {
         mode: sessionStorage.getItem('color_mode'),
         ...(sessionStorage.getItem('color_mode') === 'light'
           ? {
-            primary: { main: '#fff' },
+            primary: { main: '#999  ' },
           }
           : {
             primary: {
-              main: '#000',
-              contrastText: '#fff' },
+              main: '#f29999',
+              contrastText: '#ddd',
+            },
           }),
       },
     }),
@@ -41,9 +48,7 @@ const ToggleColorMode = ({ children }) => {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </StyledEngineProvider>
     </ColorModeContext.Provider>
   );

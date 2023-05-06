@@ -1,4 +1,14 @@
-import { Box, Divider, Drawer, Icon, List, ListItem, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Drawer,
+  Icon,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  useTheme,
+} from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { logoIcon, logoIconFull } from '../../assets';
@@ -46,7 +56,9 @@ const Sidebar = ({ open, changeWidth }) => {
         sx={{
           width: open ? changeWidth.openWidth : changeWidth.closedWidth,
           flexShrink: 0,
-          '& .MuiDrawer-paper': { width: open ? changeWidth.openWidth : changeWidth.closedWidth },
+          '& .MuiDrawer-paper': {
+            width: open ? changeWidth.openWidth : changeWidth.closedWidth,
+          },
         }}
         className="transition duration-500"
         PaperProps={{ className: 'transition-all duration-500' }}
@@ -59,7 +71,6 @@ const Sidebar = ({ open, changeWidth }) => {
             className={`${theme.palette.mode === 'dark' && 'invert'} my-2`}
             width={open ? '70%' : '24px'}
           />
-
         </Box>
         <Divider />
         <List>

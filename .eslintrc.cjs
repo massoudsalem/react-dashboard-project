@@ -3,20 +3,13 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-  ],
-  overrides: [
-  ],
+  extends: ['plugin:react/recommended', 'airbnb'],
+  overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-    'prefer-arrow',
-  ],
+  plugins: ['react', 'prefer-arrow'],
   rules: {
     'prefer-arrow/prefer-arrow-functions': [
       'error',
@@ -26,15 +19,8 @@ module.exports = {
         classPropertiesAllowed: false,
       },
     ],
-    'prefer-arrow-callback': [
-      'error',
-      { allowNamedFunctions: true },
-    ],
-    'func-style': [
-      'error',
-      'expression',
-      { allowArrowFunctions: true },
-    ],
+    'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
+    'func-style': ['error', 'expression', { allowArrowFunctions: true }],
     'spaced-comment': [
       'error',
       'never',
@@ -45,6 +31,7 @@ module.exports = {
       },
     ],
     'import/no-cycle': 0,
+    'no-unused-vars': 1,
     'no-console': 0,
     'react/prop-types': 0,
     'linebreak-style': 0,
@@ -67,5 +54,6 @@ module.exports = {
     'react/function-component-definition': 0,
     'react/jsx-no-duplicate-props': [0, { ignoreCase: 1 }],
     camelcase: 0,
+    'operator-linebreak': 0,
   },
 };
