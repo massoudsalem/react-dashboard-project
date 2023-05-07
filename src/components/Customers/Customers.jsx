@@ -1,8 +1,8 @@
 import { Box, CircularProgress, IconButton } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DataTable from '../DataTable/DataTable';
-import { useGetCustomersQuery } from '../../services/FakeApi';
+import { useDeleteUserMutation, useGetCustomersQuery } from '../../services/FakeApi';
 
 const tableHeadings = [
   {
@@ -26,12 +26,13 @@ const tableHeadings = [
     id: 'actions',
   },
 ];
-const Actions = () => (
+
+const Actions = ({ id, handleDelete }) => (
   <Box className="flex">
-    <IconButton>
+    <IconButton onClick={() => { console.log(id); }}>
       <EditIcon />
     </IconButton>
-    <IconButton color="error">
+    <IconButton color="error" onClick={() => handleDelete(id)}>
       <DeleteIcon />
     </IconButton>
   </Box>
@@ -57,6 +58,21 @@ const mockData = [
 
 const Customers = () => {
   const { data: customersData, isLoading, error } = useGetCustomersQuery();
+  const [customers, setCustomers] = useState(mockData);
+  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
+
+  const handleDelete = async (id) => {
+    setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== id));
+    const response = await deleteUser(id);
+    console.log(response.data.isDeleted ? 'Deleted' : 'Not Deleted');
+  };
+
+  useEffect(() => {
+    if (customersData) {
+      setCustomers(customersData.users);
+    }
+  }, [customersData]);
+
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center">
@@ -69,13 +85,13 @@ const Customers = () => {
       <h1> Sorry, Something went wrong.. </h1>
     );
   }
-  const rows = customersData.users.map((customer) => ({
+  const rows = customers.map((customer) => ({
     id: customer.id,
     name: `${customer.firstName} ${customer.lastName}`,
     phone: customer.phone,
     email: customer.email,
     birthday: customer.birthDate,
-    actions: <Actions />,
+    actions: <Actions id={customer.id} handleDelete={handleDelete} />,
   }));
 
   return (

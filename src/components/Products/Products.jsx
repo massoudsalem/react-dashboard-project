@@ -12,7 +12,7 @@ const Image = ({ src }) => (
 
 const Products = () => {
   //const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
-  const { data: productsData, error, isLoading } = useGetProductsQuery();
+  const { data: productsData, error, isFetching } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -21,8 +21,7 @@ const Products = () => {
     }
   }, [productsData]);
 
-  if (!products.length) {
-    console.log('loading');
+  if (isFetching) {
     return (
       <Box display="flex" justifyContent="center">
         <CircularProgress size="4rem" />
@@ -87,6 +86,7 @@ const Products = () => {
     rating: `⭐️${product.rating}`,
   }));
   return (
+    //TODo:fix flex starching
     <Box className="flex flex-col md:flex-row">
       <FilterSection data={productsData.products} setProducts={setProducts} />
       <DataTable rows={rows} columns={columns} />

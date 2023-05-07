@@ -1,10 +1,12 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
-import React, { useState } from 'react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 const DataTable = ({ columns, rows }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  useEffect(() => {
+    setPage(0);
+  }, [rows]);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -14,7 +16,7 @@ const DataTable = ({ columns, rows }) => {
   };
   const viableRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="min-h-0">
       <Table>
         <TableHead>
           <TableRow>
@@ -32,14 +34,18 @@ const DataTable = ({ columns, rows }) => {
             </TableRow>
           ))}
         </TableBody>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

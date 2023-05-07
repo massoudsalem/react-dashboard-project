@@ -4,8 +4,14 @@ export const fakeApi = createApi({
   reducerPath: 'fakeApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
   endpoints: (builder) => ({
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: 'DELETE',
+      }),
+    }),
     getProducts: builder.query({
-      query: () => 'products',
+      query: () => 'products?limit=100',
     }),
     getProductById: builder.query({
       query: (id) => `products/${id}`,
@@ -24,4 +30,5 @@ export const {
   useGetProductByIdQuery,
   useGetCustomersQuery,
   useGetCategoriesQuery,
+  useDeleteUserMutation,
 } = fakeApi;

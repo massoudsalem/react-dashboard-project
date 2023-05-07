@@ -28,13 +28,14 @@ const RadioElement = ({ value, label }) => (
 const FilterSection = ({ setProducts, data }) => {
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('oldest');
-  const [price, setPrice] = useState([0, 1000]);
+  const [price, setPrice] = useState([0, 2000]);
   const [rating, setRating] = useState(0);
   const {
     data: categories,
     error: categoriesError,
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
+
   useEffect(() => {
     setProducts(() => {
       let newProducts = [...data];
@@ -58,12 +59,15 @@ const FilterSection = ({ setProducts, data }) => {
       newProducts = newProducts.filter(
         (product) => product.price >= price[0] && product.price <= price[1],
       );
-      newProducts = newProducts.filter(
-        (product) => product.rating.rate >= rating,
-      );
+      if (rating > 0) {
+        newProducts = newProducts.filter(
+          (product) => product.rating >= rating,
+        );
+      }
       return newProducts;
     });
   }, [category, sort, price, rating]);
+
   if (categoriesLoading) {
     return (
       <Box display="flex" justifyContent="center">
