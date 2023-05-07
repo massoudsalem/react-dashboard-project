@@ -3,7 +3,13 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: [
+    'airbnb',
+    'plugin:react/recommended',
+    'plugin:import/errors',
+    'plugin:jsx-a11y/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
