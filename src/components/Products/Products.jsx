@@ -11,30 +11,44 @@ const Image = ({ src }) => (
 );
 
 const Products = () => {
-  const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
+  //const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
+  const { data: productsData, error, isLoading } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     if (productsData) {
       setProducts(productsData.products);
     }
-  }, [productsLoading]);
+  }, [productsData]);
 
-  console.log(productsLoading);
-  if (products.length <= 0 && productsLoading) {
+  if (!products.length) {
+    console.log('loading');
     return (
       <Box display="flex" justifyContent="center">
         <CircularProgress size="4rem" />
       </Box>
     );
   }
-  if (productsError) {
-    return (
-      <h1> Sorry, Something went wrong.. </h1>
-    );
-  }
 
-  console.log(products);
+  //useEffect(() => {
+  //if (productsData) {
+  //setProducts(productsData.products);
+  //}
+  //}, [productsLoading]);
+
+  //console.log(productsLoading);
+  //if (products.length <= 0 && productsLoading) {
+  //return (
+  //<Box display="flex" justifyContent="center">
+  //<CircularProgress size="4rem" />
+  //</Box>
+  //);
+  //}
+  //if (productsError) {
+  //return (
+  //<h1> Sorry, Something went wrong.. </h1>
+  //);
+  //}
 
   //const products = productsData.products || [];
   //const columns = [
@@ -72,14 +86,10 @@ const Products = () => {
     image: <Image src={product.thumbnail} />,
     rating: `⭐️${product.rating}`,
   }));
-  console.log(columns, rows);
   return (
     <Box className="flex flex-col md:flex-row">
-      {/*<FilterSection data={productsData?.products} setProducts={setProducts} />*/}
-      <DataTable
-        rows={rows}
-        columns={columns}
-      />
+      <FilterSection data={productsData.products} setProducts={setProducts} />
+      <DataTable rows={rows} columns={columns} />
     </Box>
   );
 };
