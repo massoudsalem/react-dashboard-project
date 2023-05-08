@@ -1,22 +1,49 @@
-import { Box, CircularProgress, Divider, FormControlLabel, Input, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, Slider, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  FormControlLabel,
+  Input,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Radio,
+  RadioGroup,
+  Select,
+  Slider,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useGetCategoriesQuery } from '../../services/FakeStore';
+import { useGetCategoriesQuery } from '../../services/FakeApi';
 
 const RadioElement = ({ value, label }) => (
-  <FormControlLabel slotProps={{ typography: { variant: 'body2' } }} value={value} control={<Radio color="secondary" />} label={label} />
+  <FormControlLabel
+    slotProps={{ typography: { variant: 'body2' } }}
+    value={value}
+    control={<Radio color="secondary" />}
+    label={label}
+  />
 );
 
 const FilterSection = ({ setProducts, data }) => {
+  //TODo: make a const for min and max price
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('oldest');
-  const [price, setPrice] = useState([0, 1000]);
+  const [price, setPrice] = useState([0, 2000]);
   const [rating, setRating] = useState(0);
-  const { data: categories, error: categoriesError, isLoading: categoriesLoading } = useGetCategoriesQuery();
+  const {
+    data: categories,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
+
   useEffect(() => {
     setProducts(() => {
       let newProducts = [...data];
       if (category !== 'all') {
-        newProducts = newProducts.filter((product) => product.category === category);
+        newProducts = newProducts.filter(
+          (product) => product.category === category,
+        );
       }
       if (sort === 'latest') {
         newProducts = newProducts.sort((a, b) => b.id - a.id);
@@ -30,11 +57,18 @@ const FilterSection = ({ setProducts, data }) => {
       if (sort === 'desc') {
         newProducts = newProducts.sort((a, b) => b.price - a.price);
       }
-      newProducts = newProducts.filter((product) => product.price >= price[0] && product.price <= price[1]);
-      newProducts = newProducts.filter((product) => product.rating.rate >= rating);
+      newProducts = newProducts.filter(
+        (product) => product.price >= price[0] && product.price <= price[1],
+      );
+      if (rating > 0) {
+        newProducts = newProducts.filter(
+          (product) => product.rating >= rating,
+        );
+      }
       return newProducts;
     });
   }, [category, sort, price, rating]);
+
   if (categoriesLoading) {
     return (
       <Box display="flex" justifyContent="center">
@@ -43,27 +77,41 @@ const FilterSection = ({ setProducts, data }) => {
     );
   }
   if (categoriesError) {
-    return (
-      <h1> Sorry, Something went wrong.. </h1>
-    );
+    return <h1> Sorry, Something went wrong.. </h1>;
   }
-  //console.log(categories);
   return (
-    <Paper variant="outlined" className="p-4 mr-4 flex flex-col gap-2 min-w-[220px]">
-      <Typography variant="h5" className="mb-4"> Filters </Typography>
+    <Paper
+      variant="outlined"
+      className="p-4 mr-4 flex flex-col gap-2 min-w-[220px]"
+    >
+      <Typography variant="h5" className="mb-4">
+        {' '}
+        Filters{' '}
+      </Typography>
       <Box className="flex flex-col gap-2">
         <InputLabel htmlFor="category"> Category </InputLabel>
-        <Select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+        <Select
+          id="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
           <MenuItem value="all"> All </MenuItem>
           {categories.map((c) => (
-            <MenuItem key={c} value={c}> {c} </MenuItem>
+            <MenuItem key={c} value={c}>
+              {' '}
+              {c}{' '}
+            </MenuItem>
           ))}
         </Select>
       </Box>
       <Divider />
       <Box className="flex flex-col gap-2">
         <InputLabel htmlFor="sort"> Sort </InputLabel>
-        <Select id="sort" value={sort} onChange={(e) => setSort(e.target.value)}>
+        <Select
+          id="sort"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
           <MenuItem value="latest"> Latest </MenuItem>
           <MenuItem value="oldest"> Oldest </MenuItem>
           <MenuItem value="asc"> Price (Low to High) </MenuItem>
@@ -90,7 +138,12 @@ const FilterSection = ({ setProducts, data }) => {
             label="Min"
             value={price[0]}
             onChange={(e) => setPrice([Math.min(e.target.value, price[1]), price[1]])}
-            startAdornment={<Typography variant="subtitle2" className="m-1"> $ </Typography>}
+            startAdornment={(
+              <Typography variant="subtitle2" className="m-1">
+                {' '}
+                ${' '}
+              </Typography>
+            )}
             inputProps={{
               step: 10,
               min: 0,
@@ -103,7 +156,12 @@ const FilterSection = ({ setProducts, data }) => {
             label="Max"
             value={price[1]}
             onChange={(e) => setPrice([price[0], Math.max(e.target.value, price[0])])}
-            startAdornment={<Typography variant="subtitle2" className="m-1"> $ </Typography>}
+            startAdornment={(
+              <Typography variant="subtitle2" className="m-1">
+                {' '}
+                ${' '}
+              </Typography>
+            )}
             inputProps={{
               step: 10,
               min: price[0],
@@ -116,7 +174,11 @@ const FilterSection = ({ setProducts, data }) => {
       <Divider />
       <Box className="flex flex-col gap-2">
         <InputLabel htmlFor="rating"> Rating </InputLabel>
-        <RadioGroup id="rating" value={rating} onChange={(e) => setRating(e.target.value)}>
+        <RadioGroup
+          id="rating"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+        >
           <RadioElement value={0} label="All" />
           <RadioElement value={1} label="⭐️ & up" />
           <RadioElement value={2} label="⭐️⭐️ & up" />
@@ -125,7 +187,6 @@ const FilterSection = ({ setProducts, data }) => {
         </RadioGroup>
       </Box>
     </Paper>
-
   );
 };
 export default FilterSection;

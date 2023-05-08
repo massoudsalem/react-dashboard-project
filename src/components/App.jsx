@@ -1,7 +1,7 @@
 import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Dashboard, Navbar, ProductDetails, Products } from '.';
+import { Customers, Dashboard, Navbar, ProductDetails, Products } from '.';
 
 const App = () => {
   const openWidth = 200;
@@ -26,6 +26,7 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/customers" element={<Customers />} />
         </Routes>
       </Box>
     </>
