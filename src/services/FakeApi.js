@@ -10,6 +10,14 @@ export const fakeApi = createApi({
         method: 'DELETE',
       }),
     }),
+    updateUser: builder.mutation({
+      query: ({ id, newData }) => ({
+        url: `users/${id}`,
+        headers: { 'Content-Type': 'application/json' },
+        method: 'PUT',
+        body: JSON.stringify(newData),
+      }),
+    }),
     getProducts: builder.query({
       query: () => 'products?limit=100',
     }),
@@ -31,4 +39,5 @@ export const {
   useGetCustomersQuery,
   useGetCategoriesQuery,
   useDeleteUserMutation,
+  useUpdateUserMutation,
 } = fakeApi;
