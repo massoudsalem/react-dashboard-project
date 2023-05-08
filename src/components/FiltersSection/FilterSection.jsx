@@ -67,6 +67,7 @@ const FilterSection = ({ setProducts, data }) => {
       }
       return newProducts;
     });
+  //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, sort, price, rating]);
 
   if (categoriesLoading) {

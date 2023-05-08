@@ -37,7 +37,7 @@ const buttons = [
   {
     name: 'Reports',
     icon: 'analytics',
-    link: '/',
+    link: '/reports',
   },
   {
     name: 'Integrations',

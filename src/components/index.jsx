@@ -8,3 +8,5 @@ export { default as ProductDetails } from './ProductDetails/ProductDetails';
 export { default as DataTable } from './DataTable/DataTable';
 export { default as Customers } from './Customers/Customers';
 export { default as EditForm } from './EditForm/EditForm';
+export { default as CustomPieChart } from './Charts/CustomPieChart';
+export { default as Reports } from './Reports/Reports';

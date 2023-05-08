@@ -12,7 +12,7 @@ const Image = ({ src }) => (
 
 const Products = () => {
   //const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
-  const { data: productsData, error, isFetching } = useGetProductsQuery();
+  const { data: productsData, isFetching } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
