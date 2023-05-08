@@ -26,6 +26,7 @@ const RadioElement = ({ value, label }) => (
 );
 
 const FilterSection = ({ setProducts, data }) => {
+  //TODo: make a const for min and max price
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('oldest');
   const [price, setPrice] = useState([0, 2000]);

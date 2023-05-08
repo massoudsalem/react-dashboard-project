@@ -1,4 +1,4 @@
-import { Box, CircularProgress, IconButton, Modal, Paper, TextField, alpha } from '@mui/material';
+import { Box, CircularProgress, IconButton, Modal, Paper, alpha } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import DataTable from '../DataTable/DataTable';
@@ -8,19 +8,6 @@ import {
   useUpdateUserMutation,
 } from '../../services/FakeApi';
 import { EditForm } from '..';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 500,
-  padding: 30,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const tableHeadings = [
   {
@@ -79,10 +66,10 @@ const Actions = ({ id, handleDelete, handleOpen }) => (
 const Customers = () => {
   const { data: customersData, isLoading, error } = useGetCustomersQuery();
   const [customers, setCustomers] = useState([]);
-  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
-  const [updateUser, result] = useUpdateUserMutation();
+  const [deleteUser] = useDeleteUserMutation();
+  const [updateUser] = useUpdateUserMutation();
   const [editData, setEditData] = useState({});
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = (id) => {
     setOpen(true);
@@ -141,14 +128,27 @@ const Customers = () => {
   }));
 
   return (
-    <>
+    <Box>
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        <Box style={style} component={Paper}>
+        <Box
+          component={Paper}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.8),
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
           <EditForm
             editData={editData}
             handleUpdate={handleUpdate}
@@ -156,8 +156,9 @@ const Customers = () => {
           />
         </Box>
       </Modal>
+      {/*<Box className="bg-black w-4 h-4" />*/}
       <DataTable columns={tableHeadings} rows={rows} />
-    </>
+    </Box>
   );
 };
 

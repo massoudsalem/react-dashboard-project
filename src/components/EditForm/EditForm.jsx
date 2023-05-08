@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 const EditForm = ({ editData, handleUpdate, handleClose }) => {
@@ -49,12 +49,14 @@ const EditForm = ({ editData, handleUpdate, handleClose }) => {
         size="small"
         onChange={handleChange}
       />
-      <button
+      <Button
         type="submit"
+        variant="contained"
+        color="secondary"
         style={{ alignSelf: 'center', padding: '5px 30px' }}
       >
         Submit
-      </button>
+      </Button>
     </form>
   );
 };
