@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../../services/FakeApi';
 import DataTable from '../DataTable/DataTable';
 import FilterSection from '../FiltersSection/FilterSection';
@@ -14,7 +15,7 @@ const Products = () => {
   //const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
   const { data: productsData, isFetching } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (productsData) {
       setProducts(productsData.products);
@@ -89,7 +90,11 @@ const Products = () => {
     //TODo:fix flex starching
     <Box className="flex flex-col md:flex-row">
       <FilterSection data={productsData.products} setProducts={setProducts} />
-      <DataTable rows={rows} columns={columns} />
+      <DataTable
+        rows={rows}
+        columns={columns}
+        rowOnClick={(id) => navigate(`/product/${id}`)}
+      />
     </Box>
   );
 };

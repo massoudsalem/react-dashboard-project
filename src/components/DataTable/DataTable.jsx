@@ -1,7 +1,7 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-const DataTable = ({ columns, rows }) => {
+const DataTable = ({ columns, rows, rowOnClick = null }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
@@ -27,7 +27,11 @@ const DataTable = ({ columns, rows }) => {
         </TableHead>
         <TableBody>
           {viableRows.map((data) => (
-            <TableRow key={data.id}>
+            <TableRow
+              className={`${rowOnClick ? 'hover:cursor-pointer' : ''}`}
+              key={data.id}
+              onClick={rowOnClick ? () => rowOnClick(data.id) : null}
+            >
               {columns.map((heading) => (
                 <TableCell key={`${heading.id}user${data.id}`}>{data[heading.id]}</TableCell>
               ))}

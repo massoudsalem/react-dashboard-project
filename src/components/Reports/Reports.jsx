@@ -31,30 +31,50 @@ const Reports = () => {
     return [];
   }, [customersData]);
 
-  const companyPersonCites = useMemo(() => {
+  const companyPersonCitesCount = useMemo(() => {
+    const citiesData = [];
     if (customersData) {
-      const citiesData = [
-        { name: 'Washington', companyAddress: 0, personAddress: 0 },
-        { name: 'Nashville', companyAddress: 0, personAddress: 0 },
-        { name: 'Anchorage', companyAddress: 0, personAddress: 0 },
-        { name: 'Manchester', companyAddress: 0, personAddress: 0 },
-        { name: 'Fayetteville', companyAddress: 0, personAddress: 0 },
-      ];
       customersData.users.forEach((user) => {
-        citiesData.forEach((cityData) => {
-          if (cityData.name === user.address.city) {
-            cityData.personAddress += 1;
+        const companyCity = user.company.address.city;
+        const personCity = user.address.city;
+        const companyCityIndex = citiesData.findIndex((data) => data.name === companyCity);
+        const personCityIndex = citiesData.findIndex((data) => data.name === personCity);
+        if (companyCityIndex === -1 && personCityIndex === -1) {
+          if (personCity === companyCity) {
+            citiesData.push({
+              name: personCity,
+              personAddress: 0,
+              companyAddress: 0,
+            });
           }
-          if (cityData.name === user.company.address.city) {
-            cityData.companyAddress += 1;
+          if (companyCity && personCity !== companyCity) {
+            citiesData.push({
+              name: companyCity,
+              personAddress: 0,
+              companyAddress: 0,
+            });
+          }
+          if (personCity && personCity !== companyCity) {
+            citiesData.push({
+              name: personCity,
+              personAddress: 0,
+              companyAddress: 0,
+            });
+          }
+        }
+        citiesData.forEach((data) => {
+          if (data.name && data.name === companyCity) {
+            data.companyAddress += 1;
+          }
+          if (data.name && data.name === personCity) {
+            data.personAddress += 1;
           }
         });
       });
-      return citiesData;
     }
-    return [];
+    return citiesData;
   }, [customersData]);
-
+  console.log(companyPersonCitesCount);
   return (
     <>
       <Box component={Paper} className="w-[400px]">
@@ -67,13 +87,14 @@ const Reports = () => {
           label="Customers"
         />
       </Box>
-      <Box component={Paper} className="mt-9 w-[600px]">
-        <Typography variant="h6" align="start" className="p-4">
+      <Box component={Paper} className="mt-9 w-[700px]">
+        <Typography variant="h6" align="left" className="p-4">
           Composed Chart
         </Typography>
         <Divider />
         <ComposedCharts
-          data={companyPersonCites}
+          className="m-4"
+          data={companyPersonCitesCount}
           barLabel="Company Cities"
           barData="companyAddress" /*the key of data for object*/
           areaLabel="Person Cities"
