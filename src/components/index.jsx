@@ -9,4 +9,5 @@ export { default as DataTable } from './DataTable/DataTable';
 export { default as Customers } from './Customers/Customers';
 export { default as EditForm } from './EditForm/EditForm';
 export { default as CustomPieChart } from './Charts/CustomPieChart';
+export { default as ComposedCharts } from './Charts/ComposedCharts';
 export { default as Reports } from './Reports/Reports';

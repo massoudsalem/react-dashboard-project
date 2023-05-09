@@ -68,7 +68,7 @@ const ProductDetails = () => {
 
   return (
     !isLoading && (
-      <Box className="flex gap-20 p-20">
+      <Box className="flex flex-col gap-20 p-20 xl:flex-row">
         <ImageSlider dataImages={data.images} />
         <Grid>
           <h1>details</h1>
@@ -78,15 +78,13 @@ const ProductDetails = () => {
             spacing={2}
           >
             <Paper elevation={0} sx={{ color: theme.palette.info.dark }}>
-              {' '}
               <a className="text-inherit no-underline" href="/#">
                 brand name
               </a>
             </Paper>
             <Paper elevation={0}> seller: &quot;name&quot; </Paper>
             <Paper elevation={0} sx={{ color: 'gray' }}>
-              {' '}
-              Published: &quot;date&quot;{' '}
+              Published: &quot;date&quot;
             </Paper>
           </Stack>
           <Rating
@@ -130,8 +128,9 @@ const ProductDetails = () => {
                 <TableContainer>
                   <Table>
                     <TableBody>
-                      {rows.map((row) => (
+                      {rows.map((row, idx) => (
                         <TableRow
+                          key={idx}
                           sx={{
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}

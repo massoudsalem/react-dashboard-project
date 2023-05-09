@@ -61,5 +61,6 @@ module.exports = {
     'react/jsx-no-duplicate-props': [0, { ignoreCase: 1 }],
     camelcase: 0,
     'operator-linebreak': 0,
+    'arrow-body-style': 0,
   },
 };

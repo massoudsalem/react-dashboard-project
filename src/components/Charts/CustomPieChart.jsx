@@ -12,6 +12,7 @@ const CustomTooltip = ({ active, payload, tooltipLabel = '' }) => {
           borderRadius: 1,
           boxShadow: 1,
           border: 1,
+          outline: 0,
           backgroundColor: payload[0].payload.fill,
           color: 'white',
         }
@@ -41,10 +42,11 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const CustomPieChart = ({ data, label = '' }) => {
-  console.log('CustomPieChart');
+  //console.log('CustomPieChart');
   return (
     <PieChart width={400} height={350}>
       <Pie
+        className="focus:outline-none"
         data={data}
         innerRadius={80}
         outerRadius={140}
@@ -54,11 +56,11 @@ const CustomPieChart = ({ data, label = '' }) => {
         dataKey="value"
       >
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} className="hover:opacity-80" />
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} className="hover:opacity-80 focus:outline-none" />
         ))}
       </Pie>
-      <Legend />
       <Tooltip content={<CustomTooltip tooltipLabel={label} />} />
+      <Legend />
     </PieChart>
   );
 };
