@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useGetProductsQuery } from '../../services/FakeStore';
+import CreateProduct from '../CreateProduct/CreateProduct';
 
 const Dashboard = () => {
   const { data, error, isLoading } = useGetProductsQuery();

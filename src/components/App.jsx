@@ -1,7 +1,14 @@
 import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Customers, Dashboard, Navbar, ProductDetails, Products, Reports } from '.';
+import {
+  Customers,
+  Dashboard,
+  Navbar,
+  ProductDetails,
+  Products,
+  Reports,
+} from '.';
 
 const App = () => {
   const openWidth = 200;
