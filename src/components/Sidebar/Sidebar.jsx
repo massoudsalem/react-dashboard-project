@@ -40,10 +40,16 @@ const buttons = [
     link: '/reports',
   },
   {
+    name: 'Create Product',
+    icon: 'add',
+    link: '/create-product',
+  },
+  {
     name: 'Integrations',
     icon: 'code',
     link: '/',
   },
+
 ];
 
 const Sidebar = ({ open, changeWidth }) => {

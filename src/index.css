@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-tiny{
+    @apply text-xs;
+}
+.text-small{
+    @apply text-sm;
+}
+.text-big{
+    @apply text-xl;
+}
+.text-huge{
+    @apply text-3xl;
+}
+u{
+    @apply underline;
+}
+s{
+    @apply line-through;
+}
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -22,3 +40,4 @@
     scrollbar-width: thin;     /* firefox */
     scrollbar-color: #a5a5a5 #cfcfcf;     /* firefox */
 }
+

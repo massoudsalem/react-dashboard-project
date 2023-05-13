@@ -10,6 +10,8 @@
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --quiet"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^37.1.0",
+    "@ckeditor/ckeditor5-react": "^6.0.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
@@ -17,7 +19,9 @@
     "@mui/x-data-grid": "^6.2.0",
     "@reduxjs/toolkit": "^1.9.3",
     "autoprefixer": "^10.4.14",
+    "ckeditor5-custom-build": "github:mohamed-magdy26/ckeditor5-37.1.0-jmpcmxseambi",
     "eslint-plugin-prefer-arrow": "^1.2.3",
+    "interweave": "^13.1.0",
     "postcss": "^8.4.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
