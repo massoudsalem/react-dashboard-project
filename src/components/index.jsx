@@ -12,3 +12,4 @@ export { default as CustomPieChart } from './Charts/CustomPieChart';
 export { default as ComposedCharts } from './Charts/ComposedCharts';
 export { default as Reports } from './Reports/Reports';
 export { default as CreateProduct } from './CreateProduct/CreateProduct';
+export { default as ImageDropzone } from './ImageDropzone/ImageDropzone';
