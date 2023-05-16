@@ -66,13 +66,14 @@ const ImageDropzone = () => {
     //Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [files]);
+  console.log(getRootProps());
   return (
     <Box className="border border-gray-400 border-solid p-4 rounded-md shadow-md">
       <Box
         className="flex flex-col rounded items-center p-[20px] border-2 border-gray-800 border-dashed bg-gray-200  outline-0 transition hover:opacity-80"
         {...getRootProps()}
       >
-        <Input {...getInputProps()} />
+        <Input inputProps={getInputProps()} />
         <CloudUpload className="text-8xl w-full " />
         <Typography>
           Drag &#39;n&#39; drop some files here, or click to select files
@@ -105,17 +106,18 @@ const ImageDropzone = () => {
                   <Check className="" />
                 </Box>
               ))}
-            <Box className="flex flex-col overflow-hidden">
-              <img
-                src={file.preview}
-                className="block object-cover w-full h-full"
-                alt={file.name}
-                onLoad={() => {
-                  URL.revokeObjectURL(file.preview);
-                }}
-              />
-
-              <LinearProgress className="w-full" color="secondary" variant="determinate" value={images[file.name]?.percent ?? 0} />
+            <Box className="flex flex-col">
+              <Box className="flex overflow-hidden">
+                <img
+                  src={file.preview}
+                  className="block object-cover w-full h-full"
+                  alt={file.name}
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                />
+              </Box>
+              <LinearProgress color="secondary" variant="determinate" value={images[file.name]?.percent ?? 0} />
             </Box>
           </Box>
         ))}
