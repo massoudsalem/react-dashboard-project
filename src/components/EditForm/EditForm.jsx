@@ -52,7 +52,7 @@ const EditForm = ({ editData, handleUpdate, handleClose }) => {
       <Button
         type="submit"
         variant="contained"
-        color="secondary"
+        //color="secondary"
         style={{ alignSelf: 'center', padding: '5px 30px' }}
       >
         Submit

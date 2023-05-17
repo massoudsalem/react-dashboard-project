@@ -7,15 +7,11 @@ const Dashboard = () => {
   const { data, error, isLoading } = useGetProductsQuery();
 
   if (isLoading) {
-    return (
-      <h1> Loading.... </h1>
-    );
+    return <h1> Loading.... </h1>;
   }
 
   if (error) {
-    return (
-      <h1> error.... </h1>
-    );
+    return <h1> error.... </h1>;
   }
   console.log(data);
 

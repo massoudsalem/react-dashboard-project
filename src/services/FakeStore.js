@@ -13,7 +13,4 @@ export const fakeStoreApi = createApi({
   }),
 });
 
-export const {
-  useGetProductsQuery,
-  useGetCategoriesQuery,
-} = fakeStoreApi;
+export const { useGetProductsQuery, useGetCategoriesQuery } = fakeStoreApi;

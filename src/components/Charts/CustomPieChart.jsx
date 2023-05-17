@@ -6,8 +6,7 @@ const CustomTooltip = ({ active, payload, tooltipLabel = '' }) => {
   if (active && payload && payload.length) {
     return (
       <Box
-        sx={
-        {
+        sx={{
           p: 1,
           borderRadius: 1,
           boxShadow: 1,
@@ -15,8 +14,7 @@ const CustomTooltip = ({ active, payload, tooltipLabel = '' }) => {
           outline: 0,
           backgroundColor: payload[0].payload.fill,
           color: 'white',
-        }
-      }
+        }}
       >
         <Typography variant="body2">{`${payload[0].name}: ${payload[0].value} ${tooltipLabel}`}</Typography>
       </Box>
@@ -27,13 +25,27 @@ const CustomTooltip = ({ active, payload, tooltipLabel = '' }) => {
 };
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+}) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.2;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" className="font-bold">
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+      className="font-bold"
+    >
       {`${(percent * 100).toFixed(1)}%`}
     </text>
   );
@@ -56,7 +68,11 @@ const CustomPieChart = ({ data, label = '' }) => {
         dataKey="value"
       >
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} className="hover:opacity-80 focus:outline-none" />
+          <Cell
+            key={`cell-${index}`}
+            fill={COLORS[index % COLORS.length]}
+            className="hover:opacity-80 focus:outline-none"
+          />
         ))}
       </Pie>
       <Tooltip content={<CustomTooltip tooltipLabel={label} />} />

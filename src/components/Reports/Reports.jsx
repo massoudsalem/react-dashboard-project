@@ -37,8 +37,12 @@ const Reports = () => {
       customersData.users.forEach((user) => {
         const companyCity = user.company.address.city;
         const personCity = user.address.city;
-        const companyCityIndex = citiesData.findIndex((data) => data.name === companyCity);
-        const personCityIndex = citiesData.findIndex((data) => data.name === personCity);
+        const companyCityIndex = citiesData.findIndex(
+          (data) => data.name === companyCity,
+        );
+        const personCityIndex = citiesData.findIndex(
+          (data) => data.name === personCity,
+        );
         if (companyCityIndex === -1 && personCityIndex === -1) {
           if (personCity === companyCity) {
             citiesData.push({
@@ -82,10 +86,7 @@ const Reports = () => {
           Customers Age Range
         </Typography>
         <Divider />
-        <CustomPieChart
-          data={customersAgeRangeCount}
-          label="Customers"
-        />
+        <CustomPieChart data={customersAgeRangeCount} label="Customers" />
       </Box>
       <Box component={Paper} className="mt-9 w-[700px]">
         <Typography variant="h6" align="left" className="p-4">

@@ -1,37 +1,38 @@
-import { AppBar, Badge, Box, IconButton, Toolbar, useTheme } from '@mui/material';
-import { Menu as MenuIcon, ShoppingCart as ShoppingCartIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon, Brightness4, Brightness7, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import {
+  AppBar,
+  Badge,
+  Box,
+  IconButton,
+  Toolbar,
+  useTheme,
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  ShoppingCart as ShoppingCartIcon,
+  Notifications as NotificationsIcon,
+  AccountCircle as AccountCircleIcon,
+  Brightness4,
+  Brightness7,
+  ArrowForward as ArrowForwardIcon,
+} from '@mui/icons-material';
 import React, { useContext } from 'react';
 import { Search, MoreMenu } from '..';
 import { ColorModeContext } from '../../utils/ToggleColorMode';
 import Sidebar from '../Sidebar/Sidebar';
 
 const NavbarIcons = () => (
-  <Box
-    className="gap-4 hidden md:flex items-center"
-  >
-    <IconButton
-      size="large"
-      edge="start"
-      color="inherit"
-    >
+  <Box className="hidden items-center gap-4 md:flex">
+    <IconButton size="large" edge="start" color="inherit">
       <Badge badgeContent={4} color="info">
         <ShoppingCartIcon />
       </Badge>
     </IconButton>
-    <IconButton
-      size="large"
-      edge="start"
-      color="inherit"
-    >
+    <IconButton size="large" edge="start" color="inherit">
       <Badge badgeContent={4} color="error">
         <NotificationsIcon />
       </Badge>
     </IconButton>
-    <IconButton
-      size="large"
-      edge="start"
-      color="inherit"
-    >
+    <IconButton size="large" edge="start" color="inherit">
       <AccountCircleIcon />
     </IconButton>
   </Box>

@@ -49,7 +49,6 @@ const buttons = [
     icon: 'code',
     link: '/',
   },
-
 ];
 
 const Sidebar = ({ open, changeWidth }) => {
@@ -70,7 +69,7 @@ const Sidebar = ({ open, changeWidth }) => {
         PaperProps={{ className: 'transition-all duration-500' }}
         ModalProps={{ className: 'transition-all duration-500' }}
       >
-        <Box className="flex justify-center items-center py-4 h-[80px]">
+        <Box className="flex h-[80px] items-center justify-center py-4">
           <img
             src={open ? logoIconFull : logoIcon}
             alt="logo"

@@ -1,4 +1,11 @@
-import { Box, CircularProgress, IconButton, Modal, Paper, alpha } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Modal,
+  Paper,
+  alpha,
+} from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import DataTable from '../DataTable/DataTable';
@@ -35,7 +42,9 @@ const tableHeadings = [
 const Actions = ({ id, handleDelete, handleOpen }) => (
   <Box className="flex">
     <IconButton
-      onClick={() => { handleOpen(id); }}
+      onClick={() => {
+        handleOpen(id);
+      }}
     >
       <EditIcon />
     </IconButton>
@@ -80,7 +89,9 @@ const Customers = () => {
   const handleClose = () => setOpen(false);
 
   const handleDelete = async (id) => {
-    setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== id));
+    setCustomers((prevCustomers) =>
+      prevCustomers.filter((customer) => customer.id !== id),
+    );
     const response = await deleteUser(id);
     console.log(response.data.isDeleted ? 'Deleted' : 'Not Deleted');
   };

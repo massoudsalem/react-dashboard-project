@@ -7,7 +7,8 @@ const Search = () => (
     sx={{
       '& .MuiOutlinedInput-root': {
         '& fieldset': {
-          borderColor: (theme) => alpha(theme.palette.primary.contrastText, 0.5),
+          borderColor: (theme) =>
+            alpha(theme.palette.primary.contrastText, 0.5),
         },
         '&:hover fieldset': {
           borderColor: 'primary.contrastText',
@@ -20,16 +21,13 @@ const Search = () => (
     inputProps={{ className: 'py-2' }}
     InputProps={{
       startAdornment: (
-        <InputAdornment
-          sx={{ color: 'primary.contrastText' }}
-          position="start"
-        >
+        <InputAdornment sx={{ color: 'primary.contrastText' }} position="start">
           <SearchRounded />
         </InputAdornment>
       ),
     }}
     variant="outlined"
-      //
+    //
     size="small"
   />
 );

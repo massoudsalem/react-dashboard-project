@@ -1,4 +1,14 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 const DataTable = ({ columns, rows, rowOnClick = null }) => {
@@ -14,7 +24,10 @@ const DataTable = ({ columns, rows, rowOnClick = null }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const viableRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const viableRows = rows.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage,
+  );
   return (
     <TableContainer component={Paper} className="min-h-0">
       <Table>
@@ -33,7 +46,9 @@ const DataTable = ({ columns, rows, rowOnClick = null }) => {
               onClick={rowOnClick ? () => rowOnClick(data.id) : null}
             >
               {columns.map((heading) => (
-                <TableCell key={`${heading.id}user${data.id}`}>{data[heading.id]}</TableCell>
+                <TableCell key={`${heading.id}user${data.id}`}>
+                  {data[heading.id]}
+                </TableCell>
               ))}
             </TableRow>
           ))}

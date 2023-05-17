@@ -20,6 +20,11 @@ u{
 s{
     @apply line-through;
 }
+
+.ck-editor__editable {
+    min-height: 200px;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
 }

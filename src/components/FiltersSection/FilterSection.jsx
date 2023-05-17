@@ -20,7 +20,7 @@ const RadioElement = ({ value, label }) => (
   <FormControlLabel
     slotProps={{ typography: { variant: 'body2' } }}
     value={value}
-    control={<Radio color="secondary" />}
+    control={<Radio />} //color="secondary"
     label={label}
   />
 );
@@ -61,13 +61,11 @@ const FilterSection = ({ setProducts, data }) => {
         (product) => product.price >= price[0] && product.price <= price[1],
       );
       if (rating > 0) {
-        newProducts = newProducts.filter(
-          (product) => product.rating >= rating,
-        );
+        newProducts = newProducts.filter((product) => product.rating >= rating);
       }
       return newProducts;
     });
-  //eslint-disable-next-line react-hooks/exhaustive-deps
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, sort, price, rating]);
 
   if (categoriesLoading) {
@@ -83,7 +81,7 @@ const FilterSection = ({ setProducts, data }) => {
   return (
     <Paper
       variant="outlined"
-      className="p-4 mr-4 flex flex-col gap-2 min-w-[220px]"
+      className="mr-4 flex min-w-[220px] flex-col gap-2 p-4"
     >
       <Typography variant="h5" className="mb-4">
         {' '}
@@ -131,20 +129,22 @@ const FilterSection = ({ setProducts, data }) => {
           max={1000}
           step={1}
           disableSwap
-          color="secondary"
-          className="w-5/6 self-center mt-7"
+          //color="secondary"
+          className="mt-7 w-5/6 self-center"
         />
-        <Box className="flex justify-between gap-2 items-center">
+        <Box className="flex items-center justify-between gap-2">
           <Input
             label="Min"
             value={price[0]}
-            onChange={(e) => setPrice([Math.min(e.target.value, price[1]), price[1]])}
-            startAdornment={(
+            onChange={(e) =>
+              setPrice([Math.min(e.target.value, price[1]), price[1]])
+            }
+            startAdornment={
               <Typography variant="subtitle2" className="m-1">
                 {' '}
                 ${' '}
               </Typography>
-            )}
+            }
             inputProps={{
               step: 10,
               min: 0,
@@ -156,13 +156,15 @@ const FilterSection = ({ setProducts, data }) => {
           <Input
             label="Max"
             value={price[1]}
-            onChange={(e) => setPrice([price[0], Math.max(e.target.value, price[0])])}
-            startAdornment={(
+            onChange={(e) =>
+              setPrice([price[0], Math.max(e.target.value, price[0])])
+            }
+            startAdornment={
               <Typography variant="subtitle2" className="m-1">
                 {' '}
                 ${' '}
               </Typography>
-            )}
+            }
             inputProps={{
               step: 10,
               min: price[0],

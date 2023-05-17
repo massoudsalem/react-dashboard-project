@@ -6,7 +6,7 @@ import DataTable from '../DataTable/DataTable';
 import FilterSection from '../FiltersSection/FilterSection';
 
 const Image = ({ src }) => (
-  <Box className="flex justify-center items-center p-1">
+  <Box className="flex items-center justify-center p-1">
     <img src={src} alt="product" width="100%" height="80px" />
   </Box>
 );
