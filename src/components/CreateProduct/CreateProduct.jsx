@@ -63,7 +63,13 @@ const CategorySelect = () => {
 const CreateProduct = () => {
   const [contentData, setContentData] = useState(null);
   const [images, setImages] = useState({});
+  const [inputs, setInputs] = useState({});
   const upload = useState(0);
+
+  const handleInputChange = (e) => {
+    setInputs((preInput) => ({ ...preInput, [e.target.id]: e.target.value }));
+    console.log(inputs);
+  };
 
   console.log(upload[0]);
   return (
@@ -98,28 +104,79 @@ const CreateProduct = () => {
       >
         Upload
       </button>*/}
-      <CustomTabs labels={['General info','Meta Data']}>
+      <CustomTabs labels={['General info', 'Meta Data']}>
         <Box>
           <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
             <Box className="flex flex-row flex-wrap gap-6">
               <InputField
+                id="Manufacturer Name"
                 label="Manufacturer Name"
                 placeholder="Enter Manufacturer Name"
+                onChange={handleInputChange}
               />
               <InputField
+                id="Manufacturer Brand"
                 label="Manufacturer Brand"
                 placeholder="Enter Manufacturer Brand"
+                onChange={handleInputChange}
               />
             </Box>
             <Box className="flex flex-row flex-wrap gap-6">
-              <InputField label="Stocks" placeholder="Stocks" />
-              <InputField label="Price" placeholder="Enter Price" />
-              <InputField label="Discount" placeholder="Enter Discount" />
-              <InputField label="Orders" placeholder="Orders" />
+              <InputField
+                id="Stocks"
+                label="Stocks"
+                placeholder="Stocks"
+                onChange={handleInputChange}
+              />
+              <InputField
+                id="Price"
+                label="Price"
+                placeholder="Enter Price"
+                onChange={handleInputChange}
+              />
+              <InputField
+                id="Discount"
+                label="Discount"
+                placeholder="Enter Discount"
+                onChange={handleInputChange}
+              />
+              <InputField
+                id="Orders"
+                label="Orders"
+                placeholder="Orders"
+                onChange={handleInputChange}
+              />
             </Box>
           </Box>
         </Box>
-        <div>General Info</div>
+        <Box>
+          <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
+            <Box className="flex flex-row flex-wrap gap-6">
+              <InputField
+                id="Meta Title"
+                label="Meta Title"
+                placeholder="Enter Meta Title"
+                onChange={handleInputChange}
+              />
+              <InputField
+                id="Meta Keywords"
+                label="Meta Keywords"
+                placeholder="Enter Meta Keywords"
+                onChange={handleInputChange}
+              />
+            </Box>
+            <Box className="flex flex-row flex-wrap gap-6">
+              <TextField
+                id="Meta Description"
+                label="Enter Meta Description"
+                multiline
+                minRows={3}
+                fullWidth
+                onChange={handleInputChange}
+              />
+            </Box>
+          </Box>
+        </Box>
       </CustomTabs>
       <Box component={Paper} className="m-2 p-4">
         <Typography variant="h6">Product Category</Typography>
