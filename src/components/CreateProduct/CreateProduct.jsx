@@ -17,6 +17,7 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import { ImageDropzone, CustomTabs } from '..';
 import { useGetCategoriesQuery } from '../../services/FakeApi';
+import { publish } from '../../events/events';
 
 export const BasicAlerts = ({ message }) => {
   return (
@@ -29,33 +30,42 @@ export const InputWithController = ({
   label,
   errors,
   inputProps,
-  ...rest1
+  placeholder,
+  ...rest
 }) => (
   <Box className="flex flex-grow flex-col gap-2">
     <Typography variant="body1" component="label">
       {label}
     </Typography>
     <Controller
-      {...rest1}
+      {...rest}
       render={({ field }) => {
-        const { ref, ...rest } = field;
+        const { ref, ..._rest } = field;
         return (
-          <TextField variant="outlined" {...rest} inputProps={inputProps} />
+          <TextField
+            variant="outlined"
+            {..._rest}
+            inputProps={inputProps}
+            placeholder={placeholder}
+          />
         );
       }}
     />
-    {console.log('error', errors)}
-    {errors[rest1.name]?.type === 'required' && (
+    {errors[rest.name]?.type === 'required' && (
       <BasicAlerts message={`${label} is required`} />
     )}
-    {errors[rest1.name]?.type === 'max' && (
+    {errors[rest.name]?.type === 'max' && (
       <BasicAlerts message={`${label}  can't be greater than 100`} />
     )}
-    {errors[rest1.name]?.type === 'min' && (
+    {errors[rest.name]?.type === 'min' && (
       <BasicAlerts message={`${label}  can't be less than 0`} />
     )}
   </Box>
 );
+
+const uploadImages = () => {
+  publish('upload');
+};
 
 const CategorySelect = ({ ...rest }) => {
   const {
@@ -87,16 +97,11 @@ const CategorySelect = ({ ...rest }) => {
 };
 
 const CreateProduct = () => {
-  const [images, setImages] = useState({});
-  const upload = useState(0);
-  const uploadState = useRef(upload[0]);
-  const imagesState = useRef(images);
   const {
     handleSubmit,
     control,
     formState: { errors },
     getValues,
-    setValue,
   } = useForm({
     defaultValues: {
       title: '',
@@ -107,7 +112,7 @@ const CreateProduct = () => {
       brand: '',
       category: '',
       thumbnail: '',
-      images: [],
+      images: { urls: [], status: 'ready' },
       orders: '',
       manufacturerName: '',
       manufacturerBrand: '',
@@ -116,12 +121,7 @@ const CreateProduct = () => {
       metaKeywords: '',
     },
   });
-  useEffect(() => {
-    [uploadState.current] = upload;
-  }, [upload[0]]);
-  useEffect(() => {
-    imagesState.current = images;
-  }, [images]);
+
   //console.log(upload[0]);
   //console.log(getValues());
   return (
@@ -144,7 +144,7 @@ const CreateProduct = () => {
         />
 
         <Typography variant="body2">Product Description</Typography>
-        <Controller
+        {/*<Controller
           name="description"
           rules={{ required: true }}
           control={control}
@@ -162,21 +162,29 @@ const CreateProduct = () => {
         />
         {errors.description?.type === 'required' && (
           <BasicAlerts message="description is required" />
-        )}
+        )}*/}
       </Box>
-      {/*<Markup content={contentData} />;*/}
       <Box component={Paper} className="m-2 p-4">
         <Typography variant="subtitle2">Product Images</Typography>
         <Typography variant="body2">Upload Product Images</Typography>
-        <ImageDropzone images={images} setImages={setImages} upload={upload} />
+        <Controller
+          name="description"
+          rules={{
+            required: true,
+            validate: {
+              uploadCompleted: (value) => value.status === 'uploaded',
+            },
+          }}
+          control={control}
+          render={({ field }) => {
+            const { ref, ...rest } = field;
+            return <ImageDropzone {...rest} />;
+          }}
+        />
+        {errors.images?.type === 'validate' && (
+          <BasicAlerts message="Please wait for the images to upload" />
+        )}
       </Box>
-      {/*<button
-        type="button"
-        disabled={upload[0] >= 1}
-        onClick={() => upload[1]((prev) => prev + 1)}
-      >
-        Upload
-      </button>*/}
       <CustomTabs labels={['General info']}>
         <Box>
           <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
@@ -238,31 +246,6 @@ const CreateProduct = () => {
             </Box>
           </Box>
         </Box>
-        {/*<Box>
-          <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
-            <Box className="flex flex-row flex-wrap gap-6">
-              <InputField
-                id="Meta Title"
-                label="Meta Title"
-                placeholder="Enter Meta Title"
-              />
-              <InputField
-                id="Meta Keywords"
-                label="Meta Keywords"
-                placeholder="Enter Meta Keywords"
-              />
-            </Box>
-            <Box className="flex flex-row flex-wrap gap-6">
-              <TextField
-                id="Meta Description"
-                label="Enter Meta Description"
-                multiline
-                minRows={3}
-                fullWidth
-              />
-            </Box>
-          </Box>
-        </Box>*/}
       </CustomTabs>
       <Box component={Paper} className="m-2 p-4">
         <Typography variant="h6">Product Category</Typography>
@@ -279,64 +262,19 @@ const CreateProduct = () => {
         {errors.category?.type === 'required' && (
           <BasicAlerts message="category is required" />
         )}
-
-        {/*<button
-        type="button"
-        disabled={upload[0] >= 1}
-        onClick={() => upload[1]((prev) => prev + 1)}
-      >
-        Upload
-      </button>*/}
       </Box>
       <input type="submit" />
       <Button
         variant="contained"
         color="primary"
         type="submit"
-        disabled={upload[0] >= 1}
-        onClick={(e) => {
-          e.preventDefault();
-          //uploaded if uploadState.current is 2
-          //console.log(`uploadState.current is ${uploadState.current}`);
-          //const checkImagesUpload = (data) => {
-          //console.log(`uploadState.current is ${uploadState.current}`);
-          //if (uploadState.current === 2) {
-          //console.log('uploadState is 2');
-          //data.images = images;
-          //console.log('data', data);
-          //} else {
-          //console.log('uploadState is not 2');
-          //setTimeout(() => {
-          //checkImagesUpload(data);
-          //}, 1000);
-          //}
-          //};
-          const checkImagesUpload = (data) => {
-            if (uploadState.current === 2) {
-              return new Promise((resolve) => {
-                resolve('resolved');
-              });
-            }
-            return new Promise((resolve) => {
-              setTimeout(() => {
-                checkImagesUpload(data).then((value) => {
-                  resolve(value);
-                });
-              }, 1000);
-            });
-          };
-          handleSubmit(
-            async (data) => {
-              upload[1]((prev) => prev + 1);
-              await checkImagesUpload(data);
-              //TODO: get urls and put them in array and set it to images
-              setValue('images', imagesState.current);
-              //at this point data is complete
-            },
-            (err) => {
-              console.log(err);
-            },
-          )();
+        //disabled={upload[0] >= 1}
+        onClick={(event) => {
+          event.preventDefault();
+          uploadImages();
+          handleSubmit((data) => {
+            console.log(data);
+          })();
         }}
       >
         Submit
