@@ -25,16 +25,35 @@ export const BasicAlerts = ({ message }) => {
     </Alert>
   );
 };
-
-const InputField = ({ label, ...rest }) => (
-  //TODO: Add react-hook-form controller here
-  //TODO: Add error handling
-  //TODO: Add validation
-  <Box className="flex flex-grow flex-col gap-1">
-    <Typography variant="subtitle2" component="label">
+export const InputWithController = ({
+  label,
+  errors,
+  inputProps,
+  ...rest1
+}) => (
+  <Box className="flex flex-grow flex-col gap-2">
+    <Typography variant="body1" component="label">
       {label}
     </Typography>
-    <TextField variant="outlined" {...rest} />
+    <Controller
+      {...rest1}
+      render={({ field }) => {
+        const { ref, ...rest } = field;
+        return (
+          <TextField variant="outlined" {...rest} inputProps={inputProps} />
+        );
+      }}
+    />
+    {console.log('error', errors)}
+    {errors[rest1.name]?.type === 'required' && (
+      <BasicAlerts message={`${label} is required`} />
+    )}
+    {errors[rest1.name]?.type === 'max' && (
+      <BasicAlerts message={`${label}  can't be greater than 100`} />
+    )}
+    {errors[rest1.name]?.type === 'min' && (
+      <BasicAlerts message={`${label}  can't be less than 0`} />
+    )}
   </Box>
 );
 
@@ -103,9 +122,8 @@ const CreateProduct = () => {
   useEffect(() => {
     imagesState.current = images;
   }, [images]);
-  
   //console.log(upload[0]);
-  console.log(getValues());
+  //console.log(getValues());
   return (
     //eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <form
@@ -116,19 +134,15 @@ const CreateProduct = () => {
       }}
     >
       <Box component={Paper} className="m-2 p-4">
-        <Typography variant="subtitle2">Product Title</Typography>
-        <Controller
+        <InputWithController
+          label="Product Title"
           name="title"
+          placeholder="Enter Product Title"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => {
-            const { ref, ...rest } = field;
-            return <InputField {...rest} />;
-          }}
+          errors={errors}
         />
-        {errors.title?.type === 'required' && (
-          <BasicAlerts message="Title is required" />
-        )}
+
         <Typography variant="body2">Product Description</Typography>
         <Controller
           name="description"
@@ -163,126 +177,68 @@ const CreateProduct = () => {
       >
         Upload
       </button>*/}
-      <CustomTabs labels={['General info', 'Meta Data']}>
+      <CustomTabs labels={['General info']}>
         <Box>
           <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
             <Box className="flex flex-row flex-wrap gap-6">
-              <Controller
+              <InputWithController
+                label="Manufacturer Name"
                 name="manufacturerName"
+                placeholder="Enter Manufacturer Name"
                 control={control}
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <InputField
-                      label="Manufacturer Name"
-                      placeholder="Enter Manufacturer Name"
-                      {...rest}
-                    />
-                  );
-                }}
-              />
-              <Controller
-                name="manufacturerBrand"
                 rules={{ required: true }}
-                control={control}
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <InputField
-                      label="Manufacturer Brand"
-                      placeholder="Enter Manufacturer Brand"
-                      {...rest}
-                    />
-                  );
-                }}
+                errors={errors}
               />
-              {errors.manufacturerBrand?.type === 'required' && (
-                <BasicAlerts message="Manufacturer Brand is required" />
-              )}
+              <InputWithController
+                label="Manufacturer Brand"
+                name="manufacturerBrand"
+                placeholder="Enter Manufacturer Brand"
+                control={control}
+                rules={{ required: true }}
+                errors={errors}
+              />
             </Box>
             <Box className="flex flex-row flex-wrap gap-6">
-              <Controller
+              <InputWithController
+                label="Stock"
                 name="stock"
+                placeholder="stock"
                 control={control}
-                rules={{ min: 0, required: true }}
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <InputField
-                      label="stock"
-                      placeholder="stock"
-                      inputProps={{ type: 'number', min: 0 }}
-                      {...rest}
-                    />
-                  );
-                }}
+                rules={{ required: true }}
+                errors={errors}
+                inputProps={{ type: 'number', min: 0 }}
               />
-              {errors.stock?.type === 'required' && (
-                <BasicAlerts message="stock is required" />
-              )}
-
-              <Controller
+              <InputWithController
+                label="Price"
                 name="price"
+                placeholder="Enter Price"
                 control={control}
-                rules={{ min: 0, required: true }}
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <InputField
-                      label="Price"
-                      placeholder="Enter Price"
-                      inputProps={{ type: 'number', min: 0 }}
-                      {...rest}
-                    />
-                  );
-                }}
+                rules={{ required: true }}
+                inputProps={{ type: 'number', min: 0 }}
+                errors={errors}
               />
-              {errors.price?.type === 'required' && (
-                <BasicAlerts message="price is required" />
-              )}
-              <Controller
+              <InputWithController
+                label="Discount"
                 name="discountPercentage"
+                placeholder="Enter Discount"
+                inputProps={{ type: 'number', min: 0, max: 100 }}
                 control={control}
-                rules={{ min: 0, max: 100 }}
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <InputField
-                      label="Discount"
-                      placeholder="Enter Discount"
-                      inputProps={{ type: 'number', min: 0, max: 100 }}
-                      {...rest}
-                    />
-                  );
-                }}
+                rules={{ required: true, min: 0, max: 100 }}
+                errors={errors}
               />
-              {errors.discountPercentage?.type === 'max' && (
-                <BasicAlerts message="Discount should be less than 100" />
-              )}
-              {errors.discountPercentage?.type === 'min' && (
-                <BasicAlerts message="Discount should be greater than 0" />
-              )}
-              
-              <Controller
+              <InputWithController
+                label="Orders"
                 name="orders"
+                placeholder="Orders"
                 control={control}
-                rules={{ min: 0 }}
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <InputField
-                      label="Orders"
-                      placeholder="Orders"
-                      inputProps={{ type: 'number', min: 0 }}
-                      {...rest}
-                    />
-                  );
-                }}
+                rules={{ required: true }}
+                errors={errors}
+                inputProps={{ type: 'number', min: 0 }}
               />
             </Box>
           </Box>
         </Box>
-        <Box>
+        {/*<Box>
           <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
             <Box className="flex flex-row flex-wrap gap-6">
               <InputField
@@ -306,7 +262,7 @@ const CreateProduct = () => {
               />
             </Box>
           </Box>
-        </Box>
+        </Box>*/}
       </CustomTabs>
       <Box component={Paper} className="m-2 p-4">
         <Typography variant="h6">Product Category</Typography>
@@ -358,7 +314,7 @@ const CreateProduct = () => {
           const checkImagesUpload = (data) => {
             if (uploadState.current === 2) {
               return new Promise((resolve) => {
-                resolve("resolved");
+                resolve('resolved');
               });
             }
             return new Promise((resolve) => {
