@@ -45,7 +45,10 @@ export const InputWithController = ({
           <TextField
             variant="outlined"
             {..._rest}
-            inputProps={inputProps}
+            inputRef={ref}
+            inputProps={{
+              ...inputProps,
+            }}
             placeholder={placeholder}
           />
         );
@@ -67,7 +70,7 @@ const uploadImages = () => {
   publish('upload');
 };
 
-const CategorySelect = ({ ...rest }) => {
+const CategorySelect = ({ inputRef, ...rest }) => {
   const {
     data: categories,
     error: categoriesError,
@@ -85,7 +88,7 @@ const CategorySelect = ({ ...rest }) => {
   }
   return (
     <Box className="flex flex-grow flex-col gap-1">
-      <Select inputProps={{ ...rest }}>
+      <Select inputProps={{ ...rest, inputRef }}>
         {categories.map((c) => (
           <MenuItem key={c} value={c}>
             {c}
@@ -123,15 +126,15 @@ const CreateProduct = () => {
   });
 
   //console.log(upload[0]);
-  //console.log(getValues());
   return (
     //eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <form
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-        }
-      }}
+      onSubmit={handleSubmit(
+        (data) => {
+          console.log(data);
+        },
+        (err) => console.log(err),
+      )}
     >
       <Box component={Paper} className="m-2 p-4">
         <InputWithController
@@ -142,9 +145,8 @@ const CreateProduct = () => {
           rules={{ required: true }}
           errors={errors}
         />
-
         <Typography variant="body2">Product Description</Typography>
-        {/*<Controller
+        <Controller
           name="description"
           rules={{ required: true }}
           control={control}
@@ -153,6 +155,7 @@ const CreateProduct = () => {
               <CKEditor
                 editor={Editor}
                 data={field.value}
+                ref={field.ref}
                 onChange={(event, editor) => {
                   field.onChange(editor.getData());
                 }}
@@ -162,27 +165,34 @@ const CreateProduct = () => {
         />
         {errors.description?.type === 'required' && (
           <BasicAlerts message="description is required" />
-        )}*/}
+        )}
       </Box>
       <Box component={Paper} className="m-2 p-4">
         <Typography variant="subtitle2">Product Images</Typography>
         <Typography variant="body2">Upload Product Images</Typography>
         <Controller
-          name="description"
+          name="images"
           rules={{
-            required: true,
             validate: {
-              uploadCompleted: (value) => value.status === 'uploaded',
+              uploading: (value) => {
+                return value.status === 'uploaded';
+              },
+              uploadFailed: (value) => {
+                return value.status !== 'failed';
+              },
             },
           }}
           control={control}
           render={({ field }) => {
             const { ref, ...rest } = field;
-            return <ImageDropzone {...rest} />;
+            return <ImageDropzone inputRef={ref} {...rest} />;
           }}
         />
-        {errors.images?.type === 'validate' && (
-          <BasicAlerts message="Please wait for the images to upload" />
+        {errors.images?.type === 'uploadFailed' && (
+          <BasicAlerts message="image upload failed please refresh" />
+        )}
+        {errors.images?.type === 'uploading' && (
+          <BasicAlerts message="upload images" />
         )}
       </Box>
       <CustomTabs labels={['General info']}>
@@ -256,7 +266,7 @@ const CreateProduct = () => {
           control={control}
           render={({ field }) => {
             const { ref, ...rest } = field;
-            return <CategorySelect {...rest} />;
+            return <CategorySelect inputRef={ref} {...rest} />;
           }}
         />
         {errors.category?.type === 'required' && (
@@ -264,19 +274,7 @@ const CreateProduct = () => {
         )}
       </Box>
       <input type="submit" />
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        //disabled={upload[0] >= 1}
-        onClick={(event) => {
-          event.preventDefault();
-          uploadImages();
-          handleSubmit((data) => {
-            console.log(data);
-          })();
-        }}
-      >
+      <Button variant="contained" color="primary" type="submit">
         Submit
       </Button>
     </form>

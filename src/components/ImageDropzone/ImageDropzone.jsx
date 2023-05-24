@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Check, Close, CloudUpload } from '@mui/icons-material';
 import {
   Box,
+  Button,
   IconButton,
   Input,
   LinearProgress,
   Typography,
 } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
-import {subscribe, unsubscribe } from '../../events/events';
 import postCloudinary from '../../services/postCloudinary';
 
-const ImageDropzone = ({onChange, value}) => {
+const ImageDropzone = ({ onChange, inputRef }) => {
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState({});
-  const [uploadCompleted, setUploadCompleted] = useState(0);
+  const [uploadCompleted, setUploadCompleted] = useState('ready');
   //setUploadCompleted(postCloudinary({ files, setImages }));
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 4,
-    disabled: false /*disable on upload completed*/,
+    disabled: uploadCompleted === 'uploaded' /*disable on upload completed*/,
     accept: {
       'image/*': ['.png', '.gif', '.jpeg', '.jpg', '.avif'],
     },
@@ -37,30 +37,49 @@ const ImageDropzone = ({onChange, value}) => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [files]);
 
+  //1. When the `uploadCompleted` state updates
   useEffect(() => {
-    console.log('uploadCompleted', uploadCompleted);
-    console.log('images', images);
-    if (uploadCompleted) {
-      onChange({urls: Object.values(images).map((image) => image.url), status: uploadCompleted});
+    //2. If the upload fails, update the form with the failed status
+    if (uploadCompleted === 'failed') {
+      onChange({ urls: [], status: uploadCompleted });
+    }
+    //3. If the upload is successful, update the form with the urls
+    if (uploadCompleted === 'uploaded') {
+      onChange({
+        urls: Object.values(images).map((image) => image.url),
+        status: uploadCompleted,
+      });
     }
   }, [uploadCompleted, images, onChange]);
 
+  //4. When the upload state changes
   useEffect(() => {
-    subscribe('upload', () => {
-      setUploadCompleted(postCloudinary({ files, setImages, images }));
-    });
-    return () => {
-      unsubscribe('upload');
-    };
-  }, []);
-  
+    //5. If the upload is still in progress
+    if (uploadCompleted === 'uploading') {
+      //6. Check if all images have been uploaded
+      setUploadCompleted(
+        files.every((file) => images[file.name]?.uploadState === 'uploaded')
+          ? 'uploaded'
+          : 'uploading'
+      );
+    }
+
+    //7. If the upload is complete
+    if (uploadCompleted === 'uploaded') {
+      //8. Check if any images have failed
+      setUploadCompleted(
+        files.some((file) => images[file.name]?.failed) ? 'failed' : 'uploaded'
+      );
+    }
+  }, [files, images]);
 
   return (
-    <Box className="rounded-md  border-gray-400 p-4 ">
+    <Box ref={inputRef} className="rounded-md  border-gray-400 p-4 ">
       <Box
         {...getRootProps({
-          className:
-            'flex flex-col items-center justify-center h-48 border-2 border-gray-400 border-dashed rounded-md hover:border-gray-600',
+          className: `flex flex-col items-center justify-center h-48 border-2 border-gray-400 border-dashed rounded-md hover:border-gray-600 ${
+            uploadCompleted === 'uploaded' ? 'opacity-50' : ''
+          }`,
         })}
       >
         <Input inputProps={getInputProps()} />
@@ -83,31 +102,34 @@ const ImageDropzone = ({onChange, value}) => {
             {images[file.name]?.uploadState === 'uploading' /*uploading*/ && (
               <Box className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-gray-500 bg-opacity-50  text-white">
                 <Typography variant="body2">Uploading</Typography>
-                <LinearProgress className="w-full" />
+                <LinearProgress
+                  className="w-full"
+                  value={images[file.name]?.progress || 0}
+                />
               </Box>
             )}
-            {images[file.name]?.uploadState ===
-              'uploaded' /*upload completed*/ && (
-              <Typography className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-green-500 bg-opacity-50 text-white">
-                <Check />
-              </Typography>
-            )}
-            {(images[file.name]?.uploadState !== 'uploaded' ||
-              !images[file.name]?.failed) /*upload not completed*/ && (
-              <IconButton
-                className="absolute right-0 top-0 -translate-y-1/2 translate-x-1/2 bg-red-500 p-[2px] text-white"
-                onClick={() =>
-                  setFiles(files.filter((f) => f.name !== file.name))
-                }
-              >
-                <Close className="text-lg" />
-              </IconButton>
-            )}
+            {images[file.name]?.uploadState === 'uploaded' &&
+              !images[file.name]?.failed /*upload completed*/ && (
+                <Typography className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-green-500 bg-opacity-50 text-white">
+                  <Check />
+                </Typography>
+              )}
+            {images[file.name]?.uploadState !== 'uploaded' &&
+              !images[file.name]?.failed /*upload not completed*/ && (
+                <IconButton
+                  className="absolute right-0 top-0 -translate-y-1/2 translate-x-1/2 bg-red-500 p-[2px] text-white"
+                  onClick={() =>
+                    setFiles(files.filter((f) => f.name !== file.name))
+                  }
+                >
+                  <Close className="text-lg" />
+                </IconButton>
+              )}
             <Box className="flex flex-col">
               <Box className="flex flex-grow overflow-hidden">
                 <img
                   src={file.preview}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-cover"
                   alt={file.name}
                   onLoad={() => {
                     URL.revokeObjectURL(file.preview);
@@ -118,6 +140,16 @@ const ImageDropzone = ({onChange, value}) => {
           </Box>
         ))}
       </Box>
+      <Button
+        className="mt-2"
+        variant="contained"
+        disabled={files.length === 0 || uploadCompleted === 'uploaded'}
+        onClick={() =>
+          setUploadCompleted(postCloudinary({ files, setImages, images }))
+        }
+      >
+        Upload
+      </Button>
     </Box>
   );
 };

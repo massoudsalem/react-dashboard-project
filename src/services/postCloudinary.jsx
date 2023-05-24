@@ -1,10 +1,6 @@
-import { useState } from 'react';
-//import axios from 'axios';
-
-const uploadCompleted = 0;
+import axios from 'axios';
 
 const postCloudinary = ({ files, setImages, images }) => {
-  console.log('postCloudinary');
   const formData = new FormData();
   formData.append('upload_preset', 'ms9f59ll');
 
@@ -21,61 +17,50 @@ const postCloudinary = ({ files, setImages, images }) => {
       ...prev,
       [file.name]: { ...prev[file.name], uploadState: 'uploading' },
     }));
-    console.log('formData', formData);
-    //fetch(
-    //'https://api.cloudinary.com/v1_1/djqzkpum0/image/upload',
-    //{
-    //method: 'POST',
-    //body: formData,
-    //},
-    //)
-    //.then((response) => response.json())
-    //.then((data) => {
-    //setImages((prev) => ({
-    //...prev,
-    //[file.name]: { ...prev[file.name], url: data.secure_url },
-    //}));
-    //})
-    //.catch((error) => {
-    //console.error('Error:', error);
-    //setImages((prev) => ({
-    //...prev,
-    //[file.name]: { ...prev[file.name], failed: true },
-    //}));
-    //})
-    //.finally(() => {
-    //setImages((prev) => ({
-    //...prev,
-    //[file.name]: { ...prev[file.name], uploadState: 'uploaded' },
-    //}));
-    //});
-
-    //try {
-    //const response = await axios.post(
-    //'https://api.cloudinary.com/v1_1/djqzkpum0/image/upload',
-    //formData,
-    //{
-    //onCompleted: () => {
-    //console.log(file.name, 'completed');
-    //},
-    //}
-    //);
-    //setImages((prev) => ({
-    //...prev,
-    //[file.name]: { ...prev[file.name], url: response.data.secure_url },
-    //}));
-    //} catch (err) {
-    //setImages((prev) => ({
-    //...prev,
-    //[file.name]: { ...prev[file.name], failed: true },
-    //}));
-    //} finally {
-    //setImages((prev) => ({
-    //...prev,
-    //[file.name]: { ...prev[file.name], uploadState: 'uploaded' },
-    //}));
-    //}
+    
+    try {
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/djqzkpum0/image/upload',
+        formData,
+        {
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+            setImages((prev) => ({
+              ...prev,
+              [file.name]: {
+                ...prev[file.name],
+                uploadState: 'uploading',
+                percentCompleted,
+              },
+            }));
+          },
+        },
+      );
+      setImages((prev) => ({
+        ...prev,
+        [file.name]: { ...prev[file.name], url: response.data.secure_url },
+      }));
+    } catch (error) {
+      console.error('Error:', error);
+      setImages((prev) => ({
+        ...prev,
+        [file.name]: { ...prev[file.name], failed: true },
+      }));
+      return 'failed';
+    } finally {
+      setImages((prev) => ({
+        ...prev,
+        [file.name]: { ...prev[file.name], uploadState: 'uploaded' },
+      }));
+    }
   });
+
+  let ret = files.every((file) => images[file.name]?.uploadState === 'uploaded') ? 'uploaded' : 'uploading';
+  ret = files.some((file) => images[file.name]?.failed) ? 'failed' : ret;
+  
+  return ret;
 };
 
 export default postCloudinary;
