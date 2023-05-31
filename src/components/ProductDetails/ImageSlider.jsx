@@ -11,7 +11,7 @@ const ImageSlider = ({ dataImages }) => {
   };
 
   return (
-    <Grid className="flex items-center flex-col w-2/5">
+    <Grid className="flex w-2/5 flex-col items-center">
       <Box className="w-full">
         <img
           src={dataImages[imageIndex]}

@@ -1,5 +1,22 @@
-import { Logout as LogoutIcon, MoreVert as MoreIcon, Menu as MenuIcon, ShoppingCart as ShoppingCartIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon } from '@mui/icons-material';
-import { Badge, Box, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import {
+  Logout as LogoutIcon,
+  MoreVert as MoreIcon,
+  Menu as MenuIcon,
+  ShoppingCart as ShoppingCartIcon,
+  Notifications as NotificationsIcon,
+  AccountCircle as AccountCircleIcon,
+} from '@mui/icons-material';
+import {
+  Badge,
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -19,17 +36,11 @@ const MoreMenu = () => {
   return (
     <Box className="flex md:hidden">
       <Tooltip title="Account settings">
-        <IconButton
-          onClick={handleClick}
-        >
+        <IconButton onClick={handleClick}>
           <MoreIcon />
         </IconButton>
       </Tooltip>
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClick={handleClose}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClick={handleClose}>
         <MenuItem component={Link} to="/" onClick={handleClose}>
           <ListItemIcon>
             <AccountCircleIcon />

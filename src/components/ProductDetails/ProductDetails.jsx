@@ -7,19 +7,17 @@ import {
   Stack,
   Typography,
   Icon,
-  Tab,
-  Tabs,
   Table,
   TableBody,
   TableCell,
   TableRow,
   TableContainer,
 } from '@mui/material';
-import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../services/FakeApi';
 import ImageSlider from './ImageSlider';
+import {CustomTabs} from '..';
 
 class BoxInfo {
   constructor(icon, title, dataName) {
@@ -36,12 +34,6 @@ const rows = [
   createData('Color', 'Blue'),
 ];
 
-const TabPanel = ({ children, index, tabValue }) =>
-  //eslint-disable-next-line implicit-arrow-linebreak
-  tabValue === index && (
-    <Box className="border border-gray-700">{children}</Box>
-  );
-
 const boxesInfo = [
   new BoxInfo('monetization_on_sharp', 'price', 'price'),
   new BoxInfo('library_books_icon', 'No. of Orders', 'discountPercentage'),
@@ -49,8 +41,8 @@ const boxesInfo = [
 ];
 
 const ProductInfoBox = ({ icon, title, subtitle }) => (
-  <Box className="px-4 py-2 border border-dashed border-gray-300 flex gap-6 items-center justify-between">
-    <Icon className="flex-grow text-teal-500 text-3xl">{icon}</Icon>
+  <Box className="flex items-center justify-between gap-6 border border-dashed border-gray-300 px-4 py-2">
+    <Icon className="flex-grow text-3xl text-teal-500">{icon}</Icon>
     <Box className="flex-grow">
       <Typography variant="body1">{title}</Typography>
       <Typography variant="h6">{subtitle}</Typography>
@@ -59,16 +51,15 @@ const ProductInfoBox = ({ icon, title, subtitle }) => (
 );
 
 const ProductDetails = () => {
-  const [tabValue, setTabValue] = useState(0);
   const { id } = useParams();
   const { data, isLoading } = useGetProductByIdQuery(id);
   const theme = useTheme();
 
-  const handleTabsChange = (event, newValue) => setTabValue(newValue);
+  const tabLabels = ['Specification', 'Details'];
 
   return (
     !isLoading && (
-      <Box className="flex gap-20 p-20">
+      <Box className="flex flex-col gap-20 p-20 xl:flex-row">
         <ImageSlider dataImages={data.images} />
         <Grid>
           <h1>details</h1>
@@ -78,15 +69,13 @@ const ProductDetails = () => {
             spacing={2}
           >
             <Paper elevation={0} sx={{ color: theme.palette.info.dark }}>
-              {' '}
               <a className="text-inherit no-underline" href="/#">
                 brand name
               </a>
             </Paper>
             <Paper elevation={0}> seller: &quot;name&quot; </Paper>
             <Paper elevation={0} sx={{ color: 'gray' }}>
-              {' '}
-              Published: &quot;date&quot;{' '}
+              Published: &quot;date&quot;
             </Paper>
           </Stack>
           <Rating
@@ -114,42 +103,28 @@ const ProductDetails = () => {
           </Box>
           <Box className="my-6">
             <Typography variant="h6">Product Description :</Typography>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs
-                value={tabValue}
-                onChange={handleTabsChange}
-                textColor="secondary"
-                indicatorColor="secondary"
-              >
-                <Tab label="Specification" />
-                <Tab label="Details" />
-              </Tabs>
-            </Box>
-            <Box className="border-2 p-5 border-spacing-4 border-red-700">
-              <TabPanel tabValue={tabValue} index={0}>
-                <TableContainer>
-                  <Table>
-                    <TableBody>
-                      {rows.map((row) => (
-                        <TableRow
-                          sx={{
-                            '&:last-child td, &:last-child th': { border: 0 },
-                          }}
-                        >
-                          <TableCell className="font-bold">
-                            {row.name}:
-                          </TableCell>
-                          <TableCell>{row.value}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </TabPanel>
-              <TabPanel tabValue={tabValue} index={1}>
-                {data.description}
-              </TabPanel>
-            </Box>
+            <CustomTabs labels={tabLabels}>
+              {/*Tabs Child 1*/}
+              <TableContainer>
+                <Table>
+                  <TableBody>
+                    {rows.map((row, idx) => (
+                      <TableRow
+                        key={idx}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell className="font-bold">{row.name}:</TableCell>
+                        <TableCell>{row.value}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {/*Tabs Child 2*/}
+              {data.description}
+            </CustomTabs>
           </Box>
         </Grid>
       </Box>

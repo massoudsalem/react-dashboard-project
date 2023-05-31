@@ -28,26 +28,27 @@ const ToggleColorMode = ({ children }) => {
   );
 
   const theme = useMemo(
-    () => createTheme({
-      palette: {
-        mode: sessionStorage.getItem('color_mode'),
-        ...(sessionStorage.getItem('color_mode') === 'light'
-          ? {
-            primary: {
-              main: '#fff',
-            },
-            secondary: {
-              main: '#202020',
-            },
-          }
-          : {
-            primary: {
-              main: '#000',
-              contrastText: '#fff',
-            },
-          }),
-      },
-    }),
+    () =>
+      createTheme({
+        palette: {
+          mode: sessionStorage.getItem('color_mode'),
+          //...(sessionStorage.getItem('color_mode') === 'light'
+          //? {
+          //primary: {
+          //main: '#fff',
+          //},
+          //secondary: {
+          //main: '#202020',
+          //},
+          //}
+          //: {
+          //primary: {
+          //main: '#000',
+          //contrastText: '#fff',
+          //},
+          //}),
+        },
+      }),
     [mode],
   );
   return (

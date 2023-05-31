@@ -25,7 +25,7 @@ export const fakeApi = createApi({
       query: (id) => `products/${id}`,
     }),
     getCustomers: builder.query({
-      query: () => 'users',
+      query: () => 'users?limit=100',
     }),
     getCategories: builder.query({
       query: () => 'products/categories',

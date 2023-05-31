@@ -7,5 +7,6 @@ export const store = configureStore({
     [fakeStoreApi.reducerPath]: fakeStoreApi.reducer,
     [fakeApi.reducerPath]: fakeApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(fakeStoreApi.middleware, fakeApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(fakeStoreApi.middleware, fakeApi.middleware),
 });

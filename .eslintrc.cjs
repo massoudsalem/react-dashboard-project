@@ -9,13 +9,14 @@ module.exports = {
     'plugin:import/errors',
     'plugin:jsx-a11y/recommended',
     'plugin:react-hooks/recommended',
+    'prettier',
   ],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', 'prefer-arrow'],
+  plugins: ['react', 'prefer-arrow', 'prettier'],
   rules: {
     'prefer-arrow/prefer-arrow-functions': [
       'error',
@@ -61,5 +62,6 @@ module.exports = {
     'react/jsx-no-duplicate-props': [0, { ignoreCase: 1 }],
     camelcase: 0,
     'operator-linebreak': 0,
+    'arrow-body-style': 0,
   },
 };
