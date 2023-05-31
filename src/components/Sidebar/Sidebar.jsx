@@ -81,10 +81,10 @@ const Sidebar = ({ open, changeWidth }) => {
         <List>
           {buttons.map(({ name, icon, link }) => (
             <ListItem component={Link} to={link} button key={name}>
-              <ListItemIcon>
+              <ListItemIcon className="min-w-[24px]">
                 <Icon>{icon}</Icon>
               </ListItemIcon>
-              {open && <ListItemText primary={name} className="m-0 p-0" />}
+              {open && <ListItemText primary={name} className="m-0 ml-8 p-0" />}
             </ListItem>
           ))}
         </List>

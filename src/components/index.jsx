@@ -14,3 +14,4 @@ export { default as Reports } from './Reports/Reports';
 export { default as CreateProduct } from './CreateProduct/CreateProduct';
 export { default as ImageDropzone } from './ImageDropzone/ImageDropzone';
 export { default as CustomTabs } from './CustomTabs/CustomTabs';
+export { default as ImageUpload } from './ImageUpload/ImageUpload';

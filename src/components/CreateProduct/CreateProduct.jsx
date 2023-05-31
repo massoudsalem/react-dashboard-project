@@ -1,5 +1,5 @@
 //TODO: Refactor this component
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
@@ -12,12 +12,12 @@ import {
   CircularProgress,
   Button,
   Alert,
+  Divider,
 } from '@mui/material';
 //import { Markup } from 'interweave';
 import { useForm, Controller } from 'react-hook-form';
-import { ImageDropzone, CustomTabs } from '..';
+import { ImageDropzone, CustomTabs, ImageUpload } from '..';
 import { useGetCategoriesQuery } from '../../services/FakeApi';
-import { publish } from '../../events/events';
 
 export const BasicAlerts = ({ message }) => {
   return (
@@ -66,10 +66,6 @@ export const InputWithController = ({
   </Box>
 );
 
-const uploadImages = () => {
-  publish('upload');
-};
-
 const CategorySelect = ({ inputRef, ...rest }) => {
   const {
     data: categories,
@@ -87,15 +83,13 @@ const CategorySelect = ({ inputRef, ...rest }) => {
     return <h1> Sorry, Something went wrong.. </h1>;
   }
   return (
-    <Box className="flex flex-grow flex-col gap-1">
-      <Select inputProps={{ ...rest, inputRef }}>
-        {categories.map((c) => (
-          <MenuItem key={c} value={c}>
-            {c}
-          </MenuItem>
-        ))}
-      </Select>
-    </Box>
+    <Select className='w-full' inputProps={{ ...rest, inputRef }}>
+      {categories.map((c) => (
+        <MenuItem key={c} value={c}>
+          {c}
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
 
@@ -104,7 +98,7 @@ const CreateProduct = () => {
     handleSubmit,
     control,
     formState: { errors },
-    getValues,
+    //getValues,
   } = useForm({
     defaultValues: {
       title: '',
@@ -118,17 +112,12 @@ const CreateProduct = () => {
       images: { urls: [], status: 'ready' },
       orders: '',
       manufacturerName: '',
-      manufacturerBrand: '',
-      metaTitle: '',
-      metaDescription: '',
-      metaKeywords: '',
     },
   });
 
-  //console.log(upload[0]);
   return (
-    //eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <form
+      className="grid-col-2 grid md:grid-cols-3"
       onSubmit={handleSubmit(
         (data) => {
           console.log(data);
@@ -136,9 +125,11 @@ const CreateProduct = () => {
         (err) => console.log(err),
       )}
     >
-      <Box component={Paper} className="m-2 p-4">
+      {/*Rich text*/}
+      <Box component={Paper} className="col-span-2 flex flex-col m-2 p-4 md:col-span-2 md:row-span-2">
         <InputWithController
           label="Product Title"
+          className="flex-grow-0"
           name="title"
           placeholder="Enter Product Title"
           control={control}
@@ -167,8 +158,55 @@ const CreateProduct = () => {
           <BasicAlerts message="description is required" />
         )}
       </Box>
-      <Box component={Paper} className="m-2 p-4">
-        <Typography variant="subtitle2">Product Images</Typography>
+      {/*Categories*/}
+      <Box
+        component={Paper}
+        className="m-2 p-4 md:col-span-1 md:row-span-1"
+      >
+        <Typography variant="h6">Product Category</Typography>
+        <Divider className="-mx-4 my-2" />
+        <Typography variant="body2">Select Product Category</Typography>
+        <Controller
+          name="category"
+          rules={{ required: true }}
+          control={control}
+          render={({ field }) => {
+            const { ref, ...rest } = field;
+            return <CategorySelect inputRef={ref} {...rest} />;
+          }}
+        />
+        {errors.category?.type === 'required' && (
+          <BasicAlerts message="category is required" />
+        )}
+      </Box>
+      {/*main product image*/}
+      <Box
+        component={Paper}
+        className="row-span-1 m-2 p-4 md:col-span-1 md:row-span-1"
+      >
+        <Typography variant="h6">Product Thumbnail</Typography>
+        <Divider className="-mx-4 my-2" />
+        <Typography variant="body2">Upload Product Thumbnail</Typography>
+        <Controller
+          name="thumbnail"
+          rules={{ required: true }}
+          control={control}
+          render={({ field }) => {
+            const { ref, ...rest } = field;
+            return (
+              <ImageUpload
+                inputRef={ref}
+                {...rest}
+                errors={errors}
+              />
+            );
+          }}
+        />
+      </Box>
+      {/*image Dropzone*/}
+      <Box component={Paper} className="col-span-2 m-2 p-4 md:col-span-3 md:row-span-2">
+        <Typography variant="h6">Product Images</Typography>
+        <Divider className="-mx-4 my-2" />
         <Typography variant="body2">Upload Product Images</Typography>
         <Controller
           name="images"
@@ -195,86 +233,73 @@ const CreateProduct = () => {
           <BasicAlerts message="upload images" />
         )}
       </Box>
-      <CustomTabs labels={['General info']}>
-        <Box>
-          <Box component={Paper} className="m-2 flex flex-col gap-6 p-4">
-            <Box className="flex flex-row flex-wrap gap-6">
-              <InputWithController
-                label="Manufacturer Name"
-                name="manufacturerName"
-                placeholder="Enter Manufacturer Name"
-                control={control}
-                rules={{ required: true }}
-                errors={errors}
-              />
-              <InputWithController
-                label="Manufacturer Brand"
-                name="manufacturerBrand"
-                placeholder="Enter Manufacturer Brand"
-                control={control}
-                rules={{ required: true }}
-                errors={errors}
-              />
-            </Box>
-            <Box className="flex flex-row flex-wrap gap-6">
-              <InputWithController
-                label="Stock"
-                name="stock"
-                placeholder="stock"
-                control={control}
-                rules={{ required: true }}
-                errors={errors}
-                inputProps={{ type: 'number', min: 0 }}
-              />
-              <InputWithController
-                label="Price"
-                name="price"
-                placeholder="Enter Price"
-                control={control}
-                rules={{ required: true }}
-                inputProps={{ type: 'number', min: 0 }}
-                errors={errors}
-              />
-              <InputWithController
-                label="Discount"
-                name="discountPercentage"
-                placeholder="Enter Discount"
-                inputProps={{ type: 'number', min: 0, max: 100 }}
-                control={control}
-                rules={{ required: true, min: 0, max: 100 }}
-                errors={errors}
-              />
-              <InputWithController
-                label="Orders"
-                name="orders"
-                placeholder="Orders"
-                control={control}
-                rules={{ required: true }}
-                errors={errors}
-                inputProps={{ type: 'number', min: 0 }}
-              />
+      {/*info*/}
+      <Box component={Paper} className="col-span-2 m-2 p-4 md:col-span-3 md:row-span-3">
+        <CustomTabs labels={['General info']}>
+          <Box>
+            <Box className="m-2 flex flex-col gap-6 p-4">
+              <Box className="flex flex-row flex-wrap gap-6">
+                <InputWithController
+                  label="Manufacturer Name"
+                  name="manufacturerName"
+                  placeholder="Enter Manufacturer Name"
+                  control={control}
+                  rules={{ required: true }}
+                  errors={errors}
+                />
+                <InputWithController
+                  label="Brand"
+                  name="brand"
+                  placeholder="Brand"
+                  control={control}
+                  rules={{ required: true }}
+                  errors={errors}
+                />
+              </Box>
+              <Box className="flex flex-row flex-wrap gap-6">
+                <InputWithController
+                  label="Stock"
+                  name="stock"
+                  placeholder="stock"
+                  control={control}
+                  rules={{ required: true }}
+                  errors={errors}
+                  inputProps={{ type: 'number', min: 0 }}
+                />
+                <InputWithController
+                  label="Price"
+                  name="price"
+                  placeholder="Enter Price"
+                  control={control}
+                  rules={{ required: true }}
+                  inputProps={{ type: 'number', min: 0 }}
+                  errors={errors}
+                />
+                <InputWithController
+                  label="Discount"
+                  name="discountPercentage"
+                  placeholder="Enter Discount"
+                  inputProps={{ type: 'number', min: 0, max: 100 }}
+                  control={control}
+                  rules={{ required: true, min: 0, max: 100 }}
+                  errors={errors}
+                />
+                <InputWithController
+                  label="Orders"
+                  name="orders"
+                  placeholder="Orders"
+                  control={control}
+                  rules={{ required: true }}
+                  errors={errors}
+                  inputProps={{ type: 'number', min: 0 }}
+                />
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </CustomTabs>
-      <Box component={Paper} className="m-2 p-4">
-        <Typography variant="h6">Product Category</Typography>
-        <Typography variant="body2">Select Product Category</Typography>
-        <Controller
-          name="category"
-          rules={{ required: true }}
-          control={control}
-          render={({ field }) => {
-            const { ref, ...rest } = field;
-            return <CategorySelect inputRef={ref} {...rest} />;
-          }}
-        />
-        {errors.category?.type === 'required' && (
-          <BasicAlerts message="category is required" />
-        )}
+        </CustomTabs>
       </Box>
-      <input type="submit" />
-      <Button variant="contained" color="primary" type="submit">
+
+      <Button className='w-48' variant="contained" color="primary" type="submit">
         Submit
       </Button>
     </form>

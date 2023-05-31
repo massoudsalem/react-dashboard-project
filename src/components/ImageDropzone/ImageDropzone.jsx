@@ -11,13 +11,13 @@ import {
 import { useDropzone } from 'react-dropzone';
 import postCloudinary from '../../services/postCloudinary';
 
-const ImageDropzone = ({ onChange, inputRef }) => {
+const ImageDropzone = ({ onChange, inputRef, maxFiles = 4 }) => {
   const [files, setFiles] = useState([]);
   const [images, setImages] = useState({});
   const [uploadCompleted, setUploadCompleted] = useState('ready');
   //setUploadCompleted(postCloudinary({ files, setImages }));
   const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 4,
+    maxFiles,
     disabled: uploadCompleted === 'uploaded' /*disable on upload completed*/,
     accept: {
       'image/*': ['.png', '.gif', '.jpeg', '.jpg', '.avif'],
@@ -60,7 +60,7 @@ const ImageDropzone = ({ onChange, inputRef }) => {
       setUploadCompleted(
         files.every((file) => images[file.name]?.uploadState === 'uploaded')
           ? 'uploaded'
-          : 'uploading'
+          : 'uploading',
       );
     }
 
@@ -68,7 +68,7 @@ const ImageDropzone = ({ onChange, inputRef }) => {
     if (uploadCompleted === 'uploaded') {
       //8. Check if any images have failed
       setUploadCompleted(
-        files.some((file) => images[file.name]?.failed) ? 'failed' : 'uploaded'
+        files.some((file) => images[file.name]?.failed) ? 'failed' : 'uploaded',
       );
     }
   }, [files, images]);
@@ -77,7 +77,7 @@ const ImageDropzone = ({ onChange, inputRef }) => {
     <Box ref={inputRef} className="rounded-md  border-gray-400 p-4 ">
       <Box
         {...getRootProps({
-          className: `flex flex-col items-center justify-center h-48 border-2 border-gray-400 border-dashed rounded-md hover:border-gray-600 ${
+          className: `p-2 flex flex-col items-center justify-center h-48 border-2 border-gray-400 border-dashed rounded-md hover:border-gray-600 ${
             uploadCompleted === 'uploaded' ? 'opacity-50' : ''
           }`,
         })}
