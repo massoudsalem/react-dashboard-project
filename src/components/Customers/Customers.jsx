@@ -15,6 +15,7 @@ import {
   useUpdateUserMutation,
 } from '../../services/FakeApi';
 import { EditForm } from '..';
+import TextContent from '../TextContent/TextContent';
 
 const tableHeadings = [
   {
@@ -53,24 +54,6 @@ const Actions = ({ id, handleDelete, handleOpen }) => (
     </IconButton>
   </Box>
 );
-//const mockData = [
-//{
-//id: 1,
-//name: 'John Doe',
-//phone: '1234567890',
-//email: 'email@email.com',
-//birthday: '22-02-1999',
-//actions: <Actions />,
-//},
-//{
-//id: 2,
-//name: 'John Doe',
-//phone: '1234567890',
-//email: 'email@email.com',
-//birthday: '22-02-1999',
-//actions: <Actions />,
-//},
-//];
 
 const Customers = () => {
   const { data: customersData, isLoading, error } = useGetCustomersQuery();
@@ -125,10 +108,10 @@ const Customers = () => {
   }
   const rows = customers.map((customer) => ({
     id: customer.id,
-    name: `${customer.firstName} ${customer.lastName}`,
-    phone: customer.phone,
-    email: customer.email,
-    birthDate: customer.birthDate,
+    name: <TextContent content={`${customer.firstName} ${customer.lastName}`} width={100} warp/>,
+    phone: <TextContent content={customer.phone} width={130}/>,
+    email: <TextContent content={customer.email} width={180} warp/>,
+    birthDate: <TextContent content={customer.birthDate} width={100}/>,
     actions: (
       <Actions
         id={customer.id}
