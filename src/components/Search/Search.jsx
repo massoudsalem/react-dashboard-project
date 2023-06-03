@@ -2,26 +2,33 @@ import { SearchRounded } from '@mui/icons-material';
 import { alpha, InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 
-const Search = () => (
+const Search = ({
+  className = '',
+  onKeyDown = () => {},
+  onChange = () => {},
+  color = 'primary.contrastText',
+}) => (
   <TextField
+    className={className}
+    onKeyDown={onKeyDown}
+    onChange={onChange}
     sx={{
       '& .MuiOutlinedInput-root': {
         '& fieldset': {
-          borderColor: (theme) =>
-            alpha(theme.palette.primary.contrastText, 0.5),
+          borderColor: color,
         },
         '&:hover fieldset': {
-          borderColor: 'primary.contrastText',
+          borderColor: color,
         },
         '&.Mui-focused fieldset': {
-          borderColor: 'primary.contrastText',
+          borderColor: color,
         },
       },
     }}
     inputProps={{ className: 'py-2' }}
     InputProps={{
       startAdornment: (
-        <InputAdornment sx={{ color: 'primary.contrastText' }} position="start">
+        <InputAdornment sx={{ color }} position="start">
           <SearchRounded />
         </InputAdornment>
       ),
