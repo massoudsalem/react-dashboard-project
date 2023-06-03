@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-const DataTable = ({ columns, rows, rowOnClick = null }) => {
+const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
@@ -29,7 +29,7 @@ const DataTable = ({ columns, rows, rowOnClick = null }) => {
     page * rowsPerPage + rowsPerPage,
   );
   return (
-    <TableContainer component={Paper} className="min-h-0">
+    <TableContainer component={Paper} className={`min-h-0 ${className}`}>
       <Table>
         <TableHead>
           <TableRow>
@@ -41,7 +41,7 @@ const DataTable = ({ columns, rows, rowOnClick = null }) => {
         <TableBody>
           {viableRows.map((data) => (
             <TableRow
-              className={`${rowOnClick ? 'hover:cursor-pointer' : ''}`}
+              className={`${rowOnClick ? 'hover:cursor-pointer hover:opacity-60' : ''}`}
               key={data.id}
               onClick={rowOnClick ? () => rowOnClick(data.id) : null}
             >

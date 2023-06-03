@@ -1,15 +1,39 @@
-import { Box, CircularProgress } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Skeleton,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../../services/FakeApi';
 import DataTable from '../DataTable/DataTable';
 import FilterSection from '../FiltersSection/FilterSection';
+import TextContent from '../TextContent/TextContent';
 
-const Image = ({ src }) => (
-  <Box className="flex items-center justify-center p-1">
-    <img src={src} alt="product" width="100%" height="80px" />
-  </Box>
-);
+const Image = ({ src }) => {
+  const [loading, setLoading] = useState(true);
+  return (
+    <Box className="flex h-[90px] w-[120px] items-center justify-center overflow-hidden p-1">
+      {loading && (
+        <Skeleton
+          variant="rectangular"
+          width={120}
+          height={90}
+          animation="wave"
+        />
+      )}
+      <img
+        onLoad={() => setLoading(false)}
+        className={`max-h-[90px] max-w-[120px] object-contain ${
+          loading ? 'hidden' : ''
+        }`}
+        src={src}
+        alt="product"
+      />
+    </Box>
+  );
+};
+
 
 const Products = () => {
   //const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
@@ -30,44 +54,6 @@ const Products = () => {
     );
   }
 
-  //useEffect(() => {
-  //if (productsData) {
-  //setProducts(productsData.products);
-  //}
-  //}, [productsLoading]);
-
-  //console.log(productsLoading);
-  //if (products.length <= 0 && productsLoading) {
-  //return (
-  //<Box display="flex" justifyContent="center">
-  //<CircularProgress size="4rem" />
-  //</Box>
-  //);
-  //}
-  //if (productsError) {
-  //return (
-  //<h1> Sorry, Something went wrong.. </h1>
-  //);
-  //}
-
-  //const products = productsData.products || [];
-  //const columns = [
-  //{ field: 'title', headerName: 'Title' },
-  //{ field: 'price', headerName: 'Price' },
-  //{ field: 'category', headerName: 'Category' },
-  //{ field: 'description', headerName: 'Description' },
-  //{ field: 'image',
-  //headerName: 'Image',
-  //width: 130,
-  //renderCell: (params) => (
-  //<Box className="flex justify-center items-center p-1">
-  //<img src={params.value} alt="product" width="100%" height="80px" />
-  //</Box>
-  //),
-  //cellClassName: 'justify-center',
-  //},
-  //{ field: 'rating', headerName: 'Rating' },
-  //];
   const columns = [
     { name: 'Title', id: 'title' },
     { name: 'Price', id: 'price' },
@@ -79,21 +65,27 @@ const Products = () => {
 
   const rows = products.map((product) => ({
     id: product.id,
-    title: product.title,
-    price: `${product.price} $`,
-    category: product.category,
-    description: product.description,
+    title: <TextContent content={product.title} width={100} warp />,
+    price: <TextContent content={`${product.price}$`} width={50} disableTooltip/>,
+    category: <TextContent content={product.category} width={120} />,
+    description: <TextContent content={product.description} width={170} />,
     image: <Image src={product.thumbnail} />,
     rating: `⭐️${product.rating}`,
   }));
   return (
     //TODo:fix flex starching
+
     <Box className="flex flex-col md:flex-row">
-      <FilterSection data={productsData.products} setProducts={setProducts} />
+      <FilterSection
+        data={productsData.products}
+        setProducts={setProducts}
+        className="mb-4 md:mb-0 md:mr-4 md:w-[220px]"
+      />
       <DataTable
         rows={rows}
         columns={columns}
         rowOnClick={(id) => navigate(`/product/${id}`)}
+        className="mr-2 flex-grow"
       />
     </Box>
   );

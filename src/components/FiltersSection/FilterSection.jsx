@@ -25,7 +25,7 @@ const RadioElement = ({ value, label }) => (
   />
 );
 
-const FilterSection = ({ setProducts, data }) => {
+const FilterSection = ({ setProducts, data, className='' }) => {
   //TODo: make a const for min and max price
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('oldest');
@@ -81,7 +81,7 @@ const FilterSection = ({ setProducts, data }) => {
   return (
     <Paper
       variant="outlined"
-      className="mr-4 flex min-w-[220px] flex-col gap-2 p-4"
+      className={`flex min-w-[220px] flex-col gap-2 p-4 ${className}`}
     >
       <Typography variant="h5" className="mb-4">
         {' '}
