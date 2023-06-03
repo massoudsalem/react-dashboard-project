@@ -22,30 +22,29 @@ s{
 }
 
 .ck-editor__editable {
-    min-height: 200px;
-    min-width: 200px;
-    max-width: 768px;
+    @apply min-h-[200px];
+    
 }
 .ck-editor__top {
-    border: 1px solid #e2e8f0;
-    border-radius: 0.375rem;
-    min-width: 200px;
-    max-width: 768px;
+    @apply border-b-2 border-gray-300;
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    /* width: 8px; */
+    @apply w-2;
 }
 /* header{
     padding: 0 !important;
 } */
 
 ::-webkit-scrollbar-track {
-    background: #cfcfcf;
+    /* background: #cfcfcf; */
+    @apply bg-gray-200;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #a5a5a5;
+    /* background: #a5a5a5; */
+    @apply bg-gray-400;
 }
 
 * {

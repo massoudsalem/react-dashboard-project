@@ -83,7 +83,7 @@ const CategorySelect = ({ inputRef, ...rest }) => {
     return <h1> Sorry, Something went wrong.. </h1>;
   }
   return (
-    <Select className='w-full' inputProps={{ ...rest, inputRef }}>
+    <Select className="w-full" inputProps={{ ...rest, inputRef }}>
       {categories.map((c) => (
         <MenuItem key={c} value={c}>
           {c}
@@ -117,7 +117,7 @@ const CreateProduct = () => {
 
   return (
     <form
-      className="grid-col-2 grid md:grid-cols-3"
+      className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
       onSubmit={handleSubmit(
         (data) => {
           console.log(data);
@@ -126,7 +126,10 @@ const CreateProduct = () => {
       )}
     >
       {/*Rich text*/}
-      <Box component={Paper} className="col-span-2 flex flex-col m-2 p-4 md:col-span-2 md:row-span-2">
+      <Box
+        component={Paper}
+        className="m-2 flex flex-col p-4 col-span-1 md:col-span-2 lg:row-span-2"
+      >
         <InputWithController
           label="Product Title"
           className="flex-grow-0"
@@ -159,10 +162,7 @@ const CreateProduct = () => {
         )}
       </Box>
       {/*Categories*/}
-      <Box
-        component={Paper}
-        className="m-2 p-4 md:col-span-1 md:row-span-1"
-      >
+      <Box component={Paper} className="m-2 p-4">
         <Typography variant="h6">Product Category</Typography>
         <Divider className="-mx-4 my-2" />
         <Typography variant="body2">Select Product Category</Typography>
@@ -182,7 +182,7 @@ const CreateProduct = () => {
       {/*main product image*/}
       <Box
         component={Paper}
-        className="row-span-1 m-2 p-4 md:col-span-1 md:row-span-1"
+        className="m-2 p-4"
       >
         <Typography variant="h6">Product Thumbnail</Typography>
         <Divider className="-mx-4 my-2" />
@@ -193,18 +193,15 @@ const CreateProduct = () => {
           control={control}
           render={({ field }) => {
             const { ref, ...rest } = field;
-            return (
-              <ImageUpload
-                inputRef={ref}
-                {...rest}
-                errors={errors}
-              />
-            );
+            return <ImageUpload inputRef={ref} {...rest} errors={errors} />;
           }}
         />
       </Box>
       {/*image Dropzone*/}
-      <Box component={Paper} className="col-span-2 m-2 p-4 md:col-span-3 md:row-span-2">
+      <Box
+        component={Paper}
+        className="m-2 p-4 col-span-1 md:col-span-2 lg:col-span-3"
+      >
         <Typography variant="h6">Product Images</Typography>
         <Divider className="-mx-4 my-2" />
         <Typography variant="body2">Upload Product Images</Typography>
@@ -234,7 +231,10 @@ const CreateProduct = () => {
         )}
       </Box>
       {/*info*/}
-      <Box component={Paper} className="col-span-2 m-2 p-4 md:col-span-3 md:row-span-3">
+      <Box
+        component={Paper}
+        className="m-2 p-4 col-span-1 md:col-span-2 lg:col-span-3"
+      >
         <CustomTabs labels={['General info']}>
           <Box>
             <Box className="m-2 flex flex-col gap-6 p-4">
@@ -299,7 +299,12 @@ const CreateProduct = () => {
         </CustomTabs>
       </Box>
 
-      <Button className='w-48' variant="contained" color="primary" type="submit">
+      <Button
+        className="w-48"
+        variant="contained"
+        color="primary"
+        type="submit"
+      >
         Submit
       </Button>
     </form>
