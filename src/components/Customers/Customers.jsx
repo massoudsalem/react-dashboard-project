@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   IconButton,
   Modal,
@@ -15,8 +16,7 @@ import {
   useGetCustomersQuery,
   useUpdateUserMutation,
 } from '../../services/FakeApi';
-import { EditForm, Search } from '..';
-import TextContent from '../TextContent/TextContent';
+import { EditForm, Search, TextContent } from '..';
 
 const tableHeadings = [
   {
@@ -40,6 +40,36 @@ const tableHeadings = [
     id: 'actions',
   },
 ];
+
+const EditModal = ({ open, handleClose, handleUpdate, editData }) => (
+  <Modal
+    open={open}
+    onClose={handleClose}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <Box
+      component={Paper}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.8,
+        boxShadow: 24,
+        p: 4,
+      }}
+    >
+      <EditForm
+        editData={editData}
+        handleUpdate={handleUpdate}
+        handleClose={handleClose}
+      />
+    </Box>
+  </Modal>
+);
 
 const Actions = ({ id, handleDelete, handleOpen }) => (
   <Box className="flex">
@@ -65,6 +95,52 @@ const Customers = () => {
   const [editData, setEditData] = useState({});
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+
+  useEffect(() => {
+    if (customersData) {
+      setCustomers(customersData.users);
+    }
+  }, [customersData]);
+
+  useEffect(() => {
+    setVisibleCustomers(customers);
+  }, [customers]);
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      const searchValue = e.target.value;
+      setVisibleCustomers(
+        customers.filter(
+          (customer) =>
+            customer.firstName
+              .trim()
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()) ||
+            customer.lastName
+              .trim()
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()) ||
+            customer.email
+              .trim()
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()) ||
+            customer.phone
+              .trim()
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()) ||
+            `${customer.firstName} ${customer.lastName}`
+              .trim()
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()) ||
+            `${customer.lastName} ${customer.firstName}`
+              .trim()
+              .toLowerCase()
+              .includes(searchValue.trim().toLowerCase()),
+        ),
+      );
+    }
+  };
+
   const handleOpen = (id) => {
     setOpen(true);
     const toUpdateData = customers.filter((customer) => customer.id === id);
@@ -92,15 +168,7 @@ const Customers = () => {
     setCustomers(newCustomers);
   };
 
-  useEffect(() => {
-    if (customersData) {
-      setCustomers(customersData.users);
-    }
-  }, [customersData]);
 
-  useEffect(() => {
-    setVisibleCustomers(customers);
-  }, [customers]);
 
   if (isLoading) {
     return (
@@ -134,53 +202,16 @@ const Customers = () => {
   }));
   return (
     <Box>
-      <Modal
+      <EditModal
         open={open}
-        onClose={handleClose}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Box
-          component={Paper}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bgcolor: alpha(theme.palette.background.paper, 0.8),
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <EditForm
-            editData={editData}
-            handleUpdate={handleUpdate}
-            handleClose={handleClose}
-          />
-        </Box>
-      </Modal>
-      {/*<Box className="bg-black w-4 h-4" />*/}
+        handleClose={handleClose}
+        handleUpdate={handleUpdate}
+        editData={editData}
+      />
       <Search
         className="mb-4 w-full"
         color={theme.palette.primary}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            const searchValue = e.target.value;
-            setVisibleCustomers(
-              customers.filter(
-                (customer) =>
-                  customer.firstName.trim().toLowerCase().includes(searchValue.trim().toLowerCase()) ||
-                  customer.lastName.trim().toLowerCase().includes(searchValue.trim().toLowerCase()) ||
-                  customer.email.trim().toLowerCase().includes(searchValue.trim().toLowerCase()) ||
-                  customer.phone.trim().toLowerCase().includes(searchValue.trim().toLowerCase()) ||
-                  `${customer.firstName} ${customer.lastName}`.trim().toLowerCase().includes(searchValue.trim().toLowerCase()) ||
-                  `${customer.lastName} ${customer.firstName}`.trim().toLowerCase().includes(searchValue.trim().toLowerCase()),
-              ),
-            );
-          }
-        }}
+        onKeyDown={handleSearch}
         onChange={(e) => {
           if (e.target.value === '') {
             setVisibleCustomers(customers);
