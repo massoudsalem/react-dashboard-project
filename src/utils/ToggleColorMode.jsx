@@ -7,6 +7,8 @@ import {
 
 export const ColorModeContext = createContext(null);
 
+export const useColorMode = () => React.useContext(ColorModeContext);
+
 const ToggleColorMode = ({ children }) => {
   const [mode, setMode] = useState(
     sessionStorage.getItem('color_mode') || 'light',

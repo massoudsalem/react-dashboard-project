@@ -4,6 +4,7 @@ import {
   Box,
   IconButton,
   Toolbar,
+  useMediaQuery,
   useTheme,
 } from '@mui/material';
 import {
@@ -15,9 +16,9 @@ import {
   Brightness7,
   ArrowForward as ArrowForwardIcon,
 } from '@mui/icons-material';
-import React, { useContext } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Search, MoreMenu } from '..';
-import { ColorModeContext } from '../../utils/ToggleColorMode';
+import { useColorMode } from '../../utils/ToggleColorMode';
 import Sidebar from '../Sidebar/Sidebar';
 
 const NavbarIcons = () => (
@@ -42,8 +43,14 @@ const Navbar = ({ changeWidth, openState }) => {
   //TODO: add Transition for menu icon
   const { drawerOpen, setDrawerOpen } = openState;
   const { openWidth, closedWidth } = changeWidth;
-  const { toggleColorMode } = useContext(ColorModeContext);
+  const { toggleColorMode } = useColorMode();
   const theme = useTheme();
+  const smScreen = useMediaQuery('(max-width: 768px)');
+  useLayoutEffect(() => {
+    if (smScreen) {
+      setDrawerOpen(false);
+    }
+  }, [smScreen, setDrawerOpen]);
   return (
     <>
       <AppBar className="py-2">
@@ -54,7 +61,7 @@ const Navbar = ({ changeWidth, openState }) => {
           className="transition-all duration-500"
         >
           <Box className="mr-auto flex items-center">
-            <IconButton
+            {!smScreen && <IconButton
               size="large"
               edge="start"
               color="inherit"
@@ -63,7 +70,7 @@ const Navbar = ({ changeWidth, openState }) => {
               onClick={() => setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen)}
             >
               {drawerOpen ? <MenuIcon /> : <ArrowForwardIcon />}
-            </IconButton>
+            </IconButton>}
             <Search />
           </Box>
           <IconButton
