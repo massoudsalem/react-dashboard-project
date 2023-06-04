@@ -1,14 +1,14 @@
 import {
   Box,
   CircularProgress,
+  Fab,
   Skeleton,
 } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {DataTable, TextContent, FilterSection} from '..';
 import { useGetProductsQuery } from '../../services/FakeApi';
-import DataTable from '../DataTable/DataTable';
-import FilterSection from '../FiltersSection/FilterSection';
-import TextContent from '../TextContent/TextContent';
 
 const Image = ({ src }) => {
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,6 @@ const Image = ({ src }) => {
 
 
 const Products = () => {
-  //const { data: productsData, error: productsError, isLoading: productsLoading } = useGetProductsQuery();
   const { data: productsData, isFetching } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -73,8 +72,6 @@ const Products = () => {
     rating: `⭐️${product.rating}`,
   }));
   return (
-    //TODo:fix flex starching
-
     <Box className="flex flex-col md:flex-row">
       <FilterSection
         data={productsData.products}
@@ -87,6 +84,15 @@ const Products = () => {
         rowOnClick={(id) => navigate(`/product/${id}`)}
         className="mr-2 flex-grow"
       />
+      <Fab
+        onClick={() => navigate('/create-product')}
+        size='small'
+        className="fixed bottom-0 right-0 -translate-x-5 -translate-y-5"
+        color="primary"
+        aria-label="add"
+      >
+        <Add />
+      </Fab>
     </Box>
   );
 };
