@@ -8,7 +8,11 @@ import {
   alpha,
   useTheme,
 } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
+import {
+  Add,
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+} from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import DataTable from '../DataTable/DataTable';
 import {
@@ -94,7 +98,7 @@ const Actions = ({ id, handleDelete, handleOpen }) => (
   </Box>
 );
 
-const Customers = () => {
+const Customers = ({ customersTableOnly = false, className='' }) => {
   const { data: customersData, isLoading, error } = useGetCustomersQuery();
   const [customers, setCustomers] = useState([]);
   const [visibleCustomers, setVisibleCustomers] = useState([]);
@@ -218,7 +222,7 @@ const Customers = () => {
     ),
   }));
   return (
-    <Box>
+    <Box className={className}>
       <EditModal
         open={open}
         handleClose={handleClose}
@@ -226,19 +230,27 @@ const Customers = () => {
         editData={editData}
         handleAddUser={handleAddUser}
       />
-      <Search
-        className="mb-4 w-full"
-        color={theme.palette.primary}
-        onKeyDown={handleSearch}
-        onChange={(e) => {
-          if (e.target.value === '') {
-            setVisibleCustomers(customers);
-          }
-        }}
-      />
-      <button type="button" onClick={() => handleOpen()}>
-        Add Customer
-      </button>
+      {!customersTableOnly && (
+        <Box>
+          <Search
+            className="mb-4 w-full"
+            color={theme.palette.primary}
+            onKeyDown={handleSearch}
+            onChange={(e) => {
+              if (e.target.value === '') {
+                setVisibleCustomers(customers);
+              }
+            }}
+          />
+          <Button
+            variant="contained"
+            onClick={() => handleOpen()}
+            className="mb-4 ml-auto"
+          >
+            <Add /> Add Customer
+          </Button>
+        </Box>
+      )}
       <DataTable columns={tableHeadings} rows={rows} />
     </Box>
   );

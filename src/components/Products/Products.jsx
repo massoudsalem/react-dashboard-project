@@ -1,13 +1,8 @@
-import {
-  Box,
-  CircularProgress,
-  Fab,
-  Skeleton,
-} from '@mui/material';
+import { Box, CircularProgress, Fab, Skeleton } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {DataTable, TextContent, FilterSection} from '..';
+import { DataTable, TextContent, FilterSection } from '..';
 import { useGetProductsQuery } from '../../services/FakeApi';
 
 const Image = ({ src }) => {
@@ -34,8 +29,7 @@ const Image = ({ src }) => {
   );
 };
 
-
-const Products = () => {
+const Products = ({ productsTableOnly = false, className='' }) => {
   const { data: productsData, isFetching } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -65,34 +59,40 @@ const Products = () => {
   const rows = products.map((product) => ({
     id: product.id,
     title: <TextContent content={product.title} width={100} warp />,
-    price: <TextContent content={`${product.price}$`} width={50} disableTooltip/>,
+    price: (
+      <TextContent content={`${product.price}$`} width={50} disableTooltip />
+    ),
     category: <TextContent content={product.category} width={120} />,
     description: <TextContent content={product.description} width={170} />,
     image: <Image src={product.thumbnail} />,
     rating: `⭐️${product.rating}`,
   }));
   return (
-    <Box className="flex flex-col md:flex-row">
-      <FilterSection
-        data={productsData.products}
-        setProducts={setProducts}
-        className="mb-4 md:mb-0 md:mr-4 md:w-[220px]"
-      />
+    <Box className={`flex flex-col md:flex-row ${className}`}>
+      {!productsTableOnly && (
+        <FilterSection
+          data={productsData.products}
+          setProducts={setProducts}
+          className="mb-4 md:mb-0 md:mr-4 md:w-[220px]"
+        />
+      )}
       <DataTable
         rows={rows}
         columns={columns}
         rowOnClick={(id) => navigate(`/product/${id}`)}
-        className="flex-grow max-h-[calc(100vh-100px)] overflow-y-auto"
+        className="max-h-[calc(100vh-100px)] flex-grow overflow-y-auto"
       />
-      <Fab
-        onClick={() => navigate('/create-product')}
-        size='small'
-        className="fixed bottom-0 right-0 -translate-x-5 -translate-y-5"
-        color="primary"
-        aria-label="add"
-      >
-        <Add />
-      </Fab>
+      {!productsTableOnly && (
+        <Fab
+          onClick={() => navigate('/create-product')}
+          size="small"
+          className="fixed bottom-0 right-0 -translate-x-5 -translate-y-5"
+          color="primary"
+          aria-label="add"
+        >
+          <Add />
+        </Fab>
+      )}
     </Box>
   );
 };
