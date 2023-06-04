@@ -30,7 +30,7 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
   );
   return (
     <TableContainer component={Paper} className={`min-h-0 ${className}`}>
-      <Table>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
             {columns.map((heading) => (
@@ -53,7 +53,7 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
+        <TableFooter >
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}

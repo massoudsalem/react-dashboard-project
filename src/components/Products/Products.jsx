@@ -82,7 +82,7 @@ const Products = () => {
         rows={rows}
         columns={columns}
         rowOnClick={(id) => navigate(`/product/${id}`)}
-        className="mr-2 flex-grow"
+        className="flex-grow max-h-[calc(100vh-100px)] overflow-y-auto"
       />
       <Fab
         onClick={() => navigate('/create-product')}
