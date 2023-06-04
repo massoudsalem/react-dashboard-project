@@ -2,54 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-tiny{
-    @apply text-xs;
+.text-tiny {
+  @apply text-xs;
 }
-.text-small{
-    @apply text-sm;
+.text-small {
+  @apply text-sm;
 }
-.text-big{
-    @apply text-xl;
+.text-big {
+  @apply text-xl;
 }
-.text-huge{
-    @apply text-3xl;
+.text-huge {
+  @apply text-3xl;
 }
-u{
-    @apply underline;
+u {
+  @apply underline;
 }
-s{
-    @apply line-through;
+s {
+  @apply line-through;
 }
 
 .ck-editor__editable {
-    @apply min-h-[200px];
-    
+  @apply min-h-[280px];
 }
 .ck-editor__top {
-    @apply border-b-2 border-gray-300;
+  @apply border-b-2 border-gray-300;
 }
 
 ::-webkit-scrollbar {
-    /* width: 8px; */
-    @apply w-2;
+  /* width: 8px; */
+  @apply w-2;
 }
 /* header{
     padding: 0 !important;
 } */
 
 ::-webkit-scrollbar-track {
-    /* background: #cfcfcf; */
-    @apply bg-gray-200;
+  /* background: #cfcfcf; */
+  @apply bg-gray-200;
 }
 
 ::-webkit-scrollbar-thumb {
-    /* background: #a5a5a5; */
-    @apply bg-gray-400;
+  /* background: #a5a5a5; */
+  @apply bg-gray-400;
 }
 
 * {
-    text-decoration: none;
-    scrollbar-width: thin;     /* firefox */
-    scrollbar-color: #a5a5a5 #cfcfcf;     /* firefox */
+  text-decoration: none;
+  scrollbar-width: thin; /* firefox */
+  scrollbar-color: #a5a5a5 #cfcfcf; /* firefox */
 }
-

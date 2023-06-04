@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
-const EditForm = ({ editData, handleUpdate, handleClose }) => {
+const EditForm = ({ editData, handleUpdate, handleClose, handleAddUser }) => {
   const [userInfo, setUserInfo] = useState(editData);
 
   const handleChange = (e) => {
@@ -10,10 +10,15 @@ const EditForm = ({ editData, handleUpdate, handleClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { id } = editData;
-    const newData = { ...userInfo };
-    handleUpdate(id, newData);
-    handleClose();
+    if (userInfo.id === undefined) {
+      handleAddUser(userInfo);
+      handleClose();
+    } else {
+      const { id } = editData;
+      const newData = { ...userInfo };
+      handleUpdate(id, newData);
+      handleClose();
+    }
   };
 
   return (
@@ -24,30 +29,34 @@ const EditForm = ({ editData, handleUpdate, handleClose }) => {
       <TextField
         label="firstName"
         id="firstName"
-        defaultValue={userInfo.firstName}
+        defaultValue={userInfo?.firstName}
         size="small"
         onChange={handleChange}
+        required
       />
       <TextField
         label="lastName"
         id="lastName"
-        defaultValue={userInfo.lastName}
+        defaultValue={userInfo?.lastName}
         size="small"
         onChange={handleChange}
+        required
       />
       <TextField
         label="phone"
         id="phone"
-        defaultValue={userInfo.phone}
+        defaultValue={userInfo?.phone}
         size="small"
         onChange={handleChange}
+        required
       />
       <TextField
         label="email"
         id="email"
-        defaultValue={userInfo.email}
+        defaultValue={userInfo?.email}
         size="small"
         onChange={handleChange}
+        required
       />
       <Button
         type="submit"

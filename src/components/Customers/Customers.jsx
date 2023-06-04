@@ -12,6 +12,7 @@ import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import DataTable from '../DataTable/DataTable';
 import {
+  useAddUserMutation,
   useDeleteUserMutation,
   useGetCustomersQuery,
   useUpdateUserMutation,
@@ -41,7 +42,13 @@ const tableHeadings = [
   },
 ];
 
-const EditModal = ({ open, handleClose, handleUpdate, editData }) => (
+const EditModal = ({
+  open,
+  handleClose,
+  handleUpdate,
+  handleAddUser,
+  editData,
+}) => (
   <Modal
     open={open}
     onClose={handleClose}
@@ -66,6 +73,7 @@ const EditModal = ({ open, handleClose, handleUpdate, editData }) => (
         editData={editData}
         handleUpdate={handleUpdate}
         handleClose={handleClose}
+        handleAddUser={handleAddUser}
       />
     </Box>
   </Modal>
@@ -92,6 +100,7 @@ const Customers = () => {
   const [visibleCustomers, setVisibleCustomers] = useState([]);
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
+  const [addUser] = useAddUserMutation();
   const [editData, setEditData] = useState({});
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -142,9 +151,14 @@ const Customers = () => {
   };
 
   const handleOpen = (id) => {
-    setOpen(true);
-    const toUpdateData = customers.filter((customer) => customer.id === id);
-    setEditData(toUpdateData[0]);
+    if (id) {
+      setOpen(true);
+      const toUpdateData = customers.filter((customer) => customer.id === id);
+      setEditData(toUpdateData[0]);
+    } else {
+      setOpen(true);
+      setEditData({});
+    }
   };
 
   const handleClose = () => setOpen(false);
@@ -168,7 +182,10 @@ const Customers = () => {
     setCustomers(newCustomers);
   };
 
-
+  const handleAddUser = async (newData) => {
+    const newUser = await addUser(newData);
+    setCustomers((prevCustomers) => [newUser.data, ...prevCustomers]);
+  };
 
   if (isLoading) {
     return (
@@ -196,7 +213,7 @@ const Customers = () => {
       <Actions
         id={customer.id}
         handleDelete={handleDelete}
-        handleOpen={handleOpen}
+        handleOpen={() => handleOpen(customer.id)}
       />
     ),
   }));
@@ -207,6 +224,7 @@ const Customers = () => {
         handleClose={handleClose}
         handleUpdate={handleUpdate}
         editData={editData}
+        handleAddUser={handleAddUser}
       />
       <Search
         className="mb-4 w-full"
@@ -218,6 +236,9 @@ const Customers = () => {
           }
         }}
       />
+      <button type="button" onClick={() => handleOpen()}>
+        Add Customer
+      </button>
       <DataTable columns={tableHeadings} rows={rows} />
     </Box>
   );

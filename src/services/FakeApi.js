@@ -18,6 +18,14 @@ export const fakeApi = createApi({
         body: JSON.stringify(newData),
       }),
     }),
+    addUser: builder.mutation({
+      query: (newData) => ({
+        url: `users/add`,
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify(newData),
+      }),
+    }),
     getProducts: builder.query({
       query: () => 'products?limit=100',
     }),
@@ -40,4 +48,5 @@ export const {
   useGetCategoriesQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,
+  useAddUserMutation,
 } = fakeApi;
