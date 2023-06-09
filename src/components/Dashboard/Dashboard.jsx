@@ -1,17 +1,26 @@
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Box, Card, Divider, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { Customers, InfoBox, Products } from '..';
-import { useGetProductsQuery } from '../../services/FakeApi';
+import {
+  Customers,
+  HotDealsTable,
+  InfoBox,
+  Products,
+  TopBuyingCustomersTable,
+} from '..';
+import useGetHotDealsQuery from '../../hooks/useGetHotDealsQuery';
+import useGetTopBuyingCustomers from '../../hooks/useGetTopBuyingCustomers';
 
 const Dashboard = () => {
-  
+  const { hotDeals, isLoading, isError, error } = useGetHotDealsQuery();
+  const { topBuyingCustomers } = useGetTopBuyingCustomers();
+
   return (
     <Box className="flex flex-col gap-5">
       <Box className="flex items-center justify-center">
         <Typography variant="h4">Welcome to Dashboard</Typography>
       </Box>
 
-      <Box className="flex justify-around gap-5 flex-wrap">
+      <Box className="flex flex-wrap justify-around gap-5">
         <InfoBox
           title="Total Sales"
           count="1,534"
@@ -49,17 +58,17 @@ const Dashboard = () => {
           subtitle="+1.5 %"
         />
       </Box>
-      <Box className="flex gap-4">
-        <Box component={Paper} className="overflow-x-auto w-1/2 p-4">
-        <Typography variant="h4">Products</Typography>
-        <Divider className='-mx-4 mb-2'/>
-        <Products productsTableOnly className='-m-4 mt-4'/>
-        </Box>
-        <Box className="overflow-x-auto w-1/2 p-4">
-        <Typography variant="h4">Customers</Typography>
-        <Divider className='-mx-4 mb-2'/>
-        <Customers customersTableOnly className='-m-4 mt-4'/>
-        </Box>
+      <Box className="flex flex-col gap-4 lg:flex-row">
+        <Card className="flex flex-1 flex-col items-center bg-red-200">
+          <Typography variant="h5" align='center'>Hot Deals</Typography>
+          <Divider />
+          <HotDealsTable className="flex-1" />
+        </Card>
+        <Card className="flex flex-1 flex-col items-center bg-green-200">
+          <Typography variant="h5" align='center'>Top Buying Customers</Typography>
+          <Divider />
+          <TopBuyingCustomersTable className="flex-1" />
+        </Card>
       </Box>
     </Box>
   );
