@@ -27,7 +27,7 @@ const App = () => {
         sx={{
           marginLeft: `${drawerOpen ? openWidth : closedWidth}px`,
         }}
-        className="p-4 transition-all duration-500"
+        className="p-4 pr-7 transition-all duration-500"
       >
         <Box className="h-[80px]" />
         <Routes>

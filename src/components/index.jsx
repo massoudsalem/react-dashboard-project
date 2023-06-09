@@ -16,3 +16,7 @@ export { default as ImageDropzone } from './ImageDropzone/ImageDropzone';
 export { default as CustomTabs } from './CustomTabs/CustomTabs';
 export { default as ImageUpload } from './ImageUpload/ImageUpload';
 export { default as TextContent } from './TextContent/TextContent';
+export { default as InfoBox } from './InfoBox/InfoBox';
+export { default as TopBuyingCustomersTable } from './TopBuyingCustomersTable/TopBuyingCustomersTable';
+export { default as HotDealsTable } from './HotDealsTable/HotDealsTable';
+

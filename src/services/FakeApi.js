@@ -38,6 +38,21 @@ export const fakeApi = createApi({
     getCategories: builder.query({
       query: () => 'products/categories',
     }),
+    getCarts: builder.query({
+      query: () => 'carts',
+    }),
+    getMultipleUsersByIds: builder.query({
+      //eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+      async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
+        const users = _arg.map(async (id) => {
+          const response = await fetchWithBQ(`users/${id}`);
+          return response.data;
+        }
+        );
+        const resolvedUsers = await Promise.all(users);
+        return {data: resolvedUsers};
+      },
+    }),
   }),
 });
 
@@ -46,6 +61,8 @@ export const {
   useGetProductByIdQuery,
   useGetCustomersQuery,
   useGetCategoriesQuery,
+  useGetCartsQuery,
+  useGetMultipleUsersByIdsQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,
   useAddUserMutation,

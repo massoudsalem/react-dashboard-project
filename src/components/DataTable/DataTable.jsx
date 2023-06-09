@@ -53,7 +53,7 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter >
+        <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
@@ -62,6 +62,7 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              className="overflow-visible"
             />
           </TableRow>
         </TableFooter>
