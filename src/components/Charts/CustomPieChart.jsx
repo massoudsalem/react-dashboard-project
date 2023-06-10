@@ -1,6 +1,13 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 const CustomTooltip = ({ active, payload, tooltipLabel = '' }) => {
   if (active && payload && payload.length) {
@@ -56,28 +63,30 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 const CustomPieChart = ({ data, label = '' }) => {
   //console.log('CustomPieChart');
   return (
-    <PieChart width={400} height={350}>
-      <Pie
-        className="focus:outline-none"
-        data={data}
-        innerRadius={80}
-        outerRadius={140}
-        fill="#8884d8"
-        labelLine={false}
-        label={renderCustomizedLabel}
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell
-            key={`cell-${index}`}
-            fill={COLORS[index % COLORS.length]}
-            className="hover:opacity-80 focus:outline-none"
-          />
-        ))}
-      </Pie>
-      <Tooltip content={<CustomTooltip tooltipLabel={label} />} />
-      <Legend />
-    </PieChart>
+    <ResponsiveContainer width={300} aspect={0.85}>
+      <PieChart>
+        <Pie
+          className="focus:outline-none"
+          data={data}
+          innerRadius={80}
+          outerRadius={140}
+          fill="#8884d8"
+          labelLine={false}
+          label={renderCustomizedLabel}
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]}
+              className="hover:opacity-80 focus:outline-none"
+            />
+          ))}
+        </Pie>
+        <Tooltip content={<CustomTooltip tooltipLabel={label} />} />
+        <Legend />
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
 

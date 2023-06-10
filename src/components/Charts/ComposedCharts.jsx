@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import React from 'react';
 import {
   ComposedChart,
@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
   Cell,
+  ResponsiveContainer,
 } from 'recharts';
 
 const CustomizedAxisTick = ({ x, y, payload }) => {
@@ -33,12 +34,14 @@ const ComposedCharts = ({
   barLabel,
   barData,
   areaData,
-  className,
 }) => {
   //console.log('composedCharts')
+  const isMD = useMediaQuery('(min-width:960px)');
+  const width = isMD ? 600 : 500;
   return (
-    <Box className={className}>
-      <ComposedChart width={600} height={500} data={data}>
+    
+    <ResponsiveContainer width={width} aspect={1.5}>
+      <ComposedChart data={data}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="20%" stopColor="#8884d8" stopOpacity={0.9} />
@@ -84,7 +87,7 @@ const ComposedCharts = ({
           ))}
         </Bar>
       </ComposedChart>
-    </Box>
+    </ResponsiveContainer>
   );
 };
 

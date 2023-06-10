@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Box, Card, Divider, Typography, useMediaQuery } from '@mui/material';
 import React, { useMemo } from 'react';
 import { useGetCustomersQuery } from '../../services/FakeApi';
 import CustomPieChart from '../Charts/CustomPieChart';
@@ -78,23 +78,23 @@ const Reports = () => {
     }
     return citiesData;
   }, [customersData]);
-  console.log(companyPersonCitesCount);
+  const isMD = useMediaQuery('(min-width:960px)');
+  const width = isMD ? 'max-w-[600px]' : 'max-w-[500px]';
   return (
-    <>
-      <Box component={Paper} className="w-[400px]">
+    <Box className="flex flex-col items-center justify-center gap-2 lg:flex-row lg:items-start">
+      <Box component={Card} className="w-full max-w-[300px] overflow-x-auto">
         <Typography variant="h6" align="left" className="p-4">
           Customers Age Range
         </Typography>
         <Divider />
         <CustomPieChart data={customersAgeRangeCount} label="Customers" />
       </Box>
-      <Box component={Paper} className="mt-9 w-[700px]">
+      <Box component={Card} className={`w-full ${width} overflow-x-auto`}>
         <Typography variant="h6" align="left" className="p-4">
           Composed Chart
         </Typography>
         <Divider />
         <ComposedCharts
-          className="m-4"
           data={companyPersonCitesCount}
           barLabel="Company Cities"
           barData="companyAddress" /*the key of data for object*/
@@ -102,7 +102,7 @@ const Reports = () => {
           areaData="personAddress"
         />
       </Box>
-    </>
+    </Box>
   );
 };
 
