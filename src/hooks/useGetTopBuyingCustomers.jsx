@@ -32,11 +32,20 @@ const useGetTopBuyingCustomers = () => {
           const customer = customers.find(
             (user) => user.id === cart.userId,
           );
+          if (!customer) {
+            return {
+              firstName: 'Loading...',
+              lastName: '',
+              totalSpent: cart.discountedTotal,
+              totalOrders: cart.totalQuantity,
+            };
+          }
+          const { firstName, lastName } = customer;
           return {
-            ...customer,
-            name: `${customer?.firstName} ${customer?.lastName}`,
+            firstName,
+            lastName,
             totalSpent: cart.discountedTotal,
-            totalOrders: cart.products.length,
+            totalOrders: cart.totalQuantity,
           };
         }),
       );
