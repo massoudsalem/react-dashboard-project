@@ -19,4 +19,3 @@ export { default as TextContent } from './TextContent/TextContent';
 export { default as InfoBox } from './InfoBox/InfoBox';
 export { default as TopBuyingCustomersTable } from './TopBuyingCustomersTable/TopBuyingCustomersTable';
 export { default as HotDealsTable } from './HotDealsTable/HotDealsTable';
-

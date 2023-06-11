@@ -15,8 +15,9 @@ const useGetTopBuyingCustomers = () => {
 
   React.useEffect(() => {
     if (isSuccess) {
-      const newTopCarts = [...data.carts]
-        .sort((a, b) => b.discountedTotal - a.discountedTotal);
+      const newTopCarts = [...data.carts].sort(
+        (a, b) => b.discountedTotal - a.discountedTotal,
+      );
       setTopCarts(newTopCarts);
     }
   }, [data, isSuccess]);
@@ -29,9 +30,7 @@ const useGetTopBuyingCustomers = () => {
     if (rest.isSuccess) {
       setTopBuyingCustomers(
         topCarts.map((cart) => {
-          const customer = customers.find(
-            (user) => user.id === cart.userId,
-          );
+          const customer = customers.find((user) => user.id === cart.userId);
           if (!customer) {
             return {
               firstName: 'Loading...',

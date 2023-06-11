@@ -28,10 +28,8 @@ class BoxInfo {
 }
 const createData = (name, value) => ({ name, value });
 
-
-
 const ProductInfoBox = ({ icon, title, subtitle }) => (
-  <Box className="flex justify-center items-center gap-6 border border-dashed border-gray-300 px-4 py-2">
+  <Box className="flex items-center justify-center gap-6 border border-dashed border-gray-300 px-4 py-2">
     <Icon color="primary" className="text-3xl">
       {icon}
     </Icon>
@@ -76,10 +74,10 @@ const ProductDetails = () => {
   console.log(data);
 
   return (
-    <Box className="gap-6 justify-evenly lg:flex">
+    <Box className="justify-evenly gap-6 lg:flex">
       <Box className="flex self-start">
         <Button
-          color='primary'
+          color="primary"
           variant="contained"
           onClick={() => {
             navigate(-1);
@@ -130,7 +128,7 @@ const ProductDetails = () => {
 
         <Divider className="invisible my-4 sm:visible" />
 
-        <Box className="mx-0 flex justify-center flex-col gap-4 sm:flex-row ">
+        <Box className="mx-0 flex flex-col justify-center gap-4 sm:flex-row ">
           {boxesInfo.map((box, idx) => (
             <ProductInfoBox
               key={idx}
@@ -168,8 +166,8 @@ const ProductDetails = () => {
               </Table>
             </TableContainer>
             {/*Tabs Child 2*/}
-            <Typography variant="body1" className='w-48 sm:w-80 lg:w-96'>
-            {data.description}
+            <Typography variant="body1" className="w-48 sm:w-80 lg:w-96">
+              {data.description}
             </Typography>
           </CustomTabs>
         </Box>

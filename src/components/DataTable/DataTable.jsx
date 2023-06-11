@@ -41,7 +41,9 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
         <TableBody>
           {viableRows.map((data) => (
             <TableRow
-              className={`${rowOnClick ? 'hover:cursor-pointer hover:opacity-60' : ''}`}
+              className={`${
+                rowOnClick ? 'hover:cursor-pointer hover:opacity-60' : ''
+              }`}
               key={data.id}
               onClick={rowOnClick ? () => rowOnClick(data.id) : null}
             >

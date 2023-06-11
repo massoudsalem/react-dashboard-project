@@ -128,7 +128,7 @@ const CreateProduct = () => {
       {/*Rich text*/}
       <Box
         component={Paper}
-        className="m-2 flex flex-col p-4 col-span-1 md:col-span-2 lg:row-span-2"
+        className="col-span-1 m-2 flex flex-col p-4 md:col-span-2 lg:row-span-2"
       >
         <InputWithController
           label="Product Title"
@@ -180,10 +180,7 @@ const CreateProduct = () => {
         )}
       </Box>
       {/*main product image*/}
-      <Box
-        component={Paper}
-        className="m-2 p-4"
-      >
+      <Box component={Paper} className="m-2 p-4">
         <Typography variant="h6">Product Thumbnail</Typography>
         <Divider className="-mx-4 my-2" />
         <Typography variant="body2">Upload Product Thumbnail</Typography>
@@ -200,7 +197,7 @@ const CreateProduct = () => {
       {/*image Dropzone*/}
       <Box
         component={Paper}
-        className="m-2 p-4 col-span-1 md:col-span-2 lg:col-span-3"
+        className="col-span-1 m-2 p-4 md:col-span-2 lg:col-span-3"
       >
         <Typography variant="h6">Product Images</Typography>
         <Divider className="-mx-4 my-2" />
@@ -233,7 +230,7 @@ const CreateProduct = () => {
       {/*info*/}
       <Box
         component={Paper}
-        className="m-2 p-4 col-span-1 md:col-span-2 lg:col-span-3"
+        className="col-span-1 m-2 p-4 md:col-span-2 lg:col-span-3"
       >
         <CustomTabs labels={['General info']}>
           <Box>

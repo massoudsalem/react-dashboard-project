@@ -66,7 +66,7 @@ const CustomPieChart = ({ data, label = '' }) => {
     theme.palette.success.main,
     theme.palette.warning.main,
     theme.palette.error.main,
-  ]
+  ];
 
   const STROKE_COLOR = theme.palette.mode === 'light' ? '#fff' : '#000';
 

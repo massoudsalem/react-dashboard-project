@@ -29,7 +29,7 @@ const Image = ({ src }) => {
   );
 };
 
-const Products = ({ productsTableOnly = false, className='' }) => {
+const Products = ({ productsTableOnly = false, className = '' }) => {
   const { data: productsData, isFetching } = useGetProductsQuery();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const Products = ({ productsTableOnly = false, className='' }) => {
         rows={rows}
         columns={columns}
         rowOnClick={(id) => navigate(`/product/${id}`)}
-        className="max-h-[calc(100vh-100px)] flex-grow overflow-y-auto"
+        className="flex-grow overflow-y-auto"
       />
       {!productsTableOnly && (
         <Fab

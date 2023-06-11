@@ -44,12 +44,12 @@ const HotDealsTable = ({ className = '' }) => {
   }));
 
   return (
-      <DataTable
-        columns={tableHeadings}
-        rows={rows}
-        rowOnClick={(id) => navigate(`/product/${id}`)}
-        className={className}
-      />
+    <DataTable
+      columns={tableHeadings}
+      rows={rows}
+      rowOnClick={(id) => navigate(`/product/${id}`)}
+      className={className}
+    />
   );
 };
 

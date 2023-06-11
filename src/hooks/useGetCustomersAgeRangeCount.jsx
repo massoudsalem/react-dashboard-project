@@ -3,7 +3,9 @@ import { useGetCustomersQuery } from '../services/FakeApi';
 
 const useGetCustomersAgeRangeCount = () => {
   const { data: customersData, ...rest } = useGetCustomersQuery();
-  const [customersAgeRangeCount, setCustomersAgeRangeCount] = React.useState( []  );
+  const [customersAgeRangeCount, setCustomersAgeRangeCount] = React.useState(
+    [],
+  );
 
   React.useEffect(() => {
     if (customersData) {

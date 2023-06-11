@@ -98,7 +98,7 @@ const Actions = ({ id, handleDelete, handleOpen }) => (
   </Box>
 );
 
-const Customers = ({ customersTableOnly = false, className='' }) => {
+const Customers = ({ customersTableOnly = false, className = '' }) => {
   const { data: customersData, isLoading, error } = useGetCustomersQuery();
   const [customers, setCustomers] = useState([]);
   const [visibleCustomers, setVisibleCustomers] = useState([]);

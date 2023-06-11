@@ -17,7 +17,7 @@ const postCloudinary = ({ files, setImages, images }) => {
       ...prev,
       [file.name]: { ...prev[file.name], uploadState: 'uploading' },
     }));
-    
+
     try {
       const response = await axios.post(
         'https://api.cloudinary.com/v1_1/djqzkpum0/image/upload',
@@ -57,9 +57,11 @@ const postCloudinary = ({ files, setImages, images }) => {
     }
   });
 
-  let ret = files.every((file) => images[file.name]?.uploadState === 'uploaded') ? 'uploaded' : 'uploading';
+  let ret = files.every((file) => images[file.name]?.uploadState === 'uploaded')
+    ? 'uploaded'
+    : 'uploading';
   ret = files.some((file) => images[file.name]?.failed) ? 'failed' : ret;
-  
+
   return ret;
 };
 

@@ -53,11 +53,13 @@ const Navbar = ({ changeWidth, openState }) => {
   }, [smScreen, setDrawerOpen]);
   return (
     <>
-      <AppBar sx={
-        {
+      <AppBar
+        sx={{
           backgroundColor: theme.palette.primary.main,
-        }
-      } position="sticky" className="py-2">
+        }}
+        position="sticky"
+        className="py-2"
+      >
         <Toolbar
           sx={{
             marginLeft: `${drawerOpen ? openWidth : closedWidth}px`,

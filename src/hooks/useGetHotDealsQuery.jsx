@@ -14,7 +14,6 @@ const useGetHotDealsQuery = () => {
       setHotDeals(newHotDeals);
     }
   }, [Products]);
-  
 
   return { hotDeals, isLoading, isError, error };
 };

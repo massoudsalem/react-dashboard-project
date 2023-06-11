@@ -118,10 +118,17 @@ const Dashboard = () => {
       </Box>
 
       <Box className="flex flex-col gap-4 lg:flex-row">
-        <Card sx={{
+        <Card
+          sx={{
             backgroundColor: theme.palette.warning.main,
-          }}className="flex flex-1 flex-col items-center">
-          <Typography color={theme.palette.primary.contrastText} variant="h5" align="center">
+          }}
+          className="flex flex-1 flex-col items-center"
+        >
+          <Typography
+            color={theme.palette.primary.contrastText}
+            variant="h5"
+            align="center"
+          >
             Hot Deals
           </Typography>
           <Divider />
@@ -133,7 +140,11 @@ const Dashboard = () => {
           }}
           className="flex flex-1 flex-col items-center"
         >
-          <Typography color={theme.palette.primary.contrastText} variant="h5" align="center">
+          <Typography
+            color={theme.palette.primary.contrastText}
+            variant="h5"
+            align="center"
+          >
             Top Buying Customers
           </Typography>
           <Divider />

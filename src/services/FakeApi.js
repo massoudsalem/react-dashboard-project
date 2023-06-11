@@ -47,10 +47,9 @@ export const fakeApi = createApi({
         const users = _arg.map(async (id) => {
           const response = await fetchWithBQ(`users/${id}`);
           return response.data;
-        }
-        );
+        });
         const resolvedUsers = await Promise.all(users);
-        return {data: resolvedUsers};
+        return { data: resolvedUsers };
       },
     }),
   }),
