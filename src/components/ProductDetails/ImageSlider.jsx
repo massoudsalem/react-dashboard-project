@@ -1,4 +1,11 @@
-import { Box, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import {
+  Box,
+  Grid,
+  IconButton,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 import React, { useState } from 'react';
 
 const ImageSlider = ({ dataImages }) => {
@@ -11,28 +18,52 @@ const ImageSlider = ({ dataImages }) => {
   };
 
   return (
-    <Grid className="mx-auto flex flex-col items-center ">
-      <Box className="mx-auto">
+    <Grid className="flex flex-col items-center ">
+      <Box className="h-48 w-48 sm:h-80 sm:w-80 lg:h-96 lg:w-96">
         <img
           src={dataImages[imageIndex]}
           alt="product1"
-          className="max-w-full"
+          className="w-full h-full object-contain"
         />
       </Box>
 
-      <ToggleButtonGroup
-        size="small"
-        exclusive
-        onChange={handleSelect}
-        value={imageIndex}
-        className="flex flex-row flex-wrap"
-      >
-        {dataImages.map((url, index) => (
-          <ToggleButton value={index} key={index} className="p-2">
-            <img src={url} alt={`product${index}`} className="w-12 sm:w-20" />
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+      <Box className="mt-4 gap-2 flex items-center justify-center">
+        <IconButton
+          disabled={imageIndex === 0}
+          variant="outlined"
+          onClick={() => {
+            if (imageIndex > 0) {
+              setImageIndex(imageIndex - 1);
+            }
+          }}
+        >
+          <ArrowBack />
+        </IconButton>
+        <ToggleButtonGroup
+          size="small"
+          exclusive
+          onChange={handleSelect}
+          value={imageIndex}
+          className="flex justify-center flex-row flex-wrap"
+        >
+          {dataImages.map((url, index) => (
+            <ToggleButton value={index} key={index} className="p-2">
+              <img src={url} alt={`product${index}`} className="object-cover w-6 h-6 sm:w-12 sm:h-12" />
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <IconButton
+          disabled={imageIndex === dataImages.length - 1}
+          variant="contained"
+          onClick={() => {
+            if (imageIndex < dataImages.length - 1) {
+              setImageIndex(imageIndex + 1);
+            }
+          }}
+        >
+          <ArrowForward />
+        </IconButton>
+      </Box>
     </Grid>
   );
 };

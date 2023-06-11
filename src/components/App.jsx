@@ -27,9 +27,8 @@ const App = () => {
         sx={{
           marginLeft: `${drawerOpen ? openWidth : closedWidth}px`,
         }}
-        className="py-4 pl-4 transition-all duration-500"
+        className="p-4 pr-7 transition-all duration-500"
       >
-        <Box className="h-[80px]" />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
