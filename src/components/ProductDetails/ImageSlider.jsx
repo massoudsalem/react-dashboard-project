@@ -11,8 +11,8 @@ const ImageSlider = ({ dataImages }) => {
   };
 
   return (
-    <Grid className="flex w-2/5 flex-col items-center">
-      <Box className="w-full">
+    <Grid className="mx-auto flex flex-col items-center ">
+      <Box className="mx-auto">
         <img
           src={dataImages[imageIndex]}
           alt="product1"
@@ -21,14 +21,15 @@ const ImageSlider = ({ dataImages }) => {
       </Box>
 
       <ToggleButtonGroup
-        size="large"
+        size="small"
         exclusive
         onChange={handleSelect}
         value={imageIndex}
+        className="flex flex-row flex-wrap"
       >
         {dataImages.map((url, index) => (
           <ToggleButton value={index} key={index} className="p-2">
-            <img src={url} alt={`product${index}`} className="w-20" />
+            <img src={url} alt={`product${index}`} className="w-12 sm:w-20" />
           </ToggleButton>
         ))}
       </ToggleButtonGroup>

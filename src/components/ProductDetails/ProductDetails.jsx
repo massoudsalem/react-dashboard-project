@@ -17,7 +17,7 @@ import { useTheme } from '@emotion/react';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../services/FakeApi';
 import ImageSlider from './ImageSlider';
-import {CustomTabs} from '..';
+import { CustomTabs } from '..';
 
 class BoxInfo {
   constructor(icon, title, dataName) {
@@ -41,43 +41,52 @@ const boxesInfo = [
 ];
 
 const ProductInfoBox = ({ icon, title, subtitle }) => (
-  <Box className="flex items-center justify-between gap-6 border border-dashed border-gray-300 px-4 py-2">
-    <Icon className="flex-grow text-3xl text-teal-500">{icon}</Icon>
-    <Box className="flex-grow">
+  <Box className="flex items-center justify-start gap-6  border border-dashed border-gray-300 px-4 py-2">
+    <Icon className="text-3xl text-teal-500">{icon}</Icon>
+    <Box className=" flex-grow">
       <Typography variant="body1">{title}</Typography>
       <Typography variant="h6">{subtitle}</Typography>
     </Box>
   </Box>
 );
 
+const tabLabels = ['Specification', 'Details'];
+const productHeaderDetails = [
+  { identifer: 'Brand', value: 'BrnadName' },
+  { identifer: 'Seller', value: 'Zoetic Fashion' },
+  { identifer: 'Published', value: '26 May, 1998' },
+];
+
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetProductByIdQuery(id);
-  const theme = useTheme();
-
-  const tabLabels = ['Specification', 'Details'];
 
   return (
     !isLoading && (
-      <Box className="flex flex-col gap-20 p-20 xl:flex-row">
+      <Box className="gap-6 pr-4 md:px-24 md:pl-0 lg:flex">
         <ImageSlider dataImages={data.images} />
         <Grid>
           <h1>details</h1>
-          <Stack
-            direction="row"
-            divider={<Divider orientation="vertical" flexItem />}
-            spacing={2}
-          >
-            <Paper elevation={0} sx={{ color: theme.palette.info.dark }}>
-              <a className="text-inherit no-underline" href="/#">
-                brand name
-              </a>
-            </Paper>
-            <Paper elevation={0}> seller: &quot;name&quot; </Paper>
-            <Paper elevation={0} sx={{ color: 'gray' }}>
-              Published: &quot;date&quot;
-            </Paper>
-          </Stack>
+          <div className="flex flex-col gap-x-6 md:flex-row md:items-center">
+            {productHeaderDetails.map((item, index) => {
+              return (
+                <>
+                  <p className="my-1 py-2 text-sm" key={item.identifer}>
+                    <span className={`${!index && 'hidden'} text-gray-900`}>
+                      {item.identifer}:{' '}
+                    </span>
+                    <span
+                      className={`${!index && 'text-indigo-800'} font-medium`}
+                    >
+                      {item.value}
+                    </span>
+                  </p>
+                  <div className="h-[0.05rem] w-full bg-gray-200 last:hidden  md:flex md:h-[2rem] md:w-[.02rem]" />
+                </>
+              );
+            })}
+          </div>
+
           <Rating
             readOnly
             value={4.5}
@@ -85,7 +94,7 @@ const ProductDetails = () => {
             size="small"
             className="mt-2"
           />
-          <Stack direction="row" spacing={2}>
+          <Box className="mx-0 flex flex-col  gap-4 md:flex-row ">
             {boxesInfo.map((box, idx) => (
               <ProductInfoBox
                 key={idx}
@@ -94,7 +103,7 @@ const ProductDetails = () => {
                 subtitle={data[box.dataName]}
               />
             ))}
-          </Stack>
+          </Box>
           <Box className="my-10">
             <Typography className="my-2" variant="h6">
               Description
