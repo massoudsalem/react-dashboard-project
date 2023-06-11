@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import {
   PieChart,
   Pie,
@@ -58,10 +58,18 @@ const renderCustomizedLabel = ({
   );
 };
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
 const CustomPieChart = ({ data, label = '' }) => {
-  //console.log('CustomPieChart');
+  const theme = useTheme();
+
+  const COLORS = [
+    theme.palette.primary.main,
+    theme.palette.success.main,
+    theme.palette.warning.main,
+    theme.palette.error.main,
+  ]
+
+  const STROKE_COLOR = theme.palette.mode === 'light' ? '#fff' : '#000';
+
   return (
     <ResponsiveContainer width={300} aspect={0.85}>
       <PieChart>
@@ -70,16 +78,18 @@ const CustomPieChart = ({ data, label = '' }) => {
           data={data}
           innerRadius={80}
           outerRadius={140}
-          fill="#8884d8"
+          fill={theme.palette.primary.main}
           labelLine={false}
           label={renderCustomizedLabel}
           dataKey="value"
+          isAnimationActive={false}
         >
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               fill={COLORS[index % COLORS.length]}
               className="hover:opacity-80 focus:outline-none"
+              stroke={STROKE_COLOR}
             />
           ))}
         </Pie>

@@ -53,7 +53,11 @@ const Navbar = ({ changeWidth, openState }) => {
   }, [smScreen, setDrawerOpen]);
   return (
     <>
-      <AppBar className="py-2">
+      <AppBar sx={
+        {
+          backgroundColor: theme.palette.primary.main,
+        }
+      } position="sticky" className="py-2">
         <Toolbar
           sx={{
             marginLeft: `${drawerOpen ? openWidth : closedWidth}px`,
@@ -61,16 +65,20 @@ const Navbar = ({ changeWidth, openState }) => {
           className="transition-all duration-500"
         >
           <Box className="mr-auto flex items-center">
-            {!smScreen && <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              className="mr-4"
-              onClick={() => setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen)}
-            >
-              {drawerOpen ? <MenuIcon /> : <ArrowForwardIcon />}
-            </IconButton>}
+            {!smScreen && (
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                className="mr-4"
+                onClick={() =>
+                  setDrawerOpen((prevDrawerOpen) => !prevDrawerOpen)
+                }
+              >
+                {drawerOpen ? <MenuIcon /> : <ArrowForwardIcon />}
+              </IconButton>
+            )}
             <Search />
           </Box>
           <IconButton

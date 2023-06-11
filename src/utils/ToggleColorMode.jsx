@@ -34,21 +34,47 @@ const ToggleColorMode = ({ children }) => {
       createTheme({
         palette: {
           mode: sessionStorage.getItem('color_mode'),
-          //...(sessionStorage.getItem('color_mode') === 'light'
-          //? {
-          //primary: {
-          //main: '#fff',
-          //},
-          //secondary: {
-          //main: '#202020',
-          //},
-          //}
-          //: {
-          //primary: {
-          //main: '#000',
-          //contrastText: '#fff',
-          //},
-          //}),
+          ...(sessionStorage.getItem('color_mode') === 'light'
+            ? {
+                primary: {
+                  main: '#283593',
+                },
+                secondary: {
+                  main: '#03a9f4',
+                },
+                error: {
+                  main: '#f44336',
+                },
+                warning: {
+                  main: '#ff9800',
+                },
+                info: {
+                  main: '#2196f3',
+                },
+                success: {
+                  main: '#4caf50',
+                },
+              }
+            : {
+                primary: {
+                  main: '#2196f3',
+                },
+                secondary: {
+                  main: '#1565c0',
+                },
+                error: {
+                  main: '#c62828',
+                },
+                warning: {
+                  main: '#ef6c00',
+                },
+                info: {
+                  main: '#1565c0',
+                },
+                success: {
+                  main: '#2e7d32',
+                },
+              }),
         },
       }),
     [mode],

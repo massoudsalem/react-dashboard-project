@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import {
   ComposedChart,
@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 
 const CustomizedAxisTick = ({ x, y, payload }) => {
+  const theme = useTheme();
   return (
     <g transform={`translate(${x},${y})`}>
       <text
@@ -20,7 +21,7 @@ const CustomizedAxisTick = ({ x, y, payload }) => {
         y={0}
         dy={0}
         textAnchor="end"
-        fill="#666"
+        fill={theme.palette.mode === 'light' ? '#666' : '#ccc'}
         transform="rotate(-90)"
       >
         {payload.value}
@@ -28,24 +29,26 @@ const CustomizedAxisTick = ({ x, y, payload }) => {
     </g>
   );
 };
-const ComposedCharts = ({
-  data,
-  areaLabel,
-  barLabel,
-  barData,
-  areaData,
-}) => {
-  //console.log('composedCharts')
+const ComposedCharts = ({ data, areaLabel, barLabel, barData, areaData }) => {
+  const theme = useTheme();
+
   const isMD = useMediaQuery('(min-width:960px)');
   const width = isMD ? 600 : 500;
   return (
-    
     <ResponsiveContainer width={width} aspect={1.5}>
       <ComposedChart data={data}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="20%" stopColor="#8884d8" stopOpacity={0.9} />
-            <stop offset="100%" stopColor="#8884d8" stopOpacity={0.4} />
+            <stop
+              offset="20%"
+              stopColor={theme.palette.primary.main}
+              stopOpacity={0.9}
+            />
+            <stop
+              offset="100%"
+              stopColor={theme.palette.primary.main}
+              stopOpacity={0.4}
+            />
           </linearGradient>
         </defs>
         <XAxis
@@ -56,13 +59,29 @@ const ComposedCharts = ({
           interval={0}
           height={160}
           tick={<CustomizedAxisTick />}
+          stroke={theme.palette.mode === 'light' ? '#666' : '#ccc'}
         />
-        <YAxis label={{ value: '#of Cities', angle: -90 }} tickCount={7} />
+        <YAxis
+          label={{
+            value: '#of Cities',
+            angle: -90,
+            fill: theme.palette.mode === 'light' ? '#666' : '#ccc',
+          }}
+          tickCount={7}
+          stroke={theme.palette.mode === 'light' ? '#666' : '#ccc'}
+        />
         <Tooltip
           wrapperStyle={{ border: 1, outline: 0 }}
           contentStyle={{ padding: 0 }}
-          labelStyle={{ background: '#ddd', paddingLeft: '5px', color: '#555' }}
-          itemStyle={{ padding: '5px 40px 5px 5px' }}
+          labelStyle={{
+            background: '#999',
+            paddingLeft: '5px',
+            color: '#fff',
+          }}
+          itemStyle={{
+            background: '#fff',
+            padding: '5px 40px 5px 5px',
+          }}
         />
         <Legend />
         <Area
@@ -70,14 +89,14 @@ const ComposedCharts = ({
           legendType="circle"
           name={barLabel}
           fill="url(#colorUv)"
-          stroke="#5c6b99"
+          stroke={theme.palette.primary.main}
         />
         <Bar
           dataKey={areaData}
           legendType="circle"
           name={areaLabel}
           barSize={20}
-          fill="#22baa5"
+          fill={theme.palette.success.main}
         >
           {data.map((entry, index) => (
             <Cell

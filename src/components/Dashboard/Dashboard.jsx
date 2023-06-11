@@ -5,6 +5,7 @@ import {
   Typography,
   CircularProgress,
   useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import React from 'react';
 import {
@@ -27,6 +28,8 @@ const Dashboard = () => {
     isLoading: companyPersonCitesCountIsLoading,
   } = useGetCompanyPersonCitesCount();
 
+  const theme = useTheme();
+
   const isMD = useMediaQuery('(min-width:960px)');
   const width = isMD ? 'max-w-[600px]' : 'max-w-[500px]';
 
@@ -34,7 +37,7 @@ const Dashboard = () => {
     <Box className="flex flex-col gap-5">
       <Box className="flex flex-col items-start">
         <Typography variant="h5">Good Morning, Mo!</Typography>
-        <Typography variant="subtitle1" className="text-gray-500">
+        <Typography variant="subtitle1" className="opacity-80">
           Here&apos;s what&apos;s happening with your store today.
         </Typography>
       </Box>
@@ -44,7 +47,7 @@ const Dashboard = () => {
           count="1,534"
           icon="local_mall"
           color="info"
-          titleColor="text-blue-800"
+          titleColor="text-blue-400"
           subtitleIcon="trending_up"
           subtitle="+2.5 %"
         />
@@ -115,15 +118,22 @@ const Dashboard = () => {
       </Box>
 
       <Box className="flex flex-col gap-4 lg:flex-row">
-        <Card className="flex flex-1 flex-col items-center bg-red-200">
-          <Typography variant="h5" align="center">
+        <Card sx={{
+            backgroundColor: theme.palette.warning.main,
+          }}className="flex flex-1 flex-col items-center">
+          <Typography color={theme.palette.primary.contrastText} variant="h5" align="center">
             Hot Deals
           </Typography>
           <Divider />
           <HotDealsTable className="flex-1" />
         </Card>
-        <Card className="flex flex-1 flex-col items-center bg-green-200">
-          <Typography variant="h5" align="center">
+        <Card
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+          }}
+          className="flex flex-1 flex-col items-center"
+        >
+          <Typography color={theme.palette.primary.contrastText} variant="h5" align="center">
             Top Buying Customers
           </Typography>
           <Divider />
