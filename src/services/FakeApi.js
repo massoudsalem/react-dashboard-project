@@ -4,6 +4,14 @@ export const fakeApi = createApi({
   reducerPath: 'fakeApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
   endpoints: (builder) => ({
+    loginUser: builder.mutation({
+      query: (user) => ({
+        url: `auth/login`,
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify(user),
+      }),
+    }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `users/${id}`,
@@ -65,4 +73,5 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useAddUserMutation,
+  useLoginUserMutation,
 } = fakeApi;
