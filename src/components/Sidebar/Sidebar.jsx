@@ -17,17 +17,12 @@ const buttons = [
   {
     name: 'Dashboard',
     icon: 'dashboard',
-    link: '/',
+    link: '/dashboard',
   },
   {
     name: 'Products',
     icon: 'shopping_cart',
     link: '/products',
-  },
-  {
-    name: 'Orders',
-    icon: 'receipt',
-    link: '/orders',
   },
   {
     name: 'Customers',
@@ -43,11 +38,6 @@ const buttons = [
     name: 'Create Product',
     icon: 'add',
     link: '/create-product',
-  },
-  {
-    name: 'Integrations',
-    icon: 'code',
-    link: '/',
   },
 ];
 

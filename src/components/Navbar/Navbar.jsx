@@ -2,7 +2,10 @@ import {
   AppBar,
   Badge,
   Box,
+  Divider,
   IconButton,
+  ListItemIcon,
+  MenuItem,
   Toolbar,
   useMediaQuery,
   useTheme,
@@ -15,30 +18,67 @@ import {
   Brightness4,
   Brightness7,
   ArrowForward as ArrowForwardIcon,
+  Logout,
 } from '@mui/icons-material';
 import React, { useLayoutEffect } from 'react';
-import { Search, MoreMenu } from '..';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Search, MoreMenu, ReusableMenu } from '..';
 import { useColorMode } from '../../utils/ToggleColorMode';
 import Sidebar from '../Sidebar/Sidebar';
+import { logout } from '../../services/auth';
 
-const NavbarIcons = () => (
-  <Box className="hidden items-center gap-4 md:flex">
-    <IconButton size="large" edge="start" color="inherit">
-      <Badge badgeContent={4} color="info">
-        <ShoppingCartIcon />
-      </Badge>
-    </IconButton>
-    <IconButton size="large" edge="start" color="inherit">
-      <Badge badgeContent={4} color="error">
-        <NotificationsIcon />
-      </Badge>
-    </IconButton>
-    <IconButton size="large" edge="start" color="inherit">
-      <AccountCircleIcon />
-    </IconButton>
-  </Box>
-);
-
+const NavbarIcons = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loggedIn = !!localStorage.getItem('token');
+  return (
+    <Box className="hidden items-center gap-4 md:flex">
+      {loggedIn ? (
+        <>
+          <IconButton size="large" edge="start" color="inherit">
+            <Badge badgeContent={4} color="info">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+          <IconButton size="large" edge="start" color="inherit">
+            <Badge badgeContent={4} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <ReusableMenu
+            menuItems={[
+              {
+                to: '/profile',
+                icon: <AccountCircleIcon />,
+                label: 'Profile',
+              },
+            ]}
+            menuIcon={<AccountCircleIcon />}
+            menuName="Account settings"
+          >
+            <Divider />
+            <MenuItem
+              onClick={() => {
+                dispatch(logout());
+                navigate('/login');
+              }}
+            >
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </ReusableMenu>
+        </>
+      ) : (
+        <IconButton size="large" edge="start" color="inherit" onClick={()=>navigate('/login')}>
+          <AccountCircleIcon />
+        </IconButton>
+      )}
+    </Box>
+  );
+};
 const Navbar = ({ changeWidth, openState }) => {
   //TODO: add Transition for menu icon
   const { drawerOpen, setDrawerOpen } = openState;

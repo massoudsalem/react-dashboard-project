@@ -32,11 +32,11 @@ const Dashboard = () => {
 
   const isMD = useMediaQuery('(min-width:960px)');
   const width = isMD ? 'max-w-[600px]' : 'max-w-[500px]';
-
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <Box className="flex flex-col gap-5">
       <Box className="flex flex-col items-start">
-        <Typography variant="h5">Good Morning, Mo!</Typography>
+        <Typography variant="h5">Good Morning, {user?.firstName ?? 'name'}!</Typography>
         <Typography variant="subtitle1" className="opacity-80">
           Here&apos;s what&apos;s happening with your store today.
         </Typography>

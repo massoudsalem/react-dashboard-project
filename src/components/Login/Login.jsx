@@ -53,7 +53,7 @@ const Login = () => {
           const res = await loginUser(data).unwrap();
           dispatch(login(res));
           setTimeout(() => {
-            navigate('/');
+            navigate('/dashboard');
           }, 500);
         } catch (err) {
           dispatch(errorAction(err.data.message));

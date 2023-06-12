@@ -20,3 +20,7 @@ export { default as InfoBox } from './InfoBox/InfoBox';
 export { default as TopBuyingCustomersTable } from './TopBuyingCustomersTable/TopBuyingCustomersTable';
 export { default as HotDealsTable } from './HotDealsTable/HotDealsTable';
 export { default as Login } from './Login/Login';
+export { default as ReusableMenu } from './ReusableMenu/ReusableMenu';
+export { default as ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
+export { default as Profile } from './Profile/Profile';
+export { default as NotFound } from './NotFound/NotFound';

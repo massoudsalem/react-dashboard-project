@@ -9,12 +9,17 @@ import {
   ProductDetails,
   Products,
   Reports,
+  Login,
+  Profile,
+  NotFound,
 } from '.';
+import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 
 const App = () => {
   const openWidth = 200;
   const closedWidth = 56;
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const loggedIn = !!localStorage.getItem('token');
   return (
     <>
       <Navbar
@@ -30,12 +35,53 @@ const App = () => {
         className="p-4 pr-7 transition-all duration-500"
       >
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/" element={
+            loggedIn ? <Dashboard /> : <Login />
+          } />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/create-product" element={<CreateProduct />} />
+          <Route path="/products" element={<Products />} />
+          <Route
+            path="/customers"
+            element={
+              <ProtectedRoute>
+                <Customers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-product"
+            element={
+              <ProtectedRoute>
+                <CreateProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        <Route path="*" element={ <NotFound/> } />
         </Routes>
       </Box>
     </>
