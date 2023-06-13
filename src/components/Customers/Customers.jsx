@@ -5,7 +5,6 @@ import {
   IconButton,
   Modal,
   Paper,
-  alpha,
   useTheme,
 } from '@mui/material';
 import {

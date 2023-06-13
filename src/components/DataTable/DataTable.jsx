@@ -39,7 +39,7 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {viableRows.map((data,index) => (
+          {viableRows.map((data, index) => (
             <TableRow
               className={`${
                 rowOnClick ? 'hover:cursor-pointer hover:opacity-60' : ''

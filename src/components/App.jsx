@@ -35,9 +35,7 @@ const App = () => {
         className="p-4 pr-7 transition-all duration-500"
       >
         <Routes>
-          <Route path="/" element={
-            loggedIn ? <Dashboard /> : <Login />
-          } />
+          <Route path="/" element={loggedIn ? <Dashboard /> : <Login />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/products" element={<Products />} />
           <Route
@@ -89,7 +87,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-        <Route path="*" element={ <NotFound/> } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>
     </>

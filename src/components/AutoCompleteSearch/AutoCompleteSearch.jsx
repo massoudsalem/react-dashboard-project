@@ -1,4 +1,10 @@
-import { Autocomplete, Box, ListItemIcon, MenuItem, Popper } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  ListItemIcon,
+  MenuItem,
+  Popper,
+} from '@mui/material';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -37,10 +43,12 @@ const preOptions = [
 const CustomerPopper = ({ children, ...props }) => {
   console.log(props);
   return (
-    <Popper {...props} placement="bottom-start" 
-    sx={{
-      minWidth: '250px !important',
-    }}
+    <Popper
+      {...props}
+      placement="bottom-start"
+      sx={{
+        minWidth: '250px !important',
+      }}
     >
       {children}
     </Popper>

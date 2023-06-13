@@ -36,7 +36,9 @@ const Dashboard = () => {
   return (
     <Box className="flex flex-col gap-5">
       <Box className="flex flex-col items-start">
-        <Typography variant="h5">Good Morning, {user?.firstName ?? 'name'}!</Typography>
+        <Typography variant="h5">
+          Good Morning, {user?.firstName ?? 'name'}!
+        </Typography>
         <Typography variant="subtitle1" className="opacity-80">
           Here&apos;s what&apos;s happening with your store today.
         </Typography>

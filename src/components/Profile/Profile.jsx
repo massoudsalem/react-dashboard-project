@@ -33,9 +33,12 @@ const Profile = () => {
   const { id } = JSON.parse(localStorage.getItem('user'));
   const location = useLocation();
   const params = useParams();
-  const isProfilePage = location.pathname === '/profile' || id.toString() === params.id;
+  const isProfilePage =
+    location.pathname === '/profile' || id.toString() === params.id;
   const requestedId = isProfilePage ? id : params.id;
-  const { data, error, isLoading } = useGetMultipleUsersByIdsQuery([requestedId]);
+  const { data, error, isLoading } = useGetMultipleUsersByIdsQuery([
+    requestedId,
+  ]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   if (isLoading) {
@@ -89,18 +92,19 @@ const Profile = () => {
           </Box>
         </Box>
       </Box>
-      {isProfilePage&&
-      <Button
-        variant="contained"
-        color="primary"
-        className="m-4"
-        onClick={() => {
-          dispatch(logout());
-          navigate('/login');
-        }}
-      >
-        Logout
-      </Button>}
+      {isProfilePage && (
+        <Button
+          variant="contained"
+          color="primary"
+          className="m-4"
+          onClick={() => {
+            dispatch(logout());
+            navigate('/login');
+          }}
+        >
+          Logout
+        </Button>
+      )}
     </Card>
   );
 };

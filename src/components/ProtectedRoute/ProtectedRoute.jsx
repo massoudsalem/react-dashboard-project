@@ -8,23 +8,27 @@ export const ProtectedRoute = ({ children }) => {
 
   if (!token) {
     return (
-      <Box className="flex flex-col justify-center items-center h-[50vh]">
+      <Box className="flex h-[50vh] flex-col items-center justify-center">
         <Typography variant="h3" color="error">
-        401 Unauthorized Error
-      </Typography>
-      <Typography variant="body1" align="center" mt={2}>
-        You are not authorized to access this page. Please log in to continue.
-      </Typography>
-      <Button variant="contained" color="primary" component={Link} to="/login" mt={2}>
-        Go to Login Page
-      </Button>
+          401 Unauthorized Error
+        </Typography>
+        <Typography variant="body1" align="center" mt={2}>
+          You are not authorized to access this page. Please log in to continue.
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/login"
+          mt={2}
+        >
+          Go to Login Page
+        </Button>
       </Box>
     );
   }
 
   return children;
 };
-
-
 
 export default ProtectedRoute;
