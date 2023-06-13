@@ -8,7 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useGetMultipleUsersByIdsQuery } from '../../services/FakeApi';
 import { logout } from '../../services/auth';
@@ -31,8 +31,11 @@ const Detail = ({ label, value }) => {
 
 const Profile = () => {
   const { id } = JSON.parse(localStorage.getItem('user'));
-  const { data, error, isLoading } = useGetMultipleUsersByIdsQuery([id]);
-  const user = data?.[0];
+  const location = useLocation();
+  const params = useParams();
+  const isProfilePage = location.pathname === '/profile' || id.toString() === params.id;
+  const requestedId = isProfilePage ? id : params.id;
+  const { data, error, isLoading } = useGetMultipleUsersByIdsQuery([requestedId]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   if (isLoading) {
@@ -48,8 +51,8 @@ const Profile = () => {
       </Typography>
     </Box>;
   }
+  const user = data?.[0];
 
-  console.log(user);
   return (
     <Card className="flex flex-col gap-4">
       <Box className="flex flex-col justify-start gap-6 p-4 md:flex-row">
@@ -86,6 +89,7 @@ const Profile = () => {
           </Box>
         </Box>
       </Box>
+      {isProfilePage&&
       <Button
         variant="contained"
         color="primary"
@@ -96,7 +100,7 @@ const Profile = () => {
         }}
       >
         Logout
-      </Button>
+      </Button>}
     </Card>
   );
 };

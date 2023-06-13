@@ -81,6 +81,14 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/customer/:id"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         <Route path="*" element={ <NotFound/> } />
         </Routes>
       </Box>

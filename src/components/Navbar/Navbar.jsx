@@ -22,11 +22,12 @@ import {
 } from '@mui/icons-material';
 import React, { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Search, MoreMenu, ReusableMenu } from '..';
+import {  useNavigate } from 'react-router-dom';
+import {  MoreMenu, ReusableMenu, AutoCompleteSearch } from '..';
 import { useColorMode } from '../../utils/ToggleColorMode';
 import Sidebar from '../Sidebar/Sidebar';
 import { logout } from '../../services/auth';
+import { useGetProductsQuery, useGetCustomersQuery } from '../../services/FakeApi';
 
 const NavbarIcons = () => {
   const dispatch = useDispatch();
@@ -86,6 +87,21 @@ const Navbar = ({ changeWidth, openState }) => {
   const { toggleColorMode } = useColorMode();
   const theme = useTheme();
   const smScreen = useMediaQuery('(max-width: 768px)');
+  const { data:customers } = useGetCustomersQuery(); 
+  const { data:products } = useGetProductsQuery();
+  const customersOptions = customers?.users?.map((customer) => ({
+    label: `${customer.firstName} ${customer.lastName}`,
+    to: `/customer/${customer.id}`,
+    icon: <img className='w-6 h-6 object-contain' src={customer.image} alt={customer.firstName} />,
+    category: 'Customers',
+  })) ?? [];
+  const productsOptions = products?.products?.map((product) => ({
+    label: product.title,
+    to: `/product/${product.id}`,
+    icon: <img className='w-6 h-6 object-contain' src={product.thumbnail} alt={product.title} />,
+    category: 'Products',
+  })) ?? [];
+
   useLayoutEffect(() => {
     if (smScreen) {
       setDrawerOpen(false);
@@ -121,8 +137,8 @@ const Navbar = ({ changeWidth, openState }) => {
                 {drawerOpen ? <MenuIcon /> : <ArrowForwardIcon />}
               </IconButton>
             )}
-            <Search />
           </Box>
+            <AutoCompleteSearch propOptions={productsOptions.concat(customersOptions)} />
           <IconButton
             size="large"
             edge="start"

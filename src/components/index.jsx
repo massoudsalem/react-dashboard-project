@@ -24,3 +24,4 @@ export { default as ReusableMenu } from './ReusableMenu/ReusableMenu';
 export { default as ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 export { default as Profile } from './Profile/Profile';
 export { default as NotFound } from './NotFound/NotFound';
+export { default as AutoCompleteSearch } from './AutoCompleteSearch/AutoCompleteSearch';
