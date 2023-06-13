@@ -70,7 +70,6 @@ const ProductDetails = () => {
     createData('Discount', `${data.discountPercentage}%`),
     createData('color', 'Blue'),
   ];
-  console.log(data);
 
   return (
     <Box className="justify-evenly gap-6 lg:flex">

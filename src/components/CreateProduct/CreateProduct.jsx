@@ -97,7 +97,6 @@ const CategorySelect = ({ inputRef, ...rest }) => {
 
 const CreateProduct = () => {
   const theme = useTheme();
-  console.log(theme.palette);
   useEffect(() => {
     changeCKEditorCssVars(theme);
     //eslint-disable-next-line react-hooks/exhaustive-deps

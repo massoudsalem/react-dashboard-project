@@ -29,7 +29,6 @@ import { MoreMenu, ReusableMenu, AutoCompleteSearch } from '..';
 import { useColorMode } from '../../utils/ToggleColorMode';
 import Sidebar from '../Sidebar/Sidebar';
 import { logout } from '../../services/auth';
-import { set } from 'react-hook-form';
 
 const notificationsMockList = [
   {
@@ -97,11 +96,6 @@ const NavbarIcons = () => {
     <Box className="hidden items-center gap-4 md:flex">
       {loggedIn ? (
         <>
-          {/* <IconButton size="large" edge="start" color="inherit">
-            <Badge badgeContent={4} color="info">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton> */}
           <ReusableMenu
             menuName={`Cart (${products.length})`}
             menuIcon={
@@ -139,7 +133,6 @@ const NavbarIcons = () => {
                     edge="end"
                     color="error"
                     sx={
-                      // to the end of the flex container
                       {
                         marginLeft: 'auto',
                       }
@@ -165,8 +158,14 @@ const NavbarIcons = () => {
                 </ListItemIcon>
                 Your cart is empty
               </MenuItem>
-            ): (
-              <Box sx={{  marginTop:'10px', display: 'flex', justifyContent: 'center' }}>
+            ) : (
+              <Box
+                sx={{
+                  marginTop: '10px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
                 <Typography variant="body1" className="mx-auto">
                   Total: {products.reduce((acc, curr) => acc + curr.price, 0)}$
                 </Typography>
