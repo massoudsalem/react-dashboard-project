@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const ReusableMenu = ({ menuItems, menuIcon, menuName, children }) => {
+const ReusableMenu = ({ menuItems=[], menuIcon, menuName, children }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -24,11 +24,11 @@ const ReusableMenu = ({ menuItems, menuIcon, menuName, children }) => {
   return (
     <Box className="flex">
       <Tooltip title={menuName}>
-        <IconButton color="inherit" onClick={handleClick}>
+        <IconButton color="inherit" onClick={handleClick} disabled={menuItems.length === 0 && children.length === 0}>
           {menuIcon}
         </IconButton>
       </Tooltip>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+      <Menu anchorEl={anchorEl} open={open && !(menuItems.length === 0 && children.length === 0)} onClose={handleClose}>
         {menuItems.map((item) => (
           <MenuItem
             key={item.label}
