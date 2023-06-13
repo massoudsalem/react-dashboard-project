@@ -1,5 +1,5 @@
 //TODO: Refactor this component
-import React from 'react';
+import React, { useEffect } from 'react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
@@ -16,8 +16,10 @@ import {
 } from '@mui/material';
 //import { Markup } from 'interweave';
 import { useForm, Controller } from 'react-hook-form';
+import { useTheme } from '@emotion/react';
 import { ImageDropzone, CustomTabs, ImageUpload } from '..';
 import { useGetCategoriesQuery } from '../../services/FakeApi';
+import { changeCKEditorCssVars } from './CKVars';
 
 export const BasicAlerts = ({ message }) => {
   return (
@@ -94,6 +96,13 @@ const CategorySelect = ({ inputRef, ...rest }) => {
 };
 
 const CreateProduct = () => {
+  const theme = useTheme();
+  console.log(theme.palette);
+  useEffect(() => {
+    changeCKEditorCssVars(theme);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme.palette.mode]);
+
   const {
     handleSubmit,
     control,
