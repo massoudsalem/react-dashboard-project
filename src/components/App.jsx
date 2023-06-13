@@ -1,6 +1,7 @@
 import { Box, CssBaseline } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   CreateProduct,
   Customers,
@@ -19,7 +20,11 @@ const App = () => {
   const openWidth = 200;
   const closedWidth = 56;
   const [drawerOpen, setDrawerOpen] = useState(true);
-  const loggedIn = !!localStorage.getItem('token');
+  const loginStatus = useSelector((state) => state.auth.status);
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    setLoggedIn(!!localStorage.getItem('token'));
+  }, [loginStatus]);
   return (
     <>
       <Navbar
