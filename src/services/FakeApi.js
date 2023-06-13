@@ -34,6 +34,12 @@ export const fakeApi = createApi({
         body: JSON.stringify(newData),
       }),
     }),
+    searchProducts: builder.query({
+      query: (query) => `products/search?q=${query}`,
+    }),
+    searchCustomers: builder.query({
+      query: (query) => `users/search?q=${query}`,
+    }),
     getProducts: builder.query({
       query: () => 'products?limit=100',
     }),
@@ -64,6 +70,8 @@ export const fakeApi = createApi({
 });
 
 export const {
+  useSearchProductsQuery,
+  useSearchCustomersQuery,
   useGetProductsQuery,
   useGetProductByIdQuery,
   useGetCustomersQuery,

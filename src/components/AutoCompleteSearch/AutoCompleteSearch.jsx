@@ -1,11 +1,12 @@
 import {
   Autocomplete,
   Box,
+  CircularProgress,
   ListItemIcon,
   MenuItem,
   Popper,
 } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Add,
@@ -14,7 +15,10 @@ import {
   People,
   ShoppingCart,
 } from '@mui/icons-material';
-
+import {
+  useSearchProductsQuery,
+  useSearchCustomersQuery,
+} from '../../services/FakeApi';
 import Search from '../Search/Search';
 
 const preOptions = [
@@ -41,7 +45,6 @@ const preOptions = [
 ];
 
 const CustomerPopper = ({ children, ...props }) => {
-  console.log(props);
   return (
     <Popper
       {...props}
@@ -56,12 +59,84 @@ const CustomerPopper = ({ children, ...props }) => {
 };
 
 const AutoCompleteSearch = ({ propOptions = [] }) => {
-  const options = [...preOptions, ...propOptions];
+  const [options, setOptions] = React.useState([]);
   const [value, setValue] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(null);
+  const [debounceSearch, setDebounceSearch] = React.useState(true);
   const navigate = useNavigate();
 
+  const { data: products, isLoading: productSearchLoading } =
+    useSearchProductsQuery(value, {
+      skip: !debounceSearch,
+    });
+
+  const { data: customers, isLoading: CustomersSearchLoading } =
+    useSearchCustomersQuery(value, {
+      skip: !debounceSearch,
+    });
+
+  const loading =
+    !debounceSearch || productSearchLoading || CustomersSearchLoading;
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebounceSearch(true);
+    }, 700);
+    return () => {
+      setDebounceSearch(false);
+      clearTimeout(timeout);
+    };
+  }, [value]);
+
+  const customersOptions = useMemo(
+    () =>
+      customers?.users?.map((customer) => ({
+        label: `${customer.firstName} ${customer.lastName}`,
+        to: `/customer/${customer.id}`,
+        icon: (
+          <img
+            src={customer.image}
+            alt={customer.firstName}
+            width="24px"
+            height="24px"
+          />
+        ),
+        category: 'Customers',
+      })) ?? [],
+    [customers],
+  );
+  const productsOptions = useMemo(
+    () =>
+      products?.products?.map((product) => ({
+        label: product.title,
+        to: `/product/${product.id}`,
+        icon: (
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            width="24px"
+            height="24px"
+          />
+        ),
+        category: 'Products',
+      })) ?? [],
+    [products],
+  );
+
+  React.useEffect(() => {
+    if (loading) {
+      setOptions([]);
+    } else {
+      setOptions([
+        ...preOptions,
+        ...customersOptions,
+        ...productsOptions,
+        ...propOptions,
+      ]);
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
   return (
     <Box className="flex w-full items-center gap-2">
       <Autocomplete
@@ -72,6 +147,20 @@ const AutoCompleteSearch = ({ propOptions = [] }) => {
         popupIcon={null}
         clearIcon={null}
         value={selected}
+        loading={loading}
+        loadingText={
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <CircularProgress size={20} />
+            <span>Searching...</span>
+          </Box>
+        }
+        noOptionsText="No results found"
         PopperComponent={CustomerPopper}
         onChange={(e, newValue) => {
           setSelected(newValue);
@@ -90,21 +179,6 @@ const AutoCompleteSearch = ({ propOptions = [] }) => {
           setValue('');
           setSelected(null);
         }}
-        filterOptions={(o, state) =>
-          o
-            .filter((option) =>
-              option.label
-                .toLowerCase()
-                .includes(state.inputValue.toLowerCase()),
-            )
-            .sort(() => {
-              return 0.5 - Math.random();
-            })
-            .splice(0, 10)
-            .sort((a, b) => {
-              return a.category >= b.category ? -1 : 1;
-            })
-        }
         sx={{
           '& .MuiAutocomplete-inputRoot': {
             paddingRight: '0 !important',
@@ -123,16 +197,7 @@ const AutoCompleteSearch = ({ propOptions = [] }) => {
             to={option.to}
             {...props}
           >
-            <ListItemIcon
-              sx={{
-                width: '24px !important',
-                height: '24px !important',
-                objectFit: 'contain !important',
-                overflow: 'hidden !important',
-              }}
-            >
-              {option.icon}
-            </ListItemIcon>
+            <ListItemIcon>{option.icon}</ListItemIcon>
             {option.label}
           </MenuItem>
         )}
