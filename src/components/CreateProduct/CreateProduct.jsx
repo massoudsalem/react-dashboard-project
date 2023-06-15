@@ -14,11 +14,10 @@ import {
   Alert,
   Divider,
 } from '@mui/material';
-//import { Markup } from 'interweave';
 import { useForm, Controller } from 'react-hook-form';
 import { useTheme } from '@emotion/react';
 import { ImageDropzone, CustomTabs, ImageUpload } from '..';
-import { useGetCategoriesQuery } from '../../services/FakeApi';
+import { useAddProductMutation, useGetCategoriesQuery } from '../../services/FakeApi';
 import { changeCKEditorCssVars } from './CKVars';
 
 export const BasicAlerts = ({ message }) => {
@@ -97,6 +96,7 @@ const CategorySelect = ({ inputRef, ...rest }) => {
 
 const CreateProduct = () => {
   const theme = useTheme();
+  const [addProduct] = useAddProductMutation();
   useEffect(() => {
     changeCKEditorCssVars(theme);
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,8 +127,16 @@ const CreateProduct = () => {
     <form
       className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
       onSubmit={handleSubmit(
-        (data) => {
-          console.log(data);
+        async (data) => {
+          const { images, ...rest } = data;
+
+          const product = {
+            ...rest,
+            images: images.urls,
+          };
+
+          const response = await addProduct(product);
+          console.log(response);
         },
         (err) => console.log(err),
       )}
