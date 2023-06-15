@@ -13,6 +13,7 @@ import {
   Login,
   Profile,
   NotFound,
+  LoggedIn,
 } from '.';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 
@@ -67,7 +68,9 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={
+            loggedIn ? <LoggedIn /> : <Login />
+          } />
           <Route
             path="/dashboard"
             element={

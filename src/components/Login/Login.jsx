@@ -52,9 +52,7 @@ const Login = () => {
         try {
           const res = await loginUser(data).unwrap();
           dispatch(login(res));
-          setTimeout(() => {
-            navigate('/dashboard');
-          }, 500);
+          navigate('/');
         } catch (err) {
           dispatch(errorAction(err.data.message));
           setOpen(true);
