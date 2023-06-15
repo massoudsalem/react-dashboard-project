@@ -29,8 +29,8 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
     page * rowsPerPage + rowsPerPage,
   );
   return (
-    <TableContainer component={Paper} className={`min-h-0 ${className}`}>
-      <Table stickyHeader>
+    <TableContainer component={Paper} className={`${className}`}>
+      <Table className="h-full" stickyHeader>
         <TableHead>
           <TableRow>
             {columns.map((heading) => (
@@ -39,32 +39,47 @@ const DataTable = ({ columns, rows, rowOnClick = null, className = '' }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {viableRows.map((data, index) => (
-            <TableRow
-              className={`${
-                rowOnClick ? 'hover:cursor-pointer hover:opacity-60' : ''
-              }`}
-              key={`${data?.id}${index}`}
-              onClick={rowOnClick ? () => rowOnClick(data.id) : null}
-            >
-              {columns.map((heading) => (
-                <TableCell key={`${heading.id}user${data.id}`}>
-                  {data[heading.id]}
-                </TableCell>
-              ))}
+          {viableRows.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} align="center">
+                Nothing to show.
+              </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            viableRows.map((data, index) => (
+              <TableRow
+                className={`${
+                  rowOnClick ? 'hover:cursor-pointer hover:opacity-60' : ''
+                }`}
+                key={`${data?.id}${index}`}
+                onClick={rowOnClick ? () => rowOnClick(data.id) : null}
+              >
+                {columns.map((heading) => (
+                  <TableCell key={`${heading.id}user${data.id}`}>
+                    {data[heading.id]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[5, 10, 25, 100]}
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              className="overflow-visible"
+              className='w-full sticky bottom-0 overflow-visible'
+              sx={
+                {
+                  backgroundColor: ({ palette }) => palette.background.paper,
+                  borderTop: ({ palette }) => `1px solid ${palette.divider}`,
+                  borderBottom: 'none',
+                }
+              }
             />
           </TableRow>
         </TableFooter>

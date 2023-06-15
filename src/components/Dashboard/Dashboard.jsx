@@ -70,7 +70,7 @@ const Dashboard = () => {
             Hot Deals
           </Typography>
           <Divider />
-          <HotDealsTable className="flex-1" />
+          <HotDealsTable className="flex-1 max-h-[400px]" />
         </Card>
         <Card
           sx={{
@@ -86,7 +86,7 @@ const Dashboard = () => {
             Top Buying Customers
           </Typography>
           <Divider />
-          <TopBuyingCustomersTable className="flex-1" />
+          <TopBuyingCustomersTable className="flex-1 max-h-[400px]" />
         </Card>
       </Box>
     </Box>

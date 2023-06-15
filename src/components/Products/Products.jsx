@@ -8,7 +8,7 @@ import { useGetProductsQuery } from '../../services/FakeApi';
 const Image = ({ src }) => {
   const [loading, setLoading] = useState(true);
   return (
-    <Box className="flex h-[90px] w-[120px] items-center justify-center overflow-hidden p-1">
+    <Box className="flex h-[80px] w-[120px] items-center justify-center overflow-hidden p-1">
       {loading && (
         <Skeleton
           variant="rectangular"
@@ -58,7 +58,7 @@ const Products = ({ productsTableOnly = false, className = '' }) => {
 
   const rows = products.map((product) => ({
     id: product.id,
-    title: <TextContent content={product.title} width={100} warp />,
+    title: <TextContent content={product.title} width={90} warp />,
     price: (
       <TextContent content={`${product.price}$`} width={50} disableTooltip />
     ),
@@ -80,13 +80,13 @@ const Products = ({ productsTableOnly = false, className = '' }) => {
         rows={rows}
         columns={columns}
         rowOnClick={(id) => navigate(`/product/${id}`)}
-        className="flex-grow overflow-y-auto"
+        className="max-h-[700px] overflow-y-auto"
       />
       {!productsTableOnly && (
         <Fab
           onClick={() => navigate('/create-product')}
           size="small"
-          className="fixed bottom-0 right-0 -translate-x-5 -translate-y-5"
+          className="fixed bottom-10 right-10 -translate-x-5 -translate-y-5"
           color="primary"
           aria-label="add"
         >
