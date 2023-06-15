@@ -101,6 +101,7 @@ const Customers = ({ customersTableOnly = false, className = '' }) => {
   const { data: customersData, isLoading, error } = useGetCustomersQuery();
   const [customers, setCustomers] = useState([]);
   const [visibleCustomers, setVisibleCustomers] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
   const [addUser] = useAddUserMutation();
@@ -114,44 +115,30 @@ const Customers = ({ customersTableOnly = false, className = '' }) => {
     }
   }, [customersData]);
 
-  useEffect(() => {
-    setVisibleCustomers(customers);
-  }, [customers]);
-
-  const handleSearch = (e) => {
-    if (e.key === 'Enter') {
-      const searchValue = e.target.value;
-      setVisibleCustomers(
-        customers.filter(
-          (customer) =>
-            customer.firstName
-              .trim()
-              .toLowerCase()
-              .includes(searchValue.trim().toLowerCase()) ||
-            customer.lastName
-              .trim()
-              .toLowerCase()
-              .includes(searchValue.trim().toLowerCase()) ||
-            customer.email
-              .trim()
-              .toLowerCase()
-              .includes(searchValue.trim().toLowerCase()) ||
-            customer.phone
-              .trim()
-              .toLowerCase()
-              .includes(searchValue.trim().toLowerCase()) ||
-            `${customer.firstName} ${customer.lastName}`
-              .trim()
-              .toLowerCase()
-              .includes(searchValue.trim().toLowerCase()) ||
-            `${customer.lastName} ${customer.firstName}`
-              .trim()
-              .toLowerCase()
-              .includes(searchValue.trim().toLowerCase()),
-        ),
-      );
-    }
+  //eslint-disable-next-line no-shadow
+  const equalsSearchValue = (value, searchValue) => {
+    return value
+      .trim()
+      .toLowerCase()
+      .includes(searchValue.trim().toLowerCase());
   };
+
+  useEffect(() => {
+    if (searchValue) {
+      const filteredCustomers = customers.filter((customer) => {
+        return (
+          equalsSearchValue(customer.firstName, searchValue) ||
+          equalsSearchValue(customer.lastName, searchValue) ||
+          equalsSearchValue(customer.email, searchValue) ||
+          equalsSearchValue(customer.phone, searchValue) ||
+          equalsSearchValue(customer.birthDate, searchValue)
+        );
+      });
+      setVisibleCustomers(filteredCustomers);
+    } else {
+      setVisibleCustomers(customers);
+    }
+  }, [searchValue, customers]);
 
   const handleOpen = (id) => {
     if (id) {
@@ -234,12 +221,8 @@ const Customers = ({ customersTableOnly = false, className = '' }) => {
           <Search
             className="mb-4 w-full"
             color={theme.palette.primary}
-            onKeyDown={handleSearch}
-            onChange={(e) => {
-              if (e.target.value === '') {
-                setVisibleCustomers(customers);
-              }
-            }}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
           <Button
             variant="contained"
@@ -250,7 +233,13 @@ const Customers = ({ customersTableOnly = false, className = '' }) => {
           </Button>
         </Box>
       )}
-      <DataTable columns={tableHeadings} rows={rows} />
+      <Box className="flex min-h-[500px] justify-center">
+        <DataTable
+          columns={tableHeadings}
+          rows={rows}
+          className="max-h-[500px] overflow-y-auto"
+        />
+      </Box>
     </Box>
   );
 };
