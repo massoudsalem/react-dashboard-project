@@ -1,37 +1,10 @@
-import {
-  Box,
-  Card,
-  Divider,
-  Typography,
-  CircularProgress,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Card, Divider, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import {
-  HotDealsTable,
-  InfoBox,
-  TopBuyingCustomersTable,
-  ComposedCharts,
-  CustomPieChart,
-} from '..';
-import {
-  useGetCompanyPersonCitesCount,
-  useGetCustomersAgeRangeCount,
-} from '../../hooks';
+import { HotDealsTable, InfoBox, TopBuyingCustomersTable, Reports } from '..';
 
 const Dashboard = () => {
-  const { customersAgeRangeCount, isLoading: customersAgeRangeCountIsLoading } =
-    useGetCustomersAgeRangeCount();
-  const {
-    companyPersonCitesCount,
-    isLoading: companyPersonCitesCountIsLoading,
-  } = useGetCompanyPersonCitesCount();
-
   const theme = useTheme();
 
-  const isMD = useMediaQuery('(min-width:960px)');
-  const width = isMD ? 'max-w-[600px]' : 'max-w-[500px]';
   const user = JSON.parse(localStorage.getItem('user'));
   return (
     <Box className="flex flex-col gap-5">
@@ -43,7 +16,7 @@ const Dashboard = () => {
           Here&apos;s what&apos;s happening with your store today.
         </Typography>
       </Box>
-      <Box className="flex flex-wrap justify-around gap-5">
+      <Box className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
         <InfoBox
           title="Total Sales"
           count="1,534"
@@ -81,44 +54,7 @@ const Dashboard = () => {
           subtitle="+1.5 %"
         />
       </Box>
-      <Box className="flex flex-col items-center justify-evenly gap-4 lg:flex-row lg:items-stretch">
-        <Box component={Card} className="w-full max-w-[300px] overflow-x-auto">
-          <Typography variant="h6" align="left" className="p-4">
-            Customers Age Range
-          </Typography>
-          <Divider />
-          {customersAgeRangeCountIsLoading ? (
-            <Box className="flex items-center justify-center">
-              <CircularProgress />
-            </Box>
-          ) : (
-            <CustomPieChart data={customersAgeRangeCount} label="Customers" />
-          )}
-        </Box>
-        <Box
-          component={Card}
-          className={`w-full ${width} overflow-x-auto lg:overflow-hidden`}
-        >
-          <Typography variant="h6" align="left" className="p-4">
-            Composed Chart
-          </Typography>
-          <Divider />
-          {companyPersonCitesCountIsLoading ? (
-            <Box className="flex items-center justify-center">
-              <CircularProgress />
-            </Box>
-          ) : (
-            <ComposedCharts
-              data={companyPersonCitesCount}
-              barLabel="Company Cities"
-              barData="companyAddress" /*the key of data for object*/
-              areaLabel="Person Cities"
-              areaData="personAddress"
-            />
-          )}
-        </Box>
-      </Box>
-
+      <Reports />
       <Box className="flex flex-col gap-4 lg:flex-row">
         <Card
           sx={{

@@ -71,7 +71,7 @@ const CustomPieChart = ({ data, label = '' }) => {
   const STROKE_COLOR = theme.palette.mode === 'light' ? '#fff' : '#000';
 
   return (
-    <ResponsiveContainer width={300} aspect={0.85}>
+    <ResponsiveContainer width={300} aspect={0.85} className='mx-auto'>
       <PieChart>
         <Pie
           className="focus:outline-none"

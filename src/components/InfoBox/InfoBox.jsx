@@ -38,11 +38,11 @@ const InfoBox = ({
     <Box className="transition-all duration-500 hover:-translate-y-[10px] hover:drop-shadow-xl">
       <Box
         component={Paper}
-        className="relative flex min-w-[240px] flex-col gap-5 p-4"
+        className="relative flex min-w-[200px] flex-col gap-5 p-4"
       >
         <Box className="flex items-baseline justify-between">
-          <Typography variant="body1">{title}</Typography>
-          <Typography variant="subtitle1" className={`${titleColor}`}>
+          <Typography variant="body1" noWrap>{title}</Typography>
+          <Typography variant="subtitle1" className={`${titleColor}`} noWrap>
             <Icon fontSize="large">{subtitleIcon}</Icon>
             {subtitle}
           </Typography>

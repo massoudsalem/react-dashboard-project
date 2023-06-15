@@ -35,7 +35,7 @@ const ComposedCharts = ({ data, areaLabel, barLabel, barData, areaData }) => {
   const isMD = useMediaQuery('(min-width:960px)');
   const width = isMD ? 600 : 500;
   return (
-    <ResponsiveContainer width={width} aspect={1.5}>
+    <ResponsiveContainer width={width} aspect={1.5} className='mx-auto'>
       <ComposedChart data={data}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
