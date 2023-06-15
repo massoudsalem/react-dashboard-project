@@ -105,7 +105,7 @@ const NavbarIcons = () => {
             }
           >
             {products.map((product, idx) => (
-              <>
+              <Box key={idx}>
                 {!!idx && <Divider />}
                 <Box
                   sx={{
@@ -132,11 +132,9 @@ const NavbarIcons = () => {
                     size="small"
                     edge="end"
                     color="error"
-                    sx={
-                      {
-                        marginLeft: 'auto',
-                      }
-                    }
+                    sx={{
+                      marginLeft: 'auto',
+                    }}
                     onClick={() => {
                       setProducts((prevProducts) =>
                         prevProducts.filter(
@@ -149,7 +147,7 @@ const NavbarIcons = () => {
                   </IconButton>
                 </Box>
                 <Divider />
-              </>
+              </Box>
             ))}
             {products.length === 0 ? (
               <MenuItem disabled>

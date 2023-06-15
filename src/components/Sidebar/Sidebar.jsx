@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
   useTheme,
 } from '@mui/material';
 import React from 'react';
@@ -74,7 +73,9 @@ const Sidebar = ({ open, changeWidth }) => {
             <img
               src={logoIconFull}
               alt="logo"
-              className={`${theme.palette.mode === 'dark' && 'invert'} my-2 duration-500`}
+              className={`${
+                theme.palette.mode === 'dark' && 'invert'
+              } my-2 duration-500`}
               width="70%"
               height="100%"
             />
@@ -87,7 +88,6 @@ const Sidebar = ({ open, changeWidth }) => {
               height="30px"
             />
           )}
-
         </Box>
         <Divider />
         <List>
@@ -96,9 +96,15 @@ const Sidebar = ({ open, changeWidth }) => {
               <ListItemIcon className="min-w-[24px]">
                 <Icon>{icon}</Icon>
               </ListItemIcon>
-              <Typography noWrap>
-                <ListItemText primary={name} className="m-0 ml-8 p-0" />
-              </Typography>
+                <ListItemText
+                  primary={name}
+                  primaryTypographyProps={{
+                    variant: 'body1',
+                    noWrap: true,
+                    component: 'span',
+                  }}
+                  className="m-0 ml-8 p-0"
+                />
             </ListItem>
           ))}
         </List>
