@@ -1,15 +1,14 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const ProtectedRoute = ({ children }) => {
-  const location = useLocation();
   const token = localStorage.getItem('token');
 
   if (!token) {
     return (
       <Box className="flex h-[50vh] flex-col items-center justify-center">
-        <Typography variant="h3" color="error">
+        <Typography variant="h3" align="center" color="error">
           401 Unauthorized Error
         </Typography>
         <Typography variant="body1" align="center" mt={2}>

@@ -8,7 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import React from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useGetMultipleUsersByIdsQuery } from '../../services/FakeApi';
 import { logout } from '../../services/auth';
@@ -39,7 +39,6 @@ const Profile = () => {
   const { data, error, isLoading } = useGetMultipleUsersByIdsQuery([
     requestedId,
   ]);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   if (isLoading) {
     <Box className="flex h-[50vh]  items-center justify-center">
@@ -99,7 +98,7 @@ const Profile = () => {
           className="m-4"
           onClick={() => {
             dispatch(logout());
-            navigate('/login');
+            window.location.reload(true);
           }}
         >
           Logout

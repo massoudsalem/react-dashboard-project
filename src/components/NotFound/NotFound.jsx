@@ -5,7 +5,7 @@ import React from 'react';
 const NotFound = () => {
   return (
     <Box className="flex h-[50vh] flex-col items-center justify-center gap-4">
-      <Typography variant="h3" color="error">
+      <Typography variant="h3" align="center" color="error">
         404 Not Found
       </Typography>
       <Typography variant="body1" align="center" mt={2}>

@@ -12,14 +12,13 @@ import {
   ListItemIcon,
   MenuItem,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ReusableMenu from '../ReusableMenu/ReusableMenu';
 import { logout } from '../../services/auth';
 
 const MoreMenu = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const loggedIn = !!localStorage.getItem('token');
 
   const list = [
@@ -54,7 +53,7 @@ const MoreMenu = () => {
               to="/"
               onClick={() => {
                 dispatch(logout());
-                navigate('/login');
+                window.location.reload(true);
               }}
             >
               <ListItemIcon>

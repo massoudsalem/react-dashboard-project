@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const LoggedIn = () => {
   return (
     <Box className="flex h-[50vh] flex-col items-center justify-center gap-4">
-      <Typography variant="h3" color="green">
+      <Typography variant="h3" align="center" color="green">
         You are Already Logged In
       </Typography>
       <Button
