@@ -11,9 +11,10 @@ import {
   TableRow,
   TableContainer,
   CircularProgress,
-  Button,
+  IconButton,
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Markup } from 'interweave';
 import { useGetProductByIdQuery } from '../../services/FakeApi';
 import ImageSlider from './ImageSlider';
 import { CustomTabs } from '..';
@@ -74,15 +75,15 @@ const ProductDetails = () => {
   return (
     <Box className="justify-evenly gap-6 lg:flex">
       <Box className="flex self-start">
-        <Button
+        <IconButton
           color="primary"
-          variant="contained"
           onClick={() => {
             navigate(-1);
           }}
+          size='large'
         >
           <Icon>arrow_back</Icon>
-        </Button>
+        </IconButton>
       </Box>
 
       <ImageSlider dataImages={data.images} />
@@ -140,7 +141,7 @@ const ProductDetails = () => {
           <Typography className="my-2" variant="h6">
             Description:
           </Typography>
-          <Typography variant="body1">{data.description}</Typography>
+          <Markup content={data.description} />
         </Box>
         <Box className="my-6">
           <Typography variant="h6">Product Description:</Typography>
