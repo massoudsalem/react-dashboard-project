@@ -68,7 +68,11 @@ const Sidebar = ({ open, changeWidth }) => {
         PaperProps={{ className: 'transition-all duration-500' }}
         ModalProps={{ className: 'transition-all duration-500' }}
       >
-        <Box className="flex h-[80px] items-center justify-center py-4">
+        <Box
+          component={Link}
+          to="/"
+          className="flex h-[80px] items-center justify-center py-4"
+        >
           {showLogo && open ? (
             <img
               src={logoIconFull}
@@ -96,15 +100,15 @@ const Sidebar = ({ open, changeWidth }) => {
               <ListItemIcon className="min-w-[24px]">
                 <Icon>{icon}</Icon>
               </ListItemIcon>
-                <ListItemText
-                  primary={name}
-                  primaryTypographyProps={{
-                    variant: 'body1',
-                    noWrap: true,
-                    component: 'span',
-                  }}
-                  className="m-0 ml-8 p-0"
-                />
+              <ListItemText
+                primary={name}
+                primaryTypographyProps={{
+                  variant: 'body1',
+                  noWrap: true,
+                  component: 'span',
+                }}
+                className="m-0 ml-8 p-0"
+              />
             </ListItem>
           ))}
         </List>
