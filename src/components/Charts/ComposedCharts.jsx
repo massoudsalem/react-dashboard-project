@@ -36,7 +36,7 @@ const ComposedCharts = ({ data, areaLabel, barLabel, barData, areaData }) => {
   const width = isMD ? 600 : 500;
   return (
     <ResponsiveContainer width={width} aspect={1.5} className='mx-auto'>
-      <ComposedChart data={data}>
+      <ComposedChart data={data} key={theme.palette.mode}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop

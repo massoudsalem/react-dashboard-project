@@ -82,7 +82,7 @@ const CustomPieChart = ({ data, label = '' }) => {
           labelLine={false}
           label={renderCustomizedLabel}
           dataKey="value"
-          isAnimationActive={false}
+          key={theme.palette.mode}
         >
           {data.map((entry, index) => (
             <Cell

@@ -19,7 +19,7 @@ import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 const App = () => {
   const openWidth = 200;
   const closedWidth = 56;
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const loginStatus = useSelector((state) => state.auth.status);
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {

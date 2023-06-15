@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Typography,
   useTheme,
 } from '@mui/material';
 import React from 'react';
@@ -43,6 +44,15 @@ const buttons = [
 
 const Sidebar = ({ open, changeWidth }) => {
   const theme = useTheme();
+  const [showLogo, setShowLogo] = React.useState(true);
+
+  React.useEffect(() => {
+    setShowLogo(false);
+    setTimeout(() => {
+      setShowLogo(true);
+    }, 500);
+  }, [open]);
+
   return (
     <Box component="nav" className="transition-all duration-500">
       <Drawer
@@ -60,12 +70,24 @@ const Sidebar = ({ open, changeWidth }) => {
         ModalProps={{ className: 'transition-all duration-500' }}
       >
         <Box className="flex h-[80px] items-center justify-center py-4">
-          <img
-            src={open ? logoIconFull : logoIcon}
-            alt="logo"
-            className={`${theme.palette.mode === 'dark' && 'invert'} my-2`}
-            width={open ? '70%' : '24px'}
-          />
+          {showLogo && open ? (
+            <img
+              src={logoIconFull}
+              alt="logo"
+              className={`${theme.palette.mode === 'dark' && 'invert'} my-2 duration-500`}
+              width="70%"
+              height="100%"
+            />
+          ) : (
+            <img
+              src={logoIcon}
+              alt="logo"
+              className={`${theme.palette.mode === 'dark' && 'invert'} my-2 `}
+              width="24px"
+              height="30px"
+            />
+          )}
+
         </Box>
         <Divider />
         <List>
@@ -74,7 +96,9 @@ const Sidebar = ({ open, changeWidth }) => {
               <ListItemIcon className="min-w-[24px]">
                 <Icon>{icon}</Icon>
               </ListItemIcon>
-              {open && <ListItemText primary={name} className="m-0 ml-8 p-0" />}
+              <Typography noWrap>
+                <ListItemText primary={name} className="m-0 ml-8 p-0" />
+              </Typography>
             </ListItem>
           ))}
         </List>
