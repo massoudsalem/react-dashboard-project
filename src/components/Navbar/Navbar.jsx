@@ -263,7 +263,7 @@ const Navbar = ({ changeWidth, openState }) => {
   const { toggleColorMode } = useColorMode();
   const theme = useTheme();
   const smScreen = useMediaQuery('(max-width: 768px)');
-
+  const loggedIn = !!localStorage.getItem('token');
   useLayoutEffect(() => {
     if (smScreen) {
       setDrawerOpen(false);
@@ -300,7 +300,7 @@ const Navbar = ({ changeWidth, openState }) => {
               </IconButton>
             )}
           </Box>
-          <AutoCompleteSearch />
+          {loggedIn && <AutoCompleteSearch />}
           <IconButton
             size="large"
             edge="start"

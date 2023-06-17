@@ -46,7 +46,8 @@ const Login = () => {
   return (
     <Box
       component="form"
-      className="justify-center] mx-auto flex h-[50vh] w-80 flex-col gap-2"
+      className="justify-center w-72 sm:w-96 mx-auto flex mt-[25vh] flex-col gap-2"
+      autoComplete="off"
       onSubmit={handleSubmit(async (data) => {
         dispatch(logging());
         try {

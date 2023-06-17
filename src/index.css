@@ -22,7 +22,7 @@ s {
 }
 
 .ck-editor__editable {
-  @apply min-h-[280px];
+  @apply h-[280px] overflow-y-auto;
 }
 .ck-editor__top {
   @apply border-b-2 border-gray-300;

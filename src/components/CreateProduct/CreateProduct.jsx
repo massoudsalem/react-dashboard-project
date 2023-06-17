@@ -16,8 +16,12 @@ import {
 } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { useTheme } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 import { ImageDropzone, CustomTabs, ImageUpload } from '..';
-import { useAddProductMutation, useGetCategoriesQuery } from '../../services/FakeApi';
+import {
+  useAddProductMutation,
+  useGetCategoriesQuery,
+} from '../../services/FakeApi';
 import { changeCKEditorCssVars } from './CKVars';
 
 export const BasicAlerts = ({ message }) => {
@@ -97,6 +101,7 @@ const CategorySelect = ({ inputRef, ...rest }) => {
 const CreateProduct = () => {
   const theme = useTheme();
   const [addProduct] = useAddProductMutation();
+  const navigate = useNavigate();
   useEffect(() => {
     changeCKEditorCssVars(theme);
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,9 +142,11 @@ const CreateProduct = () => {
 
           const response = await addProduct(product);
           console.log(response);
+          navigate('/products');
         },
         (err) => console.log(err),
       )}
+      autoComplete="off"
     >
       {/*Rich text*/}
       <Box
