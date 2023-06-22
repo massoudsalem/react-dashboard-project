@@ -232,7 +232,7 @@ const NavbarIcons = () => {
             <MenuItem
               onClick={() => {
                 dispatch(logout());
-                window.location.reload(true);
+                navigate('/');
               }}
             >
               <ListItemIcon>

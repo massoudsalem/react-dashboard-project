@@ -11,6 +11,7 @@ import {
   InputAdornment,
   IconButton,
   OutlinedInput,
+  Typography,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +47,7 @@ const Login = () => {
   return (
     <Box
       component="form"
-      className="justify-center w-72 sm:w-96 mx-auto flex mt-[25vh] flex-col gap-2"
+      className="mx-auto mt-[25vh] flex w-72 flex-col justify-center gap-2 sm:w-96"
       autoComplete="off"
       onSubmit={handleSubmit(async (data) => {
         dispatch(logging());
@@ -96,6 +97,14 @@ const Login = () => {
         Login
       </Button>
       <ErrorDialog open={open} setOpen={setOpen} message={error} />
+
+      <Box>
+        <Typography variant="h6" component="p" align="center" mt={2}>
+          Username: kminchelle
+          <br />
+          password: 0lelplR
+        </Typography>
+      </Box>
     </Box>
   );
 };

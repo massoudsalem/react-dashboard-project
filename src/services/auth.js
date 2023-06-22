@@ -26,11 +26,11 @@ const authSlice = createSlice({
       state.error = action.payload;
     },
     logout: (state) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       state.user = null;
       state.status = 'idle';
       state.error = null;
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
     },
   },
 });

@@ -8,7 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useGetMultipleUsersByIdsQuery } from '../../services/FakeApi';
 import { logout } from '../../services/auth';
@@ -32,6 +32,7 @@ const Detail = ({ label, value }) => {
 const Profile = () => {
   const { id } = JSON.parse(localStorage.getItem('user'));
   const location = useLocation();
+  const navigate = useNavigate();
   const params = useParams();
   const isProfilePage =
     location.pathname === '/profile' || id.toString() === params.id;
@@ -98,7 +99,7 @@ const Profile = () => {
           className="m-4"
           onClick={() => {
             dispatch(logout());
-            window.location.reload(true);
+            navigate('/');
           }}
         >
           Logout
